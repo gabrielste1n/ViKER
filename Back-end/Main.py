@@ -30,11 +30,18 @@ class Entitiy:
     def addAttribute(self, A):
         # Add attribute A to the this entity
 
+class DataTypes(Enum):
+    '''Specific types of data available'''
+    ANY_TYPE = 'AnyType'
+    INTEGER = 'Integer'
+    FLOAT = 'FloatingPoint'
+    STRING = 'String'
+    # OTHER/OBJECT ??
 
 class Attribute:
     '''An attribute is a characteristic of an entity'''
     def __init__(self, isPK=False, isFK=False, isMultiValued=False,
-         dataType='AnyType', composedOf=[]):
+         dataType=ANY_TYPE, composedOf=[]):
         # Create an attribute, specifying whether it is a foreign, primary 
         # (etc) key
         self.isPK = isPK
