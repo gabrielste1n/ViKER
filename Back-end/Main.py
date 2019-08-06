@@ -24,6 +24,8 @@ class Entitiy:
         self.relationships = [] # list of relationships belonging to this entity
         self.isStrong = isStrong # True if strong entity, false if weak.
 
+        # TO DO: ADD INHERITANCE !! (AND OTHER CONSTRAINTS)
+
     def addRelationship(self, E):
         # Add relationship with given entity E
 
@@ -40,7 +42,13 @@ class DataTypes(Enum):
 
 class Attribute:
     '''An attribute is a characteristic of an entity'''
-    def __init__(self, isPK=False, isFK=False): # TO DO: Make sure this constructor is only callable from the derived classes
+    # Ensure that this base class cannot be instantiated by overriding the __new__ method belonging to Python's Object class.
+    def __new__(cls, *args, **kwargs):
+        if cls is Attribute:
+            raise TypeError("base class may not be instantiated")
+        return object.__new__(cls)
+
+    def __init__(self, isPK=False, isFK=False):
         # Create an attribute, specifying whether it is a foreign, primary 
         # (etc) key
         self.isPK = isPK
@@ -48,7 +56,7 @@ class Attribute:
         
 class ERAttribute(Attribute):
     '''An ER attribute is a characteristic of an ER entity'''
-    def __init__(self,isPK=False, isFK=False, isMultiValued=False, composedOf=[]):
+    def __init__(self, isPK=False, isFK=False, isMultiValued=False, composedOf=[]):
         # Create an ER attribute
         Attribute.__init__(self, isPK, isFK)
         self.isMultiValued = isMultiValued
