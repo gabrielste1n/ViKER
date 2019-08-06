@@ -1,5 +1,5 @@
 {
-    "Entity1": {
+    "Table1": {
         "name": "ExampleName",
         "isStrong": false,
         "attributes": [
@@ -7,7 +7,8 @@
                 "AttributeName": "ExampleName",
                 "isPK": false,
                 "isFK": false,
-                "isMultiValued": false,
+                "isConcrete": true,
+                "dataType": "AnyType",
                 "composedOf": [
                     "AttributeName1",
                     "AttributeName2"
@@ -17,7 +18,8 @@
                 "AttributeName": "ExampleName",
                 "isPK": false,
                 "isFK": false,
-                "isMultiValued": false,
+                "isConcrete": true,
+                "dataType": "AnyType",
                 "composedOf": [
                     "AttributeName1",
                     "AttributeName2"
