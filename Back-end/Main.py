@@ -1,7 +1,7 @@
 # Driver class for ViKER Backend
 # Authors: St John Grimbly & Jeremy du Plessis
 # Date Created: 5 August 2019
-# Version: 1.0
+# Version: Alpha v1.1
 
 from enunm import Enum
 
@@ -16,12 +16,12 @@ class Main:
     def produceOOP(self, file):
         # Produce OOP representation of schema from given ARM or ER JSON file
 
-
 class Entitiy:
     '''An Entity is an abstract object '''
     def __init__(self, isStrong=False):
         # Create an entity
         self.attributes = [] # List of attribute
+        self.relationships = [] # list of relationships belonging to this entity
         self.isStrong = isStrong # True if strong entity, false if weak.
 
     def addRelationship(self, E):
@@ -40,15 +40,27 @@ class DataTypes(Enum):
 
 class Attribute:
     '''An attribute is a characteristic of an entity'''
-    def __init__(self, isPK=False, isFK=False, isMultiValued=False,
-         dataType=ANY_TYPE, composedOf=[]):
+    def __init__(self, isPK=False, isFK=False): # TO DO: Make sure this constructor is only callable from the derived classes
         # Create an attribute, specifying whether it is a foreign, primary 
         # (etc) key
         self.isPK = isPK
         self.isFK = isFK
+        
+class ERAttribute(Attribute):
+    '''An ER attribute is a characteristic of an ER entity'''
+    def __init__(self,isPK=False, isFK=False, isMultiValued=False, composedOf=[]):
+        # Create an ER attribute
+        Attribute.__init__(self, isPK, isFK)
         self.isMultiValued = isMultiValued
-        self.dataType = dataType
         self.composedOf = composedOf
+
+class ARMAttribute(Attribute):
+    '''An ARM attribute is a characteristics of an ARM relation'''
+    def __init__(self, isPK=False, isFK=False, isConcrete=True, dataType=DataTypes.ANY_TYPE):
+        # Create an ARM attribute
+        Attribute.__init__(self, isPK, isFK)
+        self.dataType = dataType
+        self.isConcrete = isConcrete
 
 class RelationTypes(Enum):
     '''Types of relationships between entities'''
@@ -60,10 +72,8 @@ class RelationTypes(Enum):
 
 class Relationship:
     '''A relationship represents the relation between entities'''
-    def __init__(self, relationType, T1, PK, T2, FK):
+    def __init__(self, relationType, T1, T2):
         # Create a relationship
         self.relationType = relationType
         self.T1 = T1
-        self.PK = PK
         self.T2 = T2
-        self.FK = FK
