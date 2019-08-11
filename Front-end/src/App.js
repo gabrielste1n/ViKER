@@ -1,16 +1,14 @@
 import React from 'react';
-import Header from './containers/Header/Header';
-import Sidebar from './containers/Sidebar/Sidebar';
+import Input from './containers/Input/Input';
 import ErrorLog from './containers/ErrorLog/ErrorLog';
-import Diagram from './containers/Diagram/Diagram';
+import Output from './containers/Output/Output';
 import './App.css';
 
 const app = (props) => {
   return (
   <div className="App">
-      <Header />
-      <Sidebar />
-      <Diagram />
+      <Input />
+      <Output />
       <ErrorLog />
   </div>
   );
