@@ -36,6 +36,7 @@ engine.setDiagramModel(model);
 
 
   return (
+    //return the model
     <div className={classes.Diagram}>
       <Header header="Output"/>
       <SRD.DiagramWidget diagramEngine={engine} />
