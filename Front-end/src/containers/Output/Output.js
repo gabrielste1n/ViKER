@@ -26,10 +26,10 @@ let port2 = node2.addInPort("DepartmentID");
 node2.setPosition(400, 100);
 
 // 5) link the ports
-let link1 = port1.link(port2);
+// let link1 = port1.link(port2);
 
 // 6) add the models to the root graph
-model.addAll(node1, node2, link1);
+model.addAll(node1, node2);
 
 // 7) load model into engine
 engine.setDiagramModel(model);

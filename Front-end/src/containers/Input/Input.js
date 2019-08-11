@@ -38,7 +38,7 @@ engine.setDiagramModel(model);
   return (
     <div className={classes.Diagram}>
       <Header header="Input"/>
-      <SRD.DiagramWidget diagramEngine={engine} />
+      <SRD.DiagramWidget style={{height:500}} diagramEngine={engine} />
     </div>
   );
 }
