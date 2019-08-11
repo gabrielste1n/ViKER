@@ -16,8 +16,14 @@ class Main:
     def produceOOP(self, file):
         # Produce OOP representation of schema from given ARM or ER JSON file
 
-class Entitiy:
-    '''An Entity is an abstract object '''
+class Table:
+    '''A Table is an abstract object which can be derived to be an ER Entity or ARM Relation'''
+    # Ensure that this base class cannot be instantiated by overriding the __new__ method belonging to Python's Object class.
+    def __new__(cls, *args, **kwargs):
+        if cls is Attribute:
+            raise TypeError("base class may not be instantiated")
+        return object.__new__(cls)
+
     def __init__(self, isStrong=False):
         # Create an entity
         self.attributes = [] # List of attribute
@@ -31,6 +37,12 @@ class Entitiy:
 
     def addAttribute(self, A):
         # Add attribute A to the this entity
+
+class Entity(Table):
+    '''ER Entity is a Table'''
+
+class Relation(Table):
+    '''ARM Relation is a Table'''
 
 class DataTypes(Enum):
     '''Specific types of data available'''
