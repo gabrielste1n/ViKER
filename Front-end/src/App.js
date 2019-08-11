@@ -1,26 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
+import Header from './containers/Header/Header';
+import Sidebar from './containers/Sidebar/Sidebar';
+import ErrorLog from './containers/ErrorLog/ErrorLog';
+import Diagram from './containers/Diagram/Diagram';
 import './App.css';
 
-function App() {
+const app = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div className="App">
+      <Header />
+      <Sidebar />
+      <Diagram />
+      <ErrorLog />
+  </div>
   );
 }
 
-export default App;
+export default app;

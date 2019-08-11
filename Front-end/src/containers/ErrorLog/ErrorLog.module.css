@@ -1,0 +1,6 @@
+.ErrorLog {
+    float: right;
+    width: -webkit-calc(100% - 300px);
+    height: 200px;
+    background-color: red;
+}
