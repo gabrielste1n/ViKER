@@ -83,5 +83,75 @@
                 ]
             }
         ]
-    }
+    },
+    "entities": [
+        {
+            "name": "Employee",
+            "isStrong": true,
+            "attributes": [
+                {
+                    "AttributeName": "EmployeeID",
+                    "isIdentifier": true,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
+                    "AttributeName": "EmployeeName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                }
+            ],
+            "relationships": [
+                {
+                    "Entity": "Dependant",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "relationAttributes": [
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Dependant",
+            "isStrong": false,
+            "attributes": [
+                {
+                    "AttributeName": "DependantName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                        "FirstName",
+                        "MiddleInitial",
+                        "LastName"
+                    ]
+                },
+                {
+                    "AttributeName": "DateOfBirth",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
+                    "AttributeName": "Gender",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                }
+            ],
+            "relationships": [
+                {
+                    "Entity": "Employee",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "relationAttributes": [
+                    ]
+                }
+            ]
+        }
+    ]
 }

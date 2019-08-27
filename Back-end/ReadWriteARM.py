@@ -7,7 +7,7 @@ import json
 from Table import Relation
 from Attribute import ARMAttribute
 
-def read(filename):
+def readARM(filename):
     '''Reads in JSON ARM file and creates relevant objects as needed.'''
     with open(filename, 'r', encoding='utf8', errors='ignore') as json_file:
         relations = json.load(json_file)
@@ -35,6 +35,7 @@ def read(filename):
                 
         return toReturn
 
-#def write():
-                
-
+def writeARM(filename):
+    '''Writes JSON ARM representation from OOP representation.'''
+    with open(filename, 'w', encoding='utf8', errors='ignore') as json_file:
+        
