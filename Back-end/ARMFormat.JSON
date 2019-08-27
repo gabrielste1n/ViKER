@@ -1,29 +1,60 @@
 {
-    "Table1": {
-        "attributes": [
-            {
-                "AttributeName": "ExampleName1",
-                "isConcrete": true,
-                "dataType": "AnyType",
-                "isPathFunctionalDependancy": false,
-                "isFK": false
-            },
-            {
-                "AttributeName": "ExampleName2",
-                "isConcrete": true,
-                "dataType": "AnyType",
-                "isPathFunctionalDependancy": false,
-                "isFK": false
-            }
-        ],
-        "inheritsFrom": "none",
-        "coveredBy": [
-            "Table1",
-            "Table2"
-        ],
-        "disjointWith": [
-            "Table3",
-            "Table4"
-        ]
-    }
+    "relations": [
+        {
+            "name": "RelationName1",
+            "attributes": [
+                {
+                    "AttributeName": "ExampleName1",
+                    "isConcrete": true,
+                    "dataType": "AnyType",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                },
+                {
+                    "AttributeName": "ExampleName2",
+                    "isConcrete": true,
+                    "dataType": "AnyType",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                }
+            ],
+            "inheritsFrom": "none",
+            "coveredBy": [
+                "Table1",
+                "Table2"
+            ],
+            "disjointWith": [
+                "Table3",
+                "Table4"
+            ]
+        },
+        {
+            "name": "RelationName2",
+            "attributes": [
+                {
+                    "AttributeName": "ExampleName1",
+                    "isConcrete": true,
+                    "dataType": "AnyType",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                },
+                {
+                    "AttributeName": "ExampleName2",
+                    "isConcrete": true,
+                    "dataType": "AnyType",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                }
+            ],
+            "inheritsFrom": "none",
+            "coveredBy": [
+                "Table1",
+                "Table2"
+            ],
+            "disjointWith": [
+                "Table3",
+                "Table4"
+            ]
+        }
+    ]
 }
