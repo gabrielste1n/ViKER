@@ -25,9 +25,9 @@
             ],
             "relationships": [
                 {
-                    "RelationType": "ZeroOrMany",
-                    "Entity1": "EntityName1",
-                    "Entity2": "EntityName2",
+                    "Entity": "EntityName1",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ExactlyOne",
                     "relationAttributes": [
                         "Attribute1",
                         "Attribute2"
@@ -60,9 +60,9 @@
             ],
             "relationships": [
                 {
-                    "RelationType": "ZeroOrMany",
-                    "Entity1": "EntityName1",
-                    "Entity2": "EntityName2",
+                    "Entity": "EntityName1",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ExactlyOne",
                     "relationAttributes": [
                         "Attribute1",
                         "Attribute2"

@@ -1,35 +1,64 @@
 {
-    "Entity1": {
-        "name": "ExampleName",
-        "isStrong": false,
+    "Employee": {
+        "isStrong": true,
         "attributes": [
             {
-                "AttributeName": "ExampleName",
-                "isIdentifier": false,
+                "AttributeName": "EmployeeID",
+                "isIdentifier": true,
                 "isMultiValued": false,
                 "composedOf": [
-                    "AttributeName1",
-                    "AttributeName2"
                 ]
             },
             {
-                "AttributeName": "ExampleName",
+                "AttributeName": "EmployeeName",
                 "isIdentifier": false,
                 "isMultiValued": false,
                 "composedOf": [
-                    "AttributeName1",
-                    "AttributeName2"
+                ]
+            },
+            {
+                "AttributeName": "EmployeeBirthDate",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
                 ]
             }
         ],
         "relationships": [
             {
                 "RelationType": "ZeroOrMany",
-                "Entity1": "EntityName1",
-                "Entity2": "EntityName2",
+                "Entity": "Course",
                 "relationAttributes": [
-                    "Attribute1",
-                    "Attribute2"
+                    "DateCompleted"
+                ]
+            }
+        ]
+    },
+
+    "Course": {
+        "isStrong": true,
+        "attributes": [
+            {
+                "AttributeName": "CourseID",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "CourseTitle",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "RelationType": "ZeroOrMany",
+                "Entity": "Employee",
+                "relationAttributes": [
+                    "DateCompleted"
                 ]
             }
         ]
