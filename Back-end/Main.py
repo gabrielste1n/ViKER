@@ -3,7 +3,7 @@
 # Date Created: 5 August 2019
 # Version: Alpha v1.1
 
-from enunm import Enum
+from enum import Enum
 
 class Main:
     '''Driver class for the ViKER Back-end implementation.'''
