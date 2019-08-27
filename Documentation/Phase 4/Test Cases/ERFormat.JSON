@@ -1,6 +1,5 @@
 {
     "Entity1": {
-        "name": "ExampleName",
         "isStrong": false,
         "attributes": [
             {
@@ -25,8 +24,7 @@
         "relationships": [
             {
                 "RelationType": "ZeroOrMany",
-                "Entity1": "EntityName1",
-                "Entity2": "EntityName2",
+                "Entity": "EntityName1",
                 "relationAttributes": [
                     "Attribute1",
                     "Attribute2"

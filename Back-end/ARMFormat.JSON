@@ -1,20 +1,19 @@
 {
     "Table1": {
-        "name": "ExampleName",
         "attributes": [
             {
                 "AttributeName": "ExampleName1",
                 "isConcrete": true,
                 "dataType": "AnyType",
                 "isPathFunctionalDependancy": false,
-                "isFK": false,
+                "isFK": false
             },
             {
                 "AttributeName": "ExampleName2",
                 "isConcrete": true,
                 "dataType": "AnyType",
                 "isPathFunctionalDependancy": false,
-                "isFK": false,
+                "isFK": false
             }
         ],
         "inheritsFrom": "none",
@@ -26,4 +25,5 @@
             "Table3",
             "Table4"
         ]
+    }
 }

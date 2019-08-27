@@ -1,0 +1,90 @@
+{
+    "Employee": {
+        "attributes": [
+            {
+                "AttributeName": "self",
+                "isConcrete": false,
+                "dataType": "OID",
+                "isPathFunctionalDependancy": false,
+                "isFK": false
+            },
+            {
+                "AttributeName": "EmployeeID",
+                "isConcrete": true,
+                "dataType": "Integer",
+                "isPathFunctionalDependancy": true,
+                "isFK": false
+            },
+            {
+                "AttributeName": "EmployeeName",
+                "isConcrete": true,
+                "dataType": "String",
+                "isPathFunctionalDependancy": false,
+                "isFK": false
+            }
+        ],
+        "inheritsFrom": "none",
+        "coveredBy": [
+        ],
+        "disjointWith": [
+        ]
+    },
+    "Dependant": {
+        "attributes": [
+            {
+                "AttributeName": "self",
+                "isConcrete": false,
+                "dataType": "OID",
+                "isPathFunctionalDependancy": false,
+                "isFK": false
+            },
+            {
+                "AttributeName": "FirstName",
+                "isConcrete": true,
+                "dataType": "String",
+                "isPathFunctionalDependancy": true,
+                "isFK": false
+            },
+            {
+                "AttributeName": "MiddleInitial",
+                "isConcrete": true,
+                "dataType": "String",
+                "isPathFunctionalDependancy": true,
+                "isFK": false
+            },
+            {
+                "AttributeName": "LastName",
+                "isConcrete": true,
+                "dataType": "String",
+                "isPathFunctionalDependancy": true,
+                "isFK": false
+            },
+            {
+                "AttributeName": "EmployeeID",
+                "isConcrete": true,
+                "dataType": "Integer",
+                "isPathFunctionalDependancy": true,
+                "isFK": true
+            },
+            {
+                "AttributeName": "DateOfBirth",
+                "isConcrete": true,
+                "dataType": "String",
+                "isPathFunctionalDependancy": false,
+                "isFK": false
+            },
+            {
+                "AttributeName": "Gender",
+                "isConcrete": true,
+                "dataType": "String",
+                "isPathFunctionalDependancy": false,
+                "isFK": false
+            }
+        ],
+        "inheritsFrom": "none",
+        "coveredBy": [
+        ],
+        "disjointWith": [
+        ]
+    }
+}
