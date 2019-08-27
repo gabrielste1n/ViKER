@@ -1,0 +1,71 @@
+{
+    "Customer": {
+        "isStrong": true,
+        "attributes": [
+            {
+                "AttributeName": "CustomerID",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "CustomerName",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "CustomerPostalCode",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "CustomerAddress",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "RelationType": "ExactlyOne",
+                "Entity": "Order",
+                "relationAttributes": [
+                ]
+            }
+        ]
+    },
+
+    "Order": {
+        "isStrong": true,
+        "attributes": [
+            {
+                "AttributeName": "OrderID",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "OrderDate",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "RelationType": "ZeroOrMany",
+                "Entity": "Customer",
+                "relationAttributes": [
+                ]
+            }
+        ]
+    }
+}
