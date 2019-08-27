@@ -1,4 +1,89 @@
 {
+    "Employee": {
+        "isStrong": true,
+        "attributes": [
+            {
+                "AttributeName": "EmployeeID",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "EmployeeName",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "RelationType": "ExactlyOne",
+                "Entity": "Dependant",
+                "relationAttributes": [
+                ]
+            }
+        ]
+    },
+    "Dependant": {
+        "isStrong": false,
+        "attributes": [
+            {
+                "AttributeName": "DependantName",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                    "FirstName",
+                    "MiddleInitial",
+                    "LastName"
+                ]
+            },
+            {
+                "AttributeName": "FirsttName",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "MiddletInitial",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "LasttName",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "DateOfBirth",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "Gender",
+                "isIdentifier": false,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "RelationType": "ZeroOrMany",
+                "Entity": "Employee",
+                "relationAttributes": [
+                ]
+            }
+        ]
+    },
     "entities": [
         {
             "name": "Employee",

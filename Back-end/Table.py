@@ -30,6 +30,21 @@ class Entity(Table):
                                           isIdentifier, 
                                           isMultiValued,
                                           composedOf))
+    def getName(self):
+        """Returns entity name"""
+        return self.name
+
+    def getIsStrong(self):
+        """Returns entity type"""
+        return self.isStrong
+
+    def getAttributes(self):
+        """Returns entity attributes"""
+        return self.attributes
+
+    def getRelationships(self):
+        """Returns entity relationships"""
+        return self.relationships
         
 class Relation(Table):
     '''ARM Relation is a Table'''
@@ -45,3 +60,23 @@ class Relation(Table):
                                            dataType, 
                                            isPFD, 
                                            isFK))
+        
+    def getName(self):
+        """Returns ARM entity name"""
+        return self.name
+
+    def getInheritsFrom(self):
+        """Returns ARM ISA constraint"""
+        return self.inheritsFrom
+
+    def getCoveredBy(self):
+        """Returns ARM covered-by constraint"""
+        return self.coveredBy
+
+    def getDisjointWith(self):
+        """Returns ARM disjointness constraint"""
+        return self.disjointWith
+
+    def getAttributes(self):
+        """Returns ARM attributes"""
+        return self.attributes
