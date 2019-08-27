@@ -40,6 +40,27 @@
                 ]
             },
             {
+                "AttributeName": "FirsttName",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "MiddletInitial",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
+                "AttributeName": "LasttName",
+                "isIdentifier": true,
+                "isMultiValued": false,
+                "composedOf": [
+                ]
+            },
+            {
                 "AttributeName": "DateOfBirth",
                 "isIdentifier": false,
                 "isMultiValued": false,
