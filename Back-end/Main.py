@@ -1,7 +1,7 @@
 # Driver class for ViKER Backend
 # Authors: St John Grimbly & Jeremy du Plessis
-# Date Created: 5 August 2019
-# Version: Alpha v1.1
+# Date Created: 27 August 2019
+# Version: Beta v1.0
 
 from enum import Enum
 
