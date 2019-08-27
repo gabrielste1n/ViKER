@@ -10,6 +10,10 @@ class Attribute:
         # Create an attribute, specifying whether it is a foreign, primary 
         # (etc) key
         self.name = name
+
+    def getName(self):
+        """Returns attribute name"""
+        return self.name
         
 class ERAttribute(Attribute):
     '''An ER attribute is a characteristic of an ER entity'''
@@ -20,6 +24,18 @@ class ERAttribute(Attribute):
         self.isMultiValued = isMultiValued
         self.composedOf = composedOf
 
+    def isIdentifier(self):
+        """Returns true if it is an identifier"""
+        return self.isIdentifier
+
+    def isMultiValued(self):
+        """Returns true if it is multivalued"""
+        return self.isMultiValued
+
+    def getComposedOf(self):
+        """Returns entity name"""
+        return self.composedOf
+
 class ARMAttribute(Attribute):
     '''An ARM attribute is a characteristics of an ARM relation'''
     def __init__(self, name, isConcrete, dataType, isPFD, isFK):
@@ -29,3 +45,19 @@ class ARMAttribute(Attribute):
         self.dataType = dataType
         self.isPFD = isPFD
         self.isFK = isFK
+
+    def isConcrete(self):
+        """Returns true if it is concrete attribute"""
+        return self.isConcrete
+
+    def getDataType(self):
+        '''Returns the data type of the attribute'''
+        return self.dataType
+
+    def isPFD(self):
+        '''Returns true if the attribute is a path functional dependencies'''
+        return self.isPFD
+
+    def isFK(self):
+        '''Returns true if the attribute is a foreign key'''
+        return self.isFK

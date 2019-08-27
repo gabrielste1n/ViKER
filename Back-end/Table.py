@@ -14,6 +14,14 @@ class Table:
         self.name = name
         self.attributes = [] # List of attribute
 
+    def getName(self):
+        """Returns entity name"""
+        return self.name
+
+    def getAttributes(self):
+        """Returns entity attributes"""
+        return self.attributes
+
 class Entity(Table):
     '''ER Entity is a Table'''
     def __init__(self, name, isStrong=False):
@@ -30,17 +38,10 @@ class Entity(Table):
                                           isIdentifier, 
                                           isMultiValued,
                                           composedOf))
-    def getName(self):
-        """Returns entity name"""
-        return self.name
 
     def getIsStrong(self):
         """Returns entity type"""
         return self.isStrong
-
-    def getAttributes(self):
-        """Returns entity attributes"""
-        return self.attributes
 
     def getRelationships(self):
         """Returns entity relationships"""
@@ -60,10 +61,6 @@ class Relation(Table):
                                            dataType, 
                                            isPFD, 
                                            isFK))
-        
-    def getName(self):
-        """Returns ARM entity name"""
-        return self.name
 
     def getInheritsFrom(self):
         """Returns ARM ISA constraint"""
@@ -76,7 +73,3 @@ class Relation(Table):
     def getDisjointWith(self):
         """Returns ARM disjointness constraint"""
         return self.disjointWith
-
-    def getAttributes(self):
-        """Returns ARM attributes"""
-        return self.attributes
