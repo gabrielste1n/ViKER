@@ -1,37 +1,40 @@
 {
-    "Customer": {
-        "isStrong": true,
-        "attributes": [
-            {
-                "AttributeName": "CustomerID",
-                "isIdentifier": true,
-                "isMultiValued": false,
-                "composedOf": [
-                ]
-            },
-            {
-                "AttributeName": "CustomerName",
-                "isIdentifier": false,
-                "isMultiValued": false,
-                "composedOf": [
-                ]
-            },
-            {
-                "AttributeName": "CustomerAddress",
-                "isIdentifier": false,
-                "isMultiValued": false,
-                "composedOf": [
-                ]
-            },
-            {
-                "AttributeName": "CustomerPostalCode",
-                "isIdentifier": false,
-                "isMultiValued": false,
-                "composedOf": [
-                ]
-            }
-        ],
-        "relationships": [
-        ]
-    }
+    "entities": [ 
+        {
+            "name": "Customer",
+            "isStrong": true,
+            "attributes": [
+                {
+                    "AttributeName": "CustomerID",
+                    "isIdentifier": true,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
+                    "AttributeName": "CustomerName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
+                    "AttributeName": "CustomerAddress",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
+                    "AttributeName": "CustomerPostalCode",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                }
+            ],
+            "relationships": [
+            ]
+        }
+    ]
 }
