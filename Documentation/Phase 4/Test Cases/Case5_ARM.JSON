@@ -1,0 +1,29 @@
+{
+    "Table1": {
+        "name": "ExampleName",
+        "attributes": [
+            {
+                "AttributeName": "ExampleName1",
+                "isConcrete": true,
+                "dataType": "AnyType",
+                "isPathFunctionalDependancy": false,
+                "isFK": false,
+            },
+            {
+                "AttributeName": "ExampleName2",
+                "isConcrete": true,
+                "dataType": "AnyType",
+                "isPathFunctionalDependancy": false,
+                "isFK": false,
+            }
+        ],
+        "inheritsFrom": "none",
+        "coveredBy": [
+            "Table1",
+            "Table2"
+        ],
+        "disjointWith": [
+            "Table3",
+            "Table4"
+        ]
+}
