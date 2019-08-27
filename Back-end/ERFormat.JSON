@@ -1,37 +1,74 @@
 {
-    "Entity1": {
-        "name": "ExampleName",
-        "isStrong": false,
-        "attributes": [
-            {
-                "AttributeName": "ExampleName",
-                "isIdentifier": false,
-                "isMultiValued": false,
-                "composedOf": [
-                    "AttributeName1",
-                    "AttributeName2"
-                ]
-            },
-            {
-                "AttributeName": "ExampleName",
-                "isIdentifier": false,
-                "isMultiValued": false,
-                "composedOf": [
-                    "AttributeName1",
-                    "AttributeName2"
-                ]
-            }
-        ],
-        "relationships": [
-            {
-                "RelationType": "ZeroOrMany",
-                "Entity1": "EntityName1",
-                "Entity2": "EntityName2",
-                "relationAttributes": [
-                    "Attribute1",
-                    "Attribute2"
-                ]
-            }
-        ]
-    }
+    "entities": [
+        {
+            "name": "ExampleName1",
+            "isStrong": false,
+            "attributes": [
+                {
+                    "AttributeName": "ExampleName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                        "AttributeName1",
+                        "AttributeName2"
+                    ]
+                },
+                {
+                    "AttributeName": "ExampleName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                        "AttributeName1",
+                        "AttributeName2"
+                    ]
+                }
+            ],
+            "relationships": [
+                {
+                    "RelationType": "ZeroOrMany",
+                    "Entity1": "EntityName1",
+                    "Entity2": "EntityName2",
+                    "relationAttributes": [
+                        "Attribute1",
+                        "Attribute2"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "ExampleName2",
+            "isStrong": false,
+            "attributes": [
+                {
+                    "AttributeName": "ExampleName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                        "AttributeName1",
+                        "AttributeName2"
+                    ]
+                },
+                {
+                    "AttributeName": "ExampleName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                        "AttributeName1",
+                        "AttributeName2"
+                    ]
+                }
+            ],
+            "relationships": [
+                {
+                    "RelationType": "ZeroOrMany",
+                    "Entity1": "EntityName1",
+                    "Entity2": "EntityName2",
+                    "relationAttributes": [
+                        "Attribute1",
+                        "Attribute2"
+                    ]
+                }
+            ]
+        }
+    ]
 }
