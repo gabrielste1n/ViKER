@@ -4,7 +4,7 @@
 # Version: Beta v1.0
 
 import json
-import Relationship
+from Relationship import Relationship
 from Table import Entity
 from Attribute import ERAttribute
 

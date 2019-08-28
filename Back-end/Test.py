@@ -17,6 +17,7 @@ class TestReadWriteJSON(unittest.TestCase):
     def test_readWriteARM_case_1(self):
         relations = readARM(path_read+"Case1_ARM.JSON")
         writeARM(path_write+'TestCase1_ARM.JSON', relations)
+        #assert()
 
     def test_readWriteEER_case_1(self):
         entities = readEER(path_read+"Case1_EER.JSON")
