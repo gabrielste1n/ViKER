@@ -9,7 +9,7 @@ class Table:
             raise TypeError("base class may not be instantiated")
         return object.__new__(cls)
 
-    def __init__(self, name, isStrong=False):
+    def __init__(self, name):
         # Create an entity
         self.name = name
         self.attributes = [] # List of attribute
@@ -53,22 +53,19 @@ class Entity(Table):
         
 class Relation(Table):
     '''ARM Relation is a Table'''
-    def __init__(self, name, inheritsFrom, coveredBy, disjointWith):
+    def __init__(self, name, inheritsFrom, coveredBy=[], disjointWith=[]):
         Table.__init__(self,name)
         self.inheritsFrom = inheritsFrom
         self.coveredBy = coveredBy
         self.disjointWith = disjointWith
 
-    def addAttribute(self, name, isConcrete, dataType, isPFD, isFK):
+    def addAttribute(self, name, isConcrete, dataType, isPFD, isFK, FKPointer = "none"):
         self.attributes.append(ARMAttribute(name,
                                            isConcrete, 
                                            dataType, 
                                            isPFD, 
-                                           isFK))
-
-    def getName(self):
-        """Returns ARM entity name"""
-        return self.name
+                                           isFK,
+                                           FKPointer))
 
     def getInheritsFrom(self):
         """Returns ARM ISA constraint"""

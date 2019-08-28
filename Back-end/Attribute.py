@@ -38,13 +38,15 @@ class ERAttribute(Attribute):
 
 class ARMAttribute(Attribute):
     '''An ARM attribute is a characteristics of an ARM relation'''
-    def __init__(self, name, isConcrete, dataType, isPFD, isFK):
+    def __init__(self, name, isConcrete, dataType, isPFD, isFK, FKPointer="none"):
         # Create an ARM attribute
         Attribute.__init__(self, name)
         self.isConcrete = isConcrete
         self.dataType = dataType
         self.isPFD = isPFD
         self.isFK = isFK
+        self.FKPoint = FKPointer
+
 
     def isConcrete(self):
         """Returns true if it is concrete attribute"""
