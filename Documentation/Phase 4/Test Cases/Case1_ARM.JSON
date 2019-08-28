@@ -7,14 +7,14 @@
                     "AttributeName": "self",
                     "isConcrete": false,
                     "dataType": "OID",
-                    "isPathFunctionalDependancy": true,
+                    "isPathFunctionalDependancy": false,
                     "isFK": false
                 },
                 {
                     "AttributeName": "CustomerID",
                     "isConcrete": true,
                     "dataType": "Integer",
-                    "isPathFunctionalDependancy": false,
+                    "isPathFunctionalDependancy": true,
                     "isFK": false
                 },
                 {
