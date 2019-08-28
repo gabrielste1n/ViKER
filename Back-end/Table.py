@@ -39,7 +39,7 @@ class Entity(Table):
                                           isMultiValued,
                                           composedOf))
 
-    def getIsStrong(self):
+    def isStrong(self):
         """Returns entity type"""
         return self.isStrong
 
