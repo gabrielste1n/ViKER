@@ -46,6 +46,10 @@ class Entity(Table):
     def getRelationships(self):
         """Returns entity relationships"""
         return self.relationships
+
+    def getIDAttribs(self):
+        a = [x for x in self.attributes if x.isIdentifier]
+        return a
         
 class Relation(Table):
     '''ARM Relation is a Table'''
@@ -61,6 +65,10 @@ class Relation(Table):
                                            dataType, 
                                            isPFD, 
                                            isFK))
+
+    def getName(self):
+        """Returns ARM entity name"""
+        return self.name
 
     def getInheritsFrom(self):
         """Returns ARM ISA constraint"""
