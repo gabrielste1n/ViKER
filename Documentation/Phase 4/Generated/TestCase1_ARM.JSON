@@ -1,0 +1,47 @@
+{
+    "relations": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self", 
+                    "dataType": "OID", 
+                    "isConcrete": false, 
+                    "isFK": false, 
+                    "isPathFunctionalDependancy": false
+                }, 
+                {
+                    "AttributeName": "CustomerID", 
+                    "dataType": "Integer", 
+                    "isConcrete": true, 
+                    "isFK": false, 
+                    "isPathFunctionalDependancy": true
+                }, 
+                {
+                    "AttributeName": "CustomerName", 
+                    "dataType": "String", 
+                    "isConcrete": true, 
+                    "isFK": false, 
+                    "isPathFunctionalDependancy": false
+                }, 
+                {
+                    "AttributeName": "CustomerAddress", 
+                    "dataType": "String", 
+                    "isConcrete": true, 
+                    "isFK": false, 
+                    "isPathFunctionalDependancy": false
+                }, 
+                {
+                    "AttributeName": "CustomerPostalCode", 
+                    "dataType": "Integer", 
+                    "isConcrete": true, 
+                    "isFK": false, 
+                    "isPathFunctionalDependancy": false
+                }
+            ], 
+            "coveredBy": [], 
+            "disjointWith": [], 
+            "inheritsFrom": "none", 
+            "name": "Customer"
+        }
+    ]
+}

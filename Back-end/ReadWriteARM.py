@@ -9,7 +9,7 @@ from Attribute import ARMAttribute
 
 def readARM(filename):
     '''Reads in JSON ARM file and creates relevant objects as needed.'''
-    with open(filename, 'r', encoding='utf8', errors='ignore') as json_file:
+    with open(filename, 'r') as json_file:
         relations = json.load(json_file)
         toReturn = []
         for relation in relations['relations']:
@@ -48,20 +48,20 @@ def writeARM(filename, relations):
         disjointWith = relation.getDisjointWith()
 
         attributes = []
-        for attribute in relation['attributes']:
+        for attribute in relation.attributes:
             attributeName = attribute.getName()
-            isConcrete = attribute.isConcrete()
+            isConcrete = attribute.isConcreteAttribute()
             dataType = attribute.getDataType()
-            isPFD = attribute.isPFD()
-            isFK = attribute.isFK()
+            isPathFunctionalDependency = attribute.isPathFunctionalDependency()
+            isForeignKey = attribute.isForeignKey()
 
             attributes.append(
                 {
                     "AttributeName": attributeName,
                     "isConcrete": isConcrete,
                     "dataType": dataType,
-                    "isPathFunctionalDependancy": isPFD,
-                    "isFK": isFK
+                    "isPathFunctionalDependancy": isPathFunctionalDependency,
+                    "isFK": isForeignKey
                 }
             )
 
@@ -75,5 +75,5 @@ def writeARM(filename, relations):
             }
         )
 
-    with open(filename, 'w', encoding='utf8', errors='ignore') as json_file:
-        json.dump(json_relations, json_file, indent=4)
+    with open(filename, 'w') as json_file:
+        json.dump(json_relations, json_file, indent=4, sort_keys=True)

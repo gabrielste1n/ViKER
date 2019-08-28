@@ -9,10 +9,15 @@ class Table:
             raise TypeError("base class may not be instantiated")
         return object.__new__(cls)
 
-    def __init__(self, name, isStrong=False):
+    def __init__(self, name):
         # Create an entity
         self.name = name
         self.attributes = [] # List of attribute
+    
+    def __init__(self, name, attributes):
+        # Create an entity
+        self.name = name
+        self.attributes = attributes
 
     def getName(self):
         """Returns entity name"""
@@ -24,8 +29,17 @@ class Table:
 
 class Entity(Table):
     '''ER Entity is a Table'''
+
+    # Instead of overloading constructor, 
+    # we could just have one big constructor and give it default values.
+
     def __init__(self, name, isStrong=False):
         Table.__init__(self,name)
+        self.isStrong = isStrong # True if strong entity, false if weak.
+        self.relationships = [] # list of relationships belonging to this entity
+
+    def __init__(self, name, isStrong=False, attributes=[], relationships=[]):
+        Table.__init__(self,name,attributes)
         self.isStrong = isStrong # True if strong entity, false if weak.
         self.relationships = [] # list of relationships belonging to this entity
 
@@ -39,7 +53,7 @@ class Entity(Table):
                                           isMultiValued,
                                           composedOf))
 
-    def isStrong(self):
+    def isStrongEntity(self):
         """Returns entity type"""
         return self.isStrong
 
@@ -55,6 +69,12 @@ class Relation(Table):
     '''ARM Relation is a Table'''
     def __init__(self, name, inheritsFrom, coveredBy, disjointWith):
         Table.__init__(self,name)
+        self.inheritsFrom = inheritsFrom
+        self.coveredBy = coveredBy
+        self.disjointWith = disjointWith
+
+    def __init__(self, name, attributes, inheritsFrom, coveredBy, disjointWith):
+        Table.__init__(self,name,attributes)
         self.inheritsFrom = inheritsFrom
         self.coveredBy = coveredBy
         self.disjointWith = disjointWith

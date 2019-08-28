@@ -24,15 +24,15 @@ class ERAttribute(Attribute):
         self.isMultiValued = isMultiValued
         self.composedOf = composedOf
 
-    def isIdentifier(self):
+    def isIdentifierAttribute(self):
         """Returns true if it is an identifier"""
         return self.isIdentifier
 
-    def isMultiValued(self):
+    def isMultiValuedAttribute(self):
         """Returns true if it is multivalued"""
         return self.isMultiValued
 
-    def getComposedOf(self):
+    def getAttributeComposedOf(self):
         """Returns entity name"""
         return self.composedOf
 
@@ -46,7 +46,7 @@ class ARMAttribute(Attribute):
         self.isPFD = isPFD
         self.isFK = isFK
 
-    def isConcrete(self):
+    def isConcreteAttribute(self):
         """Returns true if it is concrete attribute"""
         return self.isConcrete
 
@@ -54,10 +54,10 @@ class ARMAttribute(Attribute):
         '''Returns the data type of the attribute'''
         return self.dataType
 
-    def isPFD(self):
+    def isPathFunctionalDependency(self):
         '''Returns true if the attribute is a path functional dependencies'''
         return self.isPFD
 
-    def isFK(self):
+    def isForeignKey(self):
         '''Returns true if the attribute is a foreign key'''
         return self.isFK
