@@ -28,7 +28,7 @@ class Entity(Table):
     def __init__(self, name, isStrong=False, attributes=[], relationships=[]):
         Table.__init__(self,name,attributes)
         self.isStrong = isStrong # True if strong entity, false if weak.
-        self.relationships = [] # list of relationships belonging to this entity
+        self.relationships = relationships # list of relationships belonging to this entity
 
     def addRelationship(self, relationshipType, entityName):
         # Add relationship with given entity

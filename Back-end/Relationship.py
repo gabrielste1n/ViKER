@@ -14,11 +14,11 @@ class Relationship:
 
     def getLocalRelationship(self):
         '''Returns the local relationship'''
-        return self.getLocalRelationship
+        return self.relationshipTypeLocal
 
     def getForeignRelationship(self):
         '''Returns the local relationship'''
-        return self.getForeignRelationship
+        return self.relationshipTypeForeign
 
     def getAttributes(self):
         '''Returns the relationship attributes'''

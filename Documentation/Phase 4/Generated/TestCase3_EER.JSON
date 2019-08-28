@@ -17,7 +17,14 @@
             ], 
             "isStrong": true, 
             "name": "Employee", 
-            "relationships": []
+            "relationships": [
+                {
+                    "Entity": "Dependant", 
+                    "RelationTypeForeign": "ZeroOrMany", 
+                    "RelationTypeLocal": "ExactlyOne", 
+                    "relationAttributes": []
+                }
+            ]
         }, 
         {
             "attributes": [
@@ -46,7 +53,14 @@
             ], 
             "isStrong": false, 
             "name": "Dependant", 
-            "relationships": []
+            "relationships": [
+                {
+                    "Entity": "Employee", 
+                    "RelationTypeForeign": "ExactlyOne", 
+                    "RelationTypeLocal": "ZeroOrMany", 
+                    "relationAttributes": []
+                }
+            ]
         }
     ]
 }
