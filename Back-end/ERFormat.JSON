@@ -1,69 +1,71 @@
 {
     "entities": [
         {
-            "name": "Employee",
-            "isStrong": true,
+            "name": "ExampleName1",
+            "isStrong": false,
             "attributes": [
                 {
-                    "AttributeName": "EmployeeID",
-                    "isIdentifier": true,
-                    "isMultiValued": false,
-                    "composedOf": [
-                    ]
-                },
-                {
-                    "AttributeName": "EmployeeName",
+                    "AttributeName": "ExampleName",
                     "isIdentifier": false,
                     "isMultiValued": false,
                     "composedOf": [
+                        "AttributeName1",
+                        "AttributeName2"
+                    ]
+                },
+                {
+                    "AttributeName": "ExampleName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                        "AttributeName1",
+                        "AttributeName2"
                     ]
                 }
             ],
             "relationships": [
                 {
-                    "Entity": "Dependant",
-                    "RelationTypeLocal": "ExactlyOne",
-                    "RelationTypeForeign": "ZeroOrMany",
+                    "Entity": "EntityName1",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ExactlyOne",
                     "relationAttributes": [
+                        "Attribute1",
+                        "Attribute2"
                     ]
                 }
             ]
         },
         {
-            "name": "Dependant",
+            "name": "ExampleName2",
             "isStrong": false,
             "attributes": [
                 {
-                    "AttributeName": "DependantName",
+                    "AttributeName": "ExampleName",
                     "isIdentifier": false,
                     "isMultiValued": false,
                     "composedOf": [
-                        "FirstName",
-                        "MiddleInitial",
-                        "LastName"
+                        "AttributeName1",
+                        "AttributeName2"
                     ]
                 },
                 {
-                    "AttributeName": "DateOfBirth",
+                    "AttributeName": "ExampleName",
                     "isIdentifier": false,
                     "isMultiValued": false,
                     "composedOf": [
-                    ]
-                },
-                {
-                    "AttributeName": "Gender",
-                    "isIdentifier": false,
-                    "isMultiValued": false,
-                    "composedOf": [
+                        "AttributeName1",
+                        "AttributeName2"
                     ]
                 }
             ],
             "relationships": [
                 {
-                    "Entity": "Employee",
+                    "Entity": "EntityName1",
                     "RelationTypeLocal": "ZeroOrMany",
                     "RelationTypeForeign": "ExactlyOne",
                     "relationAttributes": [
+                        "Attribute1",
+                        "Attribute2"
                     ]
                 }
             ]

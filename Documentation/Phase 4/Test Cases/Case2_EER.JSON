@@ -29,6 +29,27 @@
                     ]
                 },
                 {
+                    "AttributeName": "CustomerState",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
+                    "AttributeName": "CustomerCity",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
+                    "AttributeName": "CustomerStreet",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": [
+                    ]
+                },
+                {
                     "AttributeName": "CustomerPostalCode",
                     "isIdentifier": false,
                     "isMultiValued": false,
