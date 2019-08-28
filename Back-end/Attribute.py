@@ -1,5 +1,3 @@
-from Main import DataTypes
-
 class Attribute:
     '''An attribute is a characteristic of an entity'''
     # Ensure that this base class cannot be instantiated by overriding the __new__ method belonging to Python's Object class.
@@ -40,7 +38,7 @@ class ERAttribute(Attribute):
 
 class ARMAttribute(Attribute):
     '''An ARM attribute is a characteristics of an ARM relation'''
-    def __init__(self, name, isConcrete, dataType=DataTypes.ANY_TYPE, isPFD=False, isFK=False, FKPointer="none"):
+    def __init__(self, name, isConcrete, dataType, isPFD=False, isFK=False, FKPointer="none"):
         # Create an ARM attribute
         Attribute.__init__(self, name)
         self.isConcrete = isConcrete

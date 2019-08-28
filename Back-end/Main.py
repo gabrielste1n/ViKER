@@ -5,16 +5,16 @@
 
 from enum import Enum
 import numpy as np
+from Table import Relation, Entity
 from ReadWriteEER import readEER, writeEER
 from ReadWriteARM import readARM, writeARM
 
 path_write = '../Documentation/Phase 4/Generated/'
-
-def EERToARM(filePath):
+def EERToARM(filePath, fileNum):
     # Produce a JSON representation of given schema in ARM
     entities = np.array(readEER(filePath)) # read in array of entities from JSON file
-    strongEntities = np.array([E for E in entities if E.isStrong()])
-    weakEntities = np.array([E for E in entities if not E.isStrong()])
+    strongEntities = np.array([E for E in entities if E.isStrongEntity()])
+    weakEntities = np.array([E for E in entities if not E.isStrongEntity()])
     relations = np.array([])
 
     # Step 1: For each strong entity E, create a Relation T 
@@ -64,7 +64,7 @@ def EERToARM(filePath):
 
         alreadyProcessed.append(E.getName())
 
-    writeARM(path_write+"arm.JSON", list(relations))
+    writeARM(path_write+"ARM"+str(fileNum)+".JSON", list(relations))
 
 # def ARMToEER(self):
 #     # Produce JSON representation of given schema in ER
@@ -74,22 +74,21 @@ def EERToARM(filePath):
 
 def StrongEntityToRelation(strongEntities):
     toReturn = [] 
-
     for E in strongEntities:
         # Create the relation that corresponds with the strong entity
         T = Relation(
-                    name=E.name,
-                    inheritsFrom="none", # TO BE UPDATED
-                    coveredBy=[], 
-                    disjointWith=[]
-                    )
+                     name=E.name,
+                     inheritsFrom="none", # TO BE UPDATED
+                     coveredBy=[],
+                     disjointWith=[]
+                     )
 
         # Add the "self" reference 
         T.addAttribute(
                        name="self", 
                        isConcrete=False, 
-                       dataType=DataTypes.ANY_TYPE, 
-                       isPFD=A.isIdentifier, 
+                       dataType=DataTypes.OID.value, 
+                       isPFD=False,
                        isFK=False
                        )
 
@@ -97,9 +96,9 @@ def StrongEntityToRelation(strongEntities):
         for A in [x for x in E.attributes if len(x.composedOf) == 0]:
             T.addAttribute(
                            name=A.getName(), 
-                           isConcrete=True, 
-                           dataType=DataTypes.ANY_TYPE, 
-                           isPFD=A.isIdentifier(), 
+                           isConcrete=True,
+                           dataType=DataTypes.ANY_TYPE.value, 
+                           isPFD=A.isIdentifierAttribute(), 
                            isFK=False
                            )
 
@@ -122,18 +121,18 @@ def WeakEntityToRelation(weakEntities, strongEntities):
         T.addAttribute(
                        name="self", 
                        isConcrete=False, 
-                       dataType=DataTypes.ANY_TYPE, 
+                       dataType=DataTypes.ANY_TYPE.value, 
                        isPFD=False, 
                        isFK=False
                        )
 
         # Add all non-composite (simple) attributes
-        for A in [x for x in E.attributes if len(x.composedOf) == 0]:
+        for A in [x for x in W.attributes if len(x.composedOf) == 0]:
             T.addAttribute(
                            name=A.getName(), 
                            isConcrete=True, 
-                           dataType=DataTypes.ANY_TYPE, 
-                           isPFD=A.isIdentifier(), 
+                           dataType=DataTypes.ANY_TYPE.value, 
+                           isPFD=A.isIdentifierAttribute(), 
                            isFK=False
                            )
 
@@ -148,7 +147,7 @@ def WeakEntityToRelation(weakEntities, strongEntities):
                 T.addAttribute(
                        name=A.getName(), 
                        isConcrete=False, 
-                       dataType=DataTypes.OID, 
+                       dataType=DataTypes.OID.value, 
                        isPFD=True, 
                        isFK=True,
                        FKPointer = A # A reference to the Attribute (Column in DB) 
@@ -167,7 +166,7 @@ def oneToOneTransform(relations, R, E):
         T.addAttribute(
                name=A.getName(), 
                isConcrete=False, 
-               dataType=DataTypes.OID, 
+               dataType=DataTypes.OID.value, 
                isPFD=False, 
                isFK=True,
                FKPointer = A
@@ -181,7 +180,7 @@ def manyToOneTransform(relations, R, E):
         T.addAttribute(
                name=A.getName(), 
                isConcrete=False, 
-               dataType=DataTypes.OID, 
+               dataType=DataTypes.OID.value, 
                isPFD=False, 
                isFK=True,
                FKPointer = A
@@ -203,7 +202,7 @@ def manyToOneTransform(relations, R, LE):
     T.addAttribute(
                    name="self", 
                    isConcrete=False, 
-                   dataType=DataTypes.ANY_TYPE, 
+                   dataType=DataTypes.ANY_TYPE.value, 
                    isPFD=A.isIdentifier, 
                    isFK=False
                    )
@@ -212,7 +211,7 @@ def manyToOneTransform(relations, R, LE):
         T.addAttribute(
                        name=A.getName(), 
                        isConcrete=False, 
-                       dataType=DataTypes.OID, 
+                       dataType=DataTypes.OID.value, 
                        isPFD=True, 
                        isFK=True,
                        FKPointer=A
@@ -222,7 +221,7 @@ def manyToOneTransform(relations, R, LE):
         T.addAttribute(
                        name=Aname, 
                        isConcrete=True, 
-                       dataType=DataTypes.ANY_TYPE, 
+                       dataType=DataTypes.ANY_TYPE.value, 
                        isPFD=False, 
                        isFK=False
                        )
