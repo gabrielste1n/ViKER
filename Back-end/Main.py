@@ -8,6 +8,8 @@ import numpy as np
 from ReadWriteEER import readEER, writeEER
 from ReadWriteARM import readARM, writeARM
 
+path_write = '../Documentation/Phase 4/Generated/'
+
 def EERToARM(filePath):
     # Produce a JSON representation of given schema in ARM
     entities = np.array(readEER(filePath)) # read in array of entities from JSON file
@@ -62,13 +64,13 @@ def EERToARM(filePath):
 
         alreadyProcessed.append(E.getName())
 
-    writeARM("arm.JSON", relations)
+    writeARM(path_write+"arm.JSON", list(relations))
 
-def ARMToEER(self):
-    # Produce JSON representation of given schema in ER
+# def ARMToEER(self):
+#     # Produce JSON representation of given schema in ER
 
-def produceOOP(self, file):
-    # Produce OOP representation of schema from given ARM or ER JSON file
+# def produceOOP(self, file):
+#     # Produce OOP representation of schema from given ARM or ER JSON file
 
 def StrongEntityToRelation(strongEntities):
     toReturn = [] 
@@ -170,6 +172,7 @@ def oneToOneTransform(relations, R, E):
                isFK=True,
                FKPointer = A
                )
+
 def manyToOneTransform(relations, R, E):
     foreignRelationIndex = [x.getName() for x in relations].index(R.getEntityName()) # get the index of the relation corresponding to the foreign entity
     T = relations[foreignRelationIndex] # the relation corresponding to the foreign entity
@@ -223,8 +226,6 @@ def manyToOneTransform(relations, R, LE):
                        isPFD=False, 
                        isFK=False
                        )
-
-
 
 class DataTypes(Enum):
     '''Specific types of data available'''

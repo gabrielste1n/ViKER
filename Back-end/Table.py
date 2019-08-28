@@ -8,13 +8,8 @@ class Table:
         if cls is Table:
             raise TypeError("base class may not be instantiated")
         return object.__new__(cls)
-
-    def __init__(self, name):
-        # Create an entity
-        self.name = name
-        self.attributes = [] # List of attribute
     
-    def __init__(self, name, attributes):
+    def __init__(self, name, attributes=[]):
         # Create an entity
         self.name = name
         self.attributes = attributes
@@ -29,19 +24,10 @@ class Table:
 
 class Entity(Table):
     '''ER Entity is a Table'''
-
-    # Instead of overloading constructor, 
-    # we could just have one big constructor and give it default values.
-
-    def __init__(self, name, isStrong=False):
-        Table.__init__(self,name)
-        self.isStrong = isStrong # True if strong entity, false if weak.
-        self.relationships = [] # list of relationships belonging to this entity
-
     def __init__(self, name, isStrong=False, attributes=[], relationships=[]):
         Table.__init__(self,name,attributes)
         self.isStrong = isStrong # True if strong entity, false if weak.
-        self.relationships = [] # list of relationships belonging to this entity
+        self.relationships = relationships # list of relationships belonging to this entity
 
     def addRelationship(self, relationshipType, entityName):
         # Add relationship with given entity
@@ -67,8 +53,8 @@ class Entity(Table):
         
 class Relation(Table):
     '''ARM Relation is a Table'''
-    def __init__(self, name, inheritsFrom, coveredBy=[], disjointWith=[]):
-        Table.__init__(self,name)
+    def __init__(self, name, attributes=[], inheritsFrom="none", coveredBy=[], disjointWith=[]):
+        Table.__init__(self,name, attributes)
         self.inheritsFrom = inheritsFrom
         self.coveredBy = coveredBy
         self.disjointWith = disjointWith
@@ -92,3 +78,4 @@ class Relation(Table):
     def getDisjointWith(self):
         """Returns ARM disjointness constraint"""
         return self.disjointWith
+        
