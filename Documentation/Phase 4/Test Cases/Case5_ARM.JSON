@@ -8,28 +8,28 @@
                     "isConcrete": false,
                     "dataType": "OID",
                     "isPathFunctionalDependancy": false,
-                    "isFK": false,
+                    "isFK": false
                 },
                 {
                     "AttributeName": "EmployeeID",
                     "isConcrete": true,
                     "dataType": "Integer",
                     "isPathFunctionalDependancy": true,
-                    "isFK": false,
+                    "isFK": false
                 },
                 {
                     "AttributeName": "EmployeeName",
                     "isConcrete": true,
                     "dataType": "String",
                     "isPathFunctionalDependancy": false,
-                    "isFK": false,
+                    "isFK": false
                 },
                 {
                     "AttributeName": "EmployeeBirthDate",
                     "isConcrete": true,
                     "dataType": "String",
                     "isPathFunctionalDependancy": false,
-                    "isFK": false,
+                    "isFK": false
                 }
             ],
             "inheritsFrom": "none",
@@ -48,28 +48,28 @@
                     "isConcrete": false,
                     "dataType": "OID",
                     "isPathFunctionalDependancy": false,
-                    "isFK": false,
+                    "isFK": false
                 },
                 {
                     "AttributeName": "EmployeeID",
                     "isConcrete": true,
                     "dataType": "Integer",
                     "isPathFunctionalDependancy": true,
-                    "isFK": true,
+                    "isFK": true
                 },
                 {
                     "AttributeName": "CourseID",
                     "isConcrete": true,
                     "dataType": "Integer",
                     "isPathFunctionalDependancy": true,
-                    "isFK": true,
+                    "isFK": true
                 },
                 {
                     "AttributeName": "DateCompleted",
                     "isConcrete": true,
                     "dataType": "String",
                     "isPathFunctionalDependancy": false,
-                    "isFK": false,
+                    "isFK": false
                 }
             ],
             "inheritsFrom": "none",
@@ -80,29 +80,29 @@
             "disjointWith": [
             ]
         },
-
-        "Course": {
+        {
+            "name": "Course",
             "attributes": [
                 {
                     "AttributeName": "self",
                     "isConcrete": false,
                     "dataType": "OID",
                     "isPathFunctionalDependancy": false,
-                    "isFK": false,
+                    "isFK": false
                 },
                 {
                     "AttributeName": "CourseID",
                     "isConcrete": true,
                     "dataType": "Integer",
                     "isPathFunctionalDependancy": true,
-                    "isFK": false,
+                    "isFK": false
                 },
                 {
                     "AttributeName": "CourseTitle",
                     "isConcrete": true,
                     "dataType": "String",
                     "isPathFunctionalDependancy": false,
-                    "isFK": false,
+                    "isFK": false
                 }
             ],
             "inheritsFrom": "none",
