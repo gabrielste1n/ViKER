@@ -35,7 +35,45 @@ def readARM(filename):
                 
         return toReturn
 
-def writeARM(filename):
+def writeARM(filename, relations):
     '''Writes JSON ARM representation from OOP representation.'''
+
+    json_relations = {}
+    json_relations['relations'] = []
+
+    for relation in relations:
+        name = relation.getName()
+        inheritsFrom = relation.getInheritsFrom()
+        coveredBy = relation.getCoveredBy()
+        disjointWith = relation.getDisjointWith()
+
+        attributes = []
+        for attribute in relation['attributes']:
+            attributeName = attribute.getName()
+            isConcrete = attribute.isConcrete()
+            dataType = attribute.getDataType()
+            isPFD = attribute.isPFD()
+            isFK = attribute.isFK()
+
+            attributes.append(
+                {
+                    "AttributeName": attributeName,
+                    "isConcrete": isConcrete,
+                    "dataType": dataType,
+                    "isPathFunctionalDependancy": isPFD,
+                    "isFK": isFK
+                }
+            )
+
+        json_relations['relations'].append(
+            {
+                "name": name,
+                "attributes": attributes,
+                "inheritsFrom": inheritsFrom,
+                "coveredBy": coveredBy,
+                "disjointWith": disjointWith
+            }
+        )
+
     with open(filename, 'w', encoding='utf8', errors='ignore') as json_file:
-        
+        json.dump(json_relations, json_file, indent=4)
