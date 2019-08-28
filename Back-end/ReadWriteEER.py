@@ -55,7 +55,7 @@ def writeEER(filename, entities):
         isStrong = entity.isStrongEntity()
         
         attributes = []
-        for attribute in entity.attributes:
+        for attribute in entity.getAttributes():
             attributeName = attribute.getName()
             isIdentifier = attribute.isIdentifierAttribute()
             isMultiValued = attribute.isMultiValuedAttribute()
@@ -71,7 +71,8 @@ def writeEER(filename, entities):
             )
 
         relationships = []
-        for relationship in entity.relationships:
+
+        for relationship in entity.getRelationships():
             entityName = relationship.getEntityName()
             relationTypeLocal = relationship.getLocalRelationship()
             relationTypeForeign = relationship.getForeignRelationship()
@@ -85,7 +86,6 @@ def writeEER(filename, entities):
                     "relationAttributes": relationAttributes
                 }
             )
-
 
         json_entities['entities'].append(
             {
