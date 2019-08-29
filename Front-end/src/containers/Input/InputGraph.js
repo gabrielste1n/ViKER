@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { dia, shapes, g}  from 'jointjs';
-import { V } from 'jointjs/dist/vectorizer';
+import { dia, shapes}  from 'jointjs';
 
 class InputGraph extends React.Component {
 
     constructor(props) {
         super(props);
         this.graph = new dia.Graph();
-        // this.uml = shapes.uml;
     }
 
     componentDidMount() {
@@ -25,26 +23,26 @@ class InputGraph extends React.Component {
 
         var classes = {
 
-            mammal: new uml.Interface({
+            customer: new uml.Class({
                 position: { x:300  , y: 50 },
                 size: { width: 240, height: 100 },
-                name: 'Mammal',
-                attributes: ['dob: Date'],
-                methods: ['+ setDateOfBirth(dob: Date): Void','+ getAgeAsDays(): Numeric'],
+                name: 'Customer',
+                attributes: ['*Self'],
+                methods: ['{CustomerID: Integer} -> self', 'CustomerName: String', 'CustomerAddress: String', 'CustomerPostalCode: Integer'],
                 attrs: {
                     '.uml-class-name-rect': {
-                        fill: '#feb662',
-                        stroke: '#ffffff',
+                        fill: '#fff',
+                        stroke: '#000',
                         'stroke-width': 0.5
                     },
                     '.uml-class-attrs-rect': {
-                        fill: '#fdc886',
-                        stroke: '#fff',
+                        fill: '#fff',
+                        stroke: '#000',
                         'stroke-width': 0.5
                     },
                     '.uml-class-methods-rect': {
-                        fill: '#fdc886',
-                        stroke: '#fff',
+                        fill: '#fff',
+                        stroke: '#000',
                         'stroke-width': 0.5
                     },
                     '.uml-class-attrs-text': {
@@ -61,7 +59,7 @@ class InputGraph extends React.Component {
                 }
             }),
         
-            person: new uml.Abstract({
+            person: new uml.Class({
                 position: { x:300  , y: 300 },
                 size: { width: 260, height: 100 },
                 name: 'Person',
@@ -161,7 +159,7 @@ class InputGraph extends React.Component {
         });
         
         var relations = [
-            new uml.Implementation({ source: { id: classes.person.id }, target: { id: classes.mammal.id }}),
+            new uml.Implementation({ source: { id: classes.person.id }, target: { id: classes.customer.id }}),
             new uml.Aggregation({ source: { id: classes.person.id }, target: { id: classes.address.id }}),
             new uml.Composition({ source: { id: classes.person.id }, target: { id: classes.bloodgroup.id }})
         ];
