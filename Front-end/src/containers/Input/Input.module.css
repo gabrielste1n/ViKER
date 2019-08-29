@@ -1,0 +1,9 @@
+.Diagram {
+    position: relative;
+    width: 50%;
+    height: 550px;
+    box-sizing: border-box;
+    border-right: 1px solid grey;
+    float: left;
+    background-color: rgb(37, 37, 46);
+  }

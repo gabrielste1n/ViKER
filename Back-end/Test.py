@@ -57,27 +57,27 @@ class TestReadWriteJSON(unittest.TestCase):
         writeEER(path_write+'TestCase5_EER.JSON', entities)
     
 class TestEERToARM(unittest.TestCase):
+    # Run all test cases for ER -> ARM transformations
 
-    # def test_EERToARM_case_1(self):
-    #     EERToARM(path_write+"TestCase1_EER.JSON", 1)
-    #     #assert()
+    def test_EERToARM_case_1(self):
+        EERToARM(path_write+"TestCase1_EER.JSON", 1)
+        #assert()
 
-    # def test_EERToARM_case_2(self):
-    #     EERToARM(path_write+"TestCase2_EER.JSON", 2)
-    #     #assert()
+    def test_EERToARM_case_2(self):
+        EERToARM(path_write+"TestCase2_EER.JSON", 2)
+        #assert()
 
     def test_EERToARM_case_3(self):
         EERToARM(path_write+"TestCase3_EER.JSON", 3)
         #assert()
 
-    # def test_EERToARM_case_4(self):
-    #     EERToARM(path_write+"TestCase4_EER.JSON", 4)
-    #     #assert()
+    def test_EERToARM_case_4(self):
+        EERToARM(path_write+"TestCase4_EER.JSON", 4)
+        #assert()
 
-    # def test_EERToARM_case_5(self):
-    #     EERToARM(path_write+"TestCase5_EER.JSON", 5)
-    #     #assert()
-
+    def test_EERToARM_case_5(self):
+        EERToARM(path_write+"TestCase5_EER.JSON", 5)
+        #assert()
 
 if __name__ == '__main__':
     unittest.main()
