@@ -1,8 +1,10 @@
 
 class Relationship:
     '''A relationship represents the relation between entities'''
-    def __init__(self, entityName, relationshipTypeLocal, relationshipTypeForeign, attributes=[]):
+    def __init__(self, entityName, relationshipTypeLocal, relationshipTypeForeign, attributes=None):
         # Create a relationship
+        if(attributes is None):
+            attributes = []
         self.entityName = entityName
         self.relationshipTypeLocal = relationshipTypeLocal
         self.relationshipTypeForeign = relationshipTypeForeign
