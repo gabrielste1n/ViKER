@@ -12,10 +12,9 @@ const errorLog = () => {
       </textarea>
       </div>
       <div className={classes.ButtonContainer}>
-        <button>ER to AR</button> {/* button to convert ER model to AR model */}
-        <button>AR to ER</button> {/* button to convert AR model to ER model */}
         <button>Load Model</button> {/* button to load model*/}
-        <button>Save Model</button> {/* button to save converted model */}
+        <button>Transform Model</button> {/* button to transform model*/}
+        <button>Save Transformation</button> {/* button to save converted model */}
         <button>Save Error Log</button> {/* button to save the output of the error log */}
       </div>
     </div>
