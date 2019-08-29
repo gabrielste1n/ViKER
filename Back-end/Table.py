@@ -3,80 +3,85 @@ from Attribute import ERAttribute, ARMAttribute
 
 class Table:
     '''A Table is an abstract object which can be derived to be an ER Entity or ARM Relation'''
-    # Ensure that this base class cannot be instantiated by overriding the __new__ method belonging to Python's Object class.
     def __new__(cls, *args, **kwargs):
         if cls is Table:
-            raise TypeError("base class may not be instantiated")
+            raise TypeError("base class Table may not be instantiated.")
         return object.__new__(cls)
-    
+
     def __init__(self, name, attributes):
-        # Create an entity
+        """Instantiate a new Table object"""
+        if(attributes is None):
+            attributes = []
         self.name = name
         self.attributes = attributes
 
     def getName(self):
-        """Returns entity name"""
+        """return name of Entity or Relation"""
         return self.name
 
     def getAttributes(self):
-        """Returns entity attributes"""
+        """return attributes belonging to Entity or Relation"""
         return self.attributes
 
-class Entity(Table):
-    '''ER Entity is a Table'''
 
-    def __init__(self, name, isStrong=False, attributes=[], relationships=[]):
-        Table.__init__(self,name,attributes)
-        self.isStrong = isStrong # True if strong entity, false if weak.
-        self.relationships = [] # list of relationships belonging to this entity
+class Entity(Table):
+    def __init__(self, name, isStrong=False, attributes=None, relationships=None):
+        """Instantiate a new Entity object"""
+        Table.__init__(self, name, attributes)
+        if(relationships is None):
+            relationships = []
+        self.isStrong = isStrong
+        self.relationships = relationships
 
     def addRelationship(self, relationshipType, entityName):
-        # Add relationship with given entity
-        self.relationships.append(Relationship(relationshipType, entityName))
+        """Add a binary relationship with a given entity"""
+        r = Relationship(relationshipType, entityName)
+        self.relationships.append(r)
 
     def addAttribute(self, name, isIdentifier, isMultiValued, composedOf):
-        self.attributes.append(ERAttribute(name, 
-                                          isIdentifier, 
-                                          isMultiValued,
-                                          composedOf))
+        """Add a new attribute to the Entity"""
+        A = ERAttribute(name, isIdentifier, isMultiValued, composedOf)
+        self.attributes.append(A)
 
     def isStrongEntity(self):
-        """Returns entity type"""
+        """Return boolean value indicating whether Entity is strong or weak"""
         return self.isStrong
 
     def getRelationships(self):
-        """Returns entity relationships"""
+        """return array of relationship objects"""
         return self.relationships
 
     def getIDAttribs(self):
+        """return array of identifier attributes"""
         a = [x for x in self.attributes if x.isIdentifier]
         return a
-        
+
 class Relation(Table):
     '''ARM Relation is a Table'''
-    def __init__(self, name, attributes=[], inheritsFrom="none", coveredBy=[], disjointWith=[]):
-        Table.__init__(self,name, attributes)
-        self.attributes = attributes
+    def __init__(self, name, attributes=None, inheritsFrom="none", coveredBy=None, disjointWith=None):
+        """Instantiate a new Relation object"""
+        Table.__init__(self, name, attributes)
+        if(coveredBy is None):
+            coveredBy = []
+        if(disjointWith is None):
+            disjointWith = []
         self.inheritsFrom = inheritsFrom
         self.coveredBy = coveredBy
         self.disjointWith = disjointWith
 
     def addAttribute(self, name, isConcrete, dataType, isPFD, isFK, FKPointer = "none"):
-        self.attributes.append(ARMAttribute(name,
-                                           isConcrete, 
-                                           dataType, 
-                                           isPFD, 
-                                           isFK,
-                                           FKPointer))
+        """Add a new attribute to the Relation"""
+        A = ARMAttribute(name, isConcrete, dataType, isPFD, isFK, FKPointer)
+        self.attributes.append(A)
 
     def getInheritsFrom(self):
-        """Returns ARM ISA constraint"""
+        """Return inheritsFrom (String)"""
         return self.inheritsFrom
 
     def getCoveredBy(self):
-        """Returns ARM covered-by constraint"""
+        """return coveredBy (list)"""
         return self.coveredBy
 
     def getDisjointWith(self):
-        """Returns ARM disjointness constraint"""
+        """return disjointWith (list)"""
         return self.disjointWith
