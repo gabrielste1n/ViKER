@@ -74,5 +74,8 @@ def writeARM(filename, relations):
                 "disjointWith": disjointWith
             }
         )
-    with open(filename, 'w') as json_file:
-        json.dump(json_relations, json_file, indent=4, sort_keys=True)
+    # with open(filename, 'w') as json_file:
+    #     json.dump(json_relations, json_file, indent=4, sort_keys=True)
+    print (json_relations)
+    return json_relations
+    #return json.dumps(json_relations)

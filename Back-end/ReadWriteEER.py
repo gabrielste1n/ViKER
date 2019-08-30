@@ -8,41 +8,43 @@ from Relationship import Relationship
 from Table import Entity
 from Attribute import ERAttribute
 
-def readEER(filename):
+def readEER(json_file):
+#def readEER(json_string):
     '''Reads in JSON EER file and creates relevant objects as needed.'''
-    with open(filename, 'r') as json_file:
-        entities = json.load(json_file)
-        toReturn = []
-        for entity in entities['entities']:
-            attributes = []
-            for attribute in entity['attributes']:
-                tempAttribute = ERAttribute(
-                    attribute['AttributeName'],
-                    attribute['isIdentifier'],
-                    attribute['isMultiValued'],
-                    attribute['composedOf']
-                )
-                attributes.append(tempAttribute)
-
-            relationships = []
-            for relationship in entity['relationships']:
-                tempRelationship = Relationship(
-                    relationship['Entity'],
-                    relationship['RelationTypeLocal'],
-                    relationship['RelationTypeForeign'],
-                    relationship['relationAttributes']
-                )
-                relationships.append(tempRelationship)
-
-            tempEntity = Entity(
-                entity['name'],
-                entity['isStrong'],
-                attributes,
-                relationships
+    #with open(filename, 'r') as json_file:
+    #entities = json.load(json_file)
+    entities = json_file
+    toReturn = []
+    for entity in entities['entities']:
+        attributes = []
+        for attribute in entity['attributes']:
+            tempAttribute = ERAttribute(
+                attribute['AttributeName'],
+                attribute['isIdentifier'],
+                attribute['isMultiValued'],
+                attribute['composedOf']
             )
-            toReturn.append(tempEntity)
-                
-        return toReturn
+            attributes.append(tempAttribute)
+
+        relationships = []
+        for relationship in entity['relationships']:
+            tempRelationship = Relationship(
+                relationship['Entity'],
+                relationship['RelationTypeLocal'],
+                relationship['RelationTypeForeign'],
+                relationship['relationAttributes']
+            )
+            relationships.append(tempRelationship)
+
+        tempEntity = Entity(
+            entity['name'],
+            entity['isStrong'],
+            attributes,
+            relationships
+        )
+        toReturn.append(tempEntity)
+            
+    return toReturn
 
 def writeEER(filename, entities):
     '''Writes JSON EER representation from OOP representation.'''
@@ -95,6 +97,7 @@ def writeEER(filename, entities):
                 "relationships": relationships
             }
         )
-
-    with open(filename, 'w') as json_file:
-        json.dump(json_entities, json_file, indent=4, sort_keys=True)
+    json_file=json.dump(json_entities, indent=4, sort_keys=True)
+    return json_file
+    # with open(filename, 'w') as json_file:
+    #     json.dump(json_entities, json_file, indent=4, sort_keys=True)
