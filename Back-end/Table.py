@@ -33,7 +33,7 @@ class Entity(Table):
         self.isStrong = isStrong
         self.relationships = relationships
 
-    def addRelationship(self, relationshipType, entityName):
+    def addRelationship(self, entityName, relationshipTypeLocal, relationshipTypeForeign, attributes=None):
         """Add a binary relationship with a given entity"""
         r = Relationship(relationshipType, entityName)
         self.relationships.append(r)

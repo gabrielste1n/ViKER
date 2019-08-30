@@ -17,9 +17,11 @@ class Attribute:
         
 class ERAttribute(Attribute):
     '''An ER attribute is a characteristic of an ER entity'''
-    def __init__(self, name, isIdentifier=False, isMultiValued=False, composedOf=[]):
+    def __init__(self, name, isIdentifier=False, isMultiValued=False, composedOf=None):
         # Create an ER attribute
         Attribute.__init__(self, name)
+        if(composedOf is None):
+            composedOf = []
         self.isIdentifier = isIdentifier
         self.isMultiValued = isMultiValued
         self.composedOf = composedOf
