@@ -29,7 +29,7 @@ class OutputGraph extends React.Component {
         // Custom highlighter - display an outline around each element that fits its shape.
 
 var highlighter = V('path', {
-    'stroke': '#e9fc03',
+    'stroke': '#fff',
     'stroke-width': '2px',
     'fill': 'transparent',
     'pointer-events': 'none'
@@ -115,23 +115,23 @@ this.paper.on('cell:unhighlight', function() {
 
 // Create shapes
 
-var employee = new erd.Entity({
+var Customer = new erd.Entity({
 
     position: { x: 100, y: 200 },
     attrs: {
         text: {
-            fill: '#ffffff',
-            text: 'Employee',
+            fill: '#000',
+            text: 'Customer',
             letterSpacing: 0,
             style: { textShadow: '1px 0 1px #333333' }
         },
         '.outer': {
-            fill: '#31d0c6',
+            fill: '#fff',
             stroke: 'none',
             filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
         },
         '.inner': {
-            fill: '#31d0c6',
+            fill: '#fff',
             stroke: 'none',
             filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
         }
@@ -162,81 +162,81 @@ var wage = new erd.WeakEntity({
     }
 });
 
-var paid = new erd.IdentifyingRelationship({
+// var paid = new erd.IdentifyingRelationship({
 
-    position: { x: 350, y: 190 },
-    attrs: {
-        text: {
-            fill: '#ffffff',
-            text: 'Gets paid',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
-        },
-        '.inner': {
-            fill: '#7c68fd',
-            stroke: 'none'
-        },
-        '.outer': {
-            fill: 'none',
-            stroke: '#7c68fd',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
-        }
-    }
-});
+//     position: { x: 350, y: 190 },
+//     attrs: {
+//         text: {
+//             fill: '#ffffff',
+//             text: 'Gets paid',
+//             letterSpacing: 0,
+//             style: { textShadow: '1px 0 1px #333333' }
+//         },
+//         '.inner': {
+//             fill: '#7c68fd',
+//             stroke: 'none'
+//         },
+//         '.outer': {
+//             fill: 'none',
+//             stroke: '#7c68fd',
+//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
+//         }
+//     }
+// });
 
-var isa = new erd.ISA({
+// var isa = new erd.ISA({
 
-    position: { x: 125, y: 300 },
-    attrs: {
-        text: {
-            text: 'ISA',
-            fill: '#ffffff',
-            letterSpacing: 0,
-            style: { 'text-shadow': '1px 0 1px #333333' }
-        },
-        polygon: {
-            fill: '#fdb664',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
-        }
-    }
-});
+//     position: { x: 125, y: 300 },
+//     attrs: {
+//         text: {
+//             text: 'ISA',
+//             fill: '#ffffff',
+//             letterSpacing: 0,
+//             style: { 'text-shadow': '1px 0 1px #333333' }
+//         },
+//         polygon: {
+//             fill: '#fdb664',
+//             stroke: 'none',
+//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
+//         }
+//     }
+// });
 
-var number = new erd.Key({
+var CustomerID = new erd.Key({
 
     position: { x: 10, y: 90 },
     attrs: {
         text: {
-            fill: '#ffffff',
-            text: 'Number',
+            fill: '#000',
+            text: 'CustomerID',
             letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
+            style: { textShadow: '1px 0 1px #000' }
         },
         '.outer': {
-            fill: '#feb662',
+            fill: '#fff',
             stroke: 'none',
             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
         },
         '.inner': {
-            fill: '#feb662',
+            fill: '#fff',
             stroke: 'none'
         }
     }
 });
 
-var employeeName = new erd.Normal({
+var CustomerName = new erd.Normal({
 
     position: { x: 75, y: 30 },
     attrs: {
         text: {
-            fill: '#ffffff',
-            text: 'Name',
+            fill: '#000',
+            text: 'employeeName',
             letterSpacing: 0,
             style: { textShadow: '1px 0 1px #333333' }
         },
         '.outer': {
-            fill: '#fe8550',
-            stroke: '#fe854f',
+            fill: '#fff',
+            stroke: '#fff',
             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
         }
     }
@@ -291,33 +291,33 @@ var amount = new erd.Derived({
     }
 });
 
-var uses = new erd.Relationship({
+// var uses = new erd.Relationship({
 
-    position: { x: 300, y: 390 },
-    attrs: {
-        text: {
-            fill: '#ffffff',
-            text: 'Uses',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
-        },
-        '.outer': {
-            fill: '#797d9a',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
-        }
-    }
-});
+//     position: { x: 300, y: 390 },
+//     attrs: {
+//         text: {
+//             fill: '#ffffff',
+//             text: 'Uses',
+//             letterSpacing: 0,
+//             style: { textShadow: '1px 0 1px #333333' }
+//         },
+//         '.outer': {
+//             fill: '#797d9a',
+//             stroke: 'none',
+//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
+//         }
+//     }
+// });
 
 // Create new shapes by cloning
 
-var salesman = employee.clone().translate(0, 200).attr('text/text', 'Salesman');
+var salesman = Customer.clone().translate(0, 200).attr('text/text', 'Salesman');
 
-var date = employeeName.clone().position(585, 80).attr('text/text', 'Date');
+var date = CustomerName.clone().position(585, 80).attr('text/text', 'Date');
 
-var car = employee.clone().position(430, 400).attr('text/text', 'Company car');
+var car = Customer.clone().position(430, 400).attr('text/text', 'Company car');
 
-var plate = number.clone().position(405, 500).attr('text/text', 'Plate');
+var plate = CustomerID.clone().position(405, 500).attr('text/text', 'Plate');
 
 
 // Helpers
@@ -353,41 +353,23 @@ var createLabel = function(txt) {
 
 // Add shapes to the graph
 
-graph.addCells([employee, salesman, wage, paid, isa, number, employeeName, skills, amount, date, plate, car, uses]);
+// graph.addCells([Customer, salesman, wage, paid, isa, CustomerID, CustomerName, skills, amount, date, plate, car, uses]);
+graph.addCells([Customer, salesman, wage, CustomerID, CustomerName, skills, amount, date, plate, car]);
 
-createLink(employee, paid).set(createLabel('1'));
-createLink(employee, number);
-createLink(employee, employeeName);
-createLink(employee, skills);
-createLink(employee, isa);
-createLink(isa, salesman);
-createLink(salesman, uses).set(createLabel('0..1'));
-createLink(car, uses).set(createLabel('1..1'));
-createLink(car, plate);
-createLink(wage, paid).set(createLabel('N'));
+
+// createLink(Customer, paid).set(createLabel('1'));
+createLink(Customer, CustomerID);
+createLink(Customer, CustomerName);
+createLink(Customer, skills).set(createLabel('1..1'));
+// createLink(Customer, isa);
+// createLink(isa, salesman);
+// createLink(salesman, uses).set(createLabel('0..1'));
+// createLink(car, uses).set(createLabel('1..1'));
+// createLink(car, plate);
+// createLink(wage, paid).set(createLabel('N'));
 createLink(wage, amount);
 createLink(wage, date);
 
-
-
-        // const rect = new shapes.basic.Rect({
-        //     position: { x: 100, y: 30 },
-        //     size: { width: 100, height: 30 },
-        //     attrs: {
-        //         rect: { fill: 'blue' },
-        //         text: { text: 'my box', fill: 'white' }
-        //     }
-        // });
-
-        // const rect2 = rect.clone();
-        // rect2.translate(300);
-
-        // const link = new dia.Link({
-        //     source: { id: rect.id },
-        //     target: { id: rect2.id }
-        // });
-
-        // this.graph.addCells([rect, rect2, link]);
     }
 
     render() {

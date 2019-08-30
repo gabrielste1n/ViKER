@@ -15,6 +15,7 @@ import axios from 'axios';
 class App extends React.Component {
   state = {
     JSONfile: {},
+    inputType: '',
     inputModel: null,
     outputModel: null,
     errors: ["SUCCESS: Node 1 created", "SUCCESS: Node 2 created","FAILURE: Nodes cannot be linked" ],
@@ -36,7 +37,7 @@ class App extends React.Component {
   }
 
   parseEntity(type){
-    this.setState({inputType: 'entity'});
+    this.setState({inputType: 'EER'});
     for(let entity in this.state.JSONfile.entities){
       let tempEntity = new EntityModel();
       for(let attr in this.state.JSONfile.entities[entity]){
@@ -79,7 +80,7 @@ class App extends React.Component {
   }
 
   parseRelation(type){
-    this.setState({inputType: 'relation'});
+    this.setState({inputType: 'ARM'});
     for(let relation in this.state.JSONfile.relations){
       let tempRelation = new RelationModel();
       for(let attr in this.state.JSONfile.relations[relation]){
@@ -133,16 +134,67 @@ class App extends React.Component {
   }
   
   renderEntityModel(type){
-    type === 'input' ? this.setState({inputModel: <ERModel classes={this.state.relations} /> }) : this.setState({outputModel: <ERModel classes={this.state.relations} /> });
+    type === 'input' ? this.setState({inputModel: <ERModel classes={this.state.entities} /> }) : this.setState({outputModel: <ERModel classes={this.state.entities} /> });
  }
 
 // send input model json data to server then get output json back
  postInputModel(){
-  const inputData = {
-    inputModel: this.state.JSONfile
-}
-axios.post('http://localhost:3000/api/transform', inputData)
-.then(res => console.log(res.data));
+//   const inputData = {
+//     type: this.state.inputType,
+//     inputModel: this.state.JSONfile
+// }
+console.log('posting');
+const url = "http://192.168.0.108:5000/api/transform"; 
+axios.post( url, {
+  "relations": [
+      {
+          "name": "Customer",
+          "attributes": [
+              {
+                  "AttributeName": "self",
+                  "isConcrete": false,
+                  "dataType": "OID",
+                  "isPathFunctionalDependancy": false,
+                  "isFK": false
+              },
+              {
+                  "AttributeName": "CustomerID",
+                  "isConcrete": true,
+                  "dataType": "Integer",
+                  "isPathFunctionalDependancy": true,
+                  "isFK": false
+              },
+              {
+                  "AttributeName": "CustomerName",
+                  "isConcrete": true,
+                  "dataType": "String",
+                  "isPathFunctionalDependancy": false,
+                  "isFK": false
+              },
+              {
+                  "AttributeName": "CustomerAddress",
+                  "isConcrete": true,
+                  "dataType": "String",
+                  "isPathFunctionalDependancy": false,
+                  "isFK": false
+              },
+              {
+                  "AttributeName": "CustomerPostalCode",
+                  "isConcrete": true,
+                  "dataType": "Integer",
+                  "isPathFunctionalDependancy": false,
+                  "isFK": false
+              }
+          ],
+          "inheritsFrom": "none",
+          "coveredBy": [
+          ],
+          "disjointWith": [
+          ]
+      }
+  ]
+})
+.then(res => console.log(res)); // set state to serverJSON then parse that
  }
 
 render(){
@@ -157,7 +209,8 @@ render(){
 
         <div className={classes.OutputDiagram}>
           <Header header="Output" />
-          {this.state.outputModel === null ? null : this.state.outputModel } {/* while output type is unknown, render null, then when it is known, render something */}
+          {/* {this.state.outputModel === null ? null : this.state.outputModel } while output type is unknown, render null, then when it is known, render something */}
+          <ERModel />
         </div>
       </div>
 
