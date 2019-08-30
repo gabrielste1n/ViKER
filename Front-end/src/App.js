@@ -8,6 +8,7 @@ import RelationModel from './RelationModel';
 import RelationAttribute from './RelationAttribute';
 import EntityModel from './EntityModel';
 import EntityAttribute from './EntityAttribute';
+import axios from 'axios';
 
 // contains all the components to be rendered
 
@@ -28,8 +29,6 @@ class App extends React.Component {
       this.setState({ JSONfile: JSON.parse(event.target.result) }, () => {
 
         this.state.JSONfile.entities ? this.parseEntity('input') : this.parseRelation('input'); // parse the JSON into the relevant data model
-
-
         console.log(this.state.relations.length > 0 ? this.state.relations : this.state.entities);
 
       });
@@ -137,6 +136,15 @@ class App extends React.Component {
     type === 'input' ? this.setState({inputModel: <ERModel classes={this.state.relations} /> }) : this.setState({outputModel: <ERModel classes={this.state.relations} /> });
  }
 
+// send input model json data to server then get output json back
+ postInputModel(){
+  const inputData = {
+    inputModel: this.state.JSONfile
+}
+axios.post('http://localhost:3000/api/transform', inputData)
+.then(res => console.log(res.data));
+ }
+
 render(){
   
   return (
@@ -145,11 +153,11 @@ render(){
         <div className={classes.InputDiagram}>
           <Header header="Input" />
           {this.state.inputModel === null ? null : this.state.inputModel} {/* while input type is unknown, render null, then when it is known, render something */}
-        </div>                                                                                                    {/* this logic will change */}
+        </div>                                                                                                    
 
         <div className={classes.OutputDiagram}>
           <Header header="Output" />
-          {this.state.inputModel === null ? null : <ERModel /> }
+          {this.state.outputModel === null ? null : this.state.outputModel } {/* while output type is unknown, render null, then when it is known, render something */}
         </div>
       </div>
 
@@ -181,7 +189,7 @@ render(){
         </Files>
       </div></button>
           {/* button to load model*/}
-          <button>Transform Model</button> {/* button to transform model*/}
+          <button onClick={this.postInputModel}>Transform Model</button> {/* button to transform model*/}
           <button>Save Transformation</button>{" "}
           {/* button to save converted model */}
           <button>Save Error Log</button>{" "}
