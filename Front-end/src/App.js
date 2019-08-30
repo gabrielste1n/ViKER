@@ -146,50 +146,41 @@ class App extends React.Component {
 console.log('posting');
 const url = "http://192.168.0.108:5000/api/transform"; 
 axios.post( url, {
-  "relations": [
+  "entities": [ 
       {
           "name": "Customer",
+          "isStrong": true,
           "attributes": [
               {
-                  "AttributeName": "self",
-                  "isConcrete": false,
-                  "dataType": "OID",
-                  "isPathFunctionalDependancy": false,
-                  "isFK": false
-              },
-              {
                   "AttributeName": "CustomerID",
-                  "isConcrete": true,
-                  "dataType": "Integer",
-                  "isPathFunctionalDependancy": true,
-                  "isFK": false
+                  "isIdentifier": true,
+                  "isMultiValued": false,
+                  "composedOf": [
+                  ]
               },
               {
                   "AttributeName": "CustomerName",
-                  "isConcrete": true,
-                  "dataType": "String",
-                  "isPathFunctionalDependancy": false,
-                  "isFK": false
+                  "isIdentifier": false,
+                  "isMultiValued": false,
+                  "composedOf": [
+                  ]
               },
               {
                   "AttributeName": "CustomerAddress",
-                  "isConcrete": true,
-                  "dataType": "String",
-                  "isPathFunctionalDependancy": false,
-                  "isFK": false
+                  "isIdentifier": false,
+                  "isMultiValued": false,
+                  "composedOf": [
+                  ]
               },
               {
                   "AttributeName": "CustomerPostalCode",
-                  "isConcrete": true,
-                  "dataType": "Integer",
-                  "isPathFunctionalDependancy": false,
-                  "isFK": false
+                  "isIdentifier": false,
+                  "isMultiValued": false,
+                  "composedOf": [
+                  ]
               }
           ],
-          "inheritsFrom": "none",
-          "coveredBy": [
-          ],
-          "disjointWith": [
+          "relationships": [
           ]
       }
   ]
