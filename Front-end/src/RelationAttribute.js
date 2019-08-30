@@ -8,3 +8,5 @@ class RelationAttribute {
         this.isFK = isFK;
     }
 }
+
+export default RelationAttribute;

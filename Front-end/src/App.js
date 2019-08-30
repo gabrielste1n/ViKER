@@ -6,12 +6,16 @@ import classes from "./App.module.css";
 import Files from "react-files";
 import RelationModel from './RelationModel';
 import RelationAttribute from './RelationAttribute';
+import EntityModel from './EntityModel';
+import EntityAttribute from './EntityAttribute';
 
 // contains all the components to be rendered
 
 class App extends React.Component {
   state = {
     JSONfile: {},
+    inputModel: null,
+    outputModel: null,
     errors: ["SUCCESS: Node 1 created", "SUCCESS: Node 2 created","FAILURE: Nodes cannot be linked" ],
     relations: [],
     entities: []
@@ -23,93 +27,129 @@ class App extends React.Component {
     this.fileReader.onload = event => {
       this.setState({ JSONfile: JSON.parse(event.target.result) }, () => {
 
-        console.log(this.state.JSONfile.relations[0]);
+        this.state.JSONfile.entities ? this.parseEntity('input') : this.parseRelation('input'); // parse the JSON into the relevant data model
 
-        let type = this.state.JSONfile.entities ? 'entity' : 'relation';
-        
-        if(type === 'entity'){
-          for(let entity in this.state.JSONfile.entities){
-  
-            for(let attr in this.state.JSONfile.entities[entity]){
-              console.log(attr + ": " + this.state.JSONfile.entities[entity][attr]);
-            }
-          }
-          
-        }
-        
-//////////////////////////////////// start relation type ///////////////////////////////////////
 
-        if(type === 'relation'){
-
-          for(let relation in this.state.JSONfile.relations){
-            let tempRelation = new RelationModel();
-            for(let attr in this.state.JSONfile.relations[relation]){
-              if(attr === 'name'){
-                tempRelation.name = this.state.JSONfile.relations[relation][attr];
-              }
-              if(attr === 'attributes'){
-                let relAttributes = [];
-                for(let attribute in this.state.JSONfile.relations[relation][attr]){
-                let tempAttribute = new RelationAttribute();
-                for(let attributeType in this.state.JSONfile.relations[relation][attr][attribute]){
-                  if(attributeType === 'AttributeName'){
-                    tempAttribute.attributeName = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
-                  }
-                  if(attributeType === 'isConcrete'){
-                    tempAttribute.isConcrete = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
-                  }
-                  if(attributeType === 'dataType'){
-                    tempAttribute.dataType = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
-                  }
-                  if(attributeType === 'isPathFunctionalDependency'){
-                    tempAttribute.isPathFunctionalDependency = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
-                  }
-                  if(attributeType === 'isFK'){
-                    tempAttribute.isFK = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
-                  }
-                  }
-                  relAttributes.push(tempAttribute);
-                }
-                tempRelation.attributes = relAttributes;
-              }
-              if(attr === 'inheritsFrom'){
-                tempRelation.inheritsFrom = this.state.JSONfile.relations[relation][attr];
-              }
-              if(attr === 'coveredBy'){
-                tempRelation.coveredBy = this.state.JSONfile.relations[relation][attr];
-              }
-              if(attr === 'disjointWith'){
-                tempRelation.disjointWith = this.state.JSONfile.relations[relation][attr];
-              }
-              console.log(attr + ": " + this.state.JSONfile.relations[relation][attr]);
-
-            }
-            this.state.relations.push(tempRelation);
-          }
-        }
-       
-        //////////////////////////////////// end relation type ///////////////////////////////////////
+        console.log(this.state.relations.length > 0 ? this.state.relations : this.state.entities);
 
       });
     };
   }
-  
-render(){
 
-    const errorText =
-      "SUCCESS: Node 1 created\nSUCCESS: Node 2 created\nERROR: Nodes cannot be linked";
+  parseEntity(type){
+    this.setState({inputType: 'entity'});
+    for(let entity in this.state.JSONfile.entities){
+      let tempEntity = new EntityModel();
+      for(let attr in this.state.JSONfile.entities[entity]){
+        if(attr === 'name'){
+          tempEntity.name = this.state.JSONfile.entities[entity][attr];
+        }
+        if(attr === 'attributes'){
+          let relAttributes = [];
+          for(let attribute in this.state.JSONfile.entities[entity][attr]){
+          let tempAttribute = new EntityAttribute();
+          for(let attributeType in this.state.JSONfile.entities[entity][attr][attribute]){
+            if(attributeType === 'AttributeName'){
+              tempAttribute.attributeName = this.state.JSONfile.entities[entity][attr][attribute][attributeType];
+            }
+            if(attributeType === 'isIdentifier'){
+              tempAttribute.isIdentifier = this.state.JSONfile.entities[entity][attr][attribute][attributeType];
+            }
+            if(attributeType === 'isMultiValued'){
+              tempAttribute.isMultiValued = this.state.JSONfile.entities[entity][attr][attribute][attributeType];
+            }
+            if(attributeType === 'composedOf'){
+              tempAttribute.composedOf = this.state.JSONfile.entities[entity][attr][attribute][attributeType];
+            }
+            }
+            relAttributes.push(tempAttribute);
+          }
+          tempEntity.attributes = relAttributes;
+        }
+        if(attr === 'isStrong'){
+          tempEntity.isStrong = this.state.JSONfile.entities[entity][attr];
+        }
+        if(attr === 'relationships'){
+          tempEntity.relationships = this.state.JSONfile.entities[entity][attr];
+        }
+      }
+      this.state.entities.push(tempEntity);
+    }
+
+    this.renderEntityModel(type);
+  }
+
+  parseRelation(type){
+    this.setState({inputType: 'relation'});
+    for(let relation in this.state.JSONfile.relations){
+      let tempRelation = new RelationModel();
+      for(let attr in this.state.JSONfile.relations[relation]){
+        if(attr === 'name'){
+          tempRelation.name = this.state.JSONfile.relations[relation][attr];
+        }
+        if(attr === 'attributes'){
+          let relAttributes = [];
+          for(let attribute in this.state.JSONfile.relations[relation][attr]){
+          let tempAttribute = new RelationAttribute();
+          for(let attributeType in this.state.JSONfile.relations[relation][attr][attribute]){
+            if(attributeType === 'AttributeName'){
+              tempAttribute.attributeName = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
+            }
+            if(attributeType === 'isConcrete'){
+              tempAttribute.isConcrete = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
+            }
+            if(attributeType === 'dataType'){
+              tempAttribute.dataType = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
+            }
+            if(attributeType === 'isPathFunctionalDependency'){
+              tempAttribute.isPathFunctionalDependency = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
+            }
+            if(attributeType === 'isFK'){
+              tempAttribute.isFK = this.state.JSONfile.relations[relation][attr][attribute][attributeType];
+            }
+            }
+            relAttributes.push(tempAttribute);
+          }
+          tempRelation.attributes = relAttributes;
+        }
+        if(attr === 'inheritsFrom'){
+          tempRelation.inheritsFrom = this.state.JSONfile.relations[relation][attr];
+        }
+        if(attr === 'coveredBy'){
+          tempRelation.coveredBy = this.state.JSONfile.relations[relation][attr];
+        }
+        if(attr === 'disjointWith'){
+          tempRelation.disjointWith = this.state.JSONfile.relations[relation][attr];
+        }
+      }
+      this.state.relations.push(tempRelation);
+    }
+
+    this.renderRelationModel(type);
+
+  }
+
+  renderRelationModel(type){
+     type === 'input' ? this.setState({inputModel: <ARModel classes={this.state.relations} /> }) : this.setState({outputModel: <ARModel classes={this.state.relations} /> });
+  }
+  
+  renderEntityModel(type){
+    type === 'input' ? this.setState({inputModel: <ERModel classes={this.state.relations} /> }) : this.setState({outputModel: <ERModel classes={this.state.relations} /> });
+ }
+
+render(){
   
   return (
     <div className={classes.App}>
       <div className={classes.GraphsWrapper}>
         <div className={classes.InputDiagram}>
           <Header header="Input" />
-          <ARModel />
-        </div>
+          {this.state.inputModel === null ? null : this.state.inputModel} {/* while input type is unknown, render null, then when it is known, render something */}
+        </div>                                                                                                    {/* this logic will change */}
 
         <div className={classes.OutputDiagram}>
           <Header header="Output" />
-          <ERModel />
+          {this.state.inputModel === null ? null : <ERModel /> }
         </div>
       </div>
 
@@ -117,7 +157,7 @@ render(){
         <div className={classes.TextAreaWrap}>
           <textarea
             className={classes.TextArea}
-            value={errorText}
+            value={this.state.errors.join('\n')}
             readOnly
           ></textarea>
         </div>

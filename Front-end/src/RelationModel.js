@@ -8,3 +8,5 @@ class RelationModel {
         this.disjointWith = disjointWith;
     }
 }
+
+export default RelationModel;
