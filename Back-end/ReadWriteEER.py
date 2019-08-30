@@ -1,7 +1,7 @@
 # Read in and write EER JSON objects for transformations
-# Authors: St John Grimbly & Jeremy du Plessis
+# Authors: St John Grimbly
 # Date Created: 27 August 2019
-# Version: Beta v1.0
+# Version: v2.0
 
 import json
 from Relationship import Relationship
@@ -55,7 +55,7 @@ def writeEER(filename, entities):
         isStrong = entity.isStrongEntity()
         
         attributes = []
-        for attribute in entity.attributes:
+        for attribute in entity.getAttributes():
             attributeName = attribute.getName()
             isIdentifier = attribute.isIdentifierAttribute()
             isMultiValued = attribute.isMultiValuedAttribute()
@@ -71,7 +71,8 @@ def writeEER(filename, entities):
             )
 
         relationships = []
-        for relationship in entity.relationships:
+
+        for relationship in entity.getRelationships():
             entityName = relationship.getEntityName()
             relationTypeLocal = relationship.getLocalRelationship()
             relationTypeForeign = relationship.getForeignRelationship()
@@ -85,7 +86,6 @@ def writeEER(filename, entities):
                     "relationAttributes": relationAttributes
                 }
             )
-
 
         json_entities['entities'].append(
             {

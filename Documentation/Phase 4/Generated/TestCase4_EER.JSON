@@ -29,7 +29,14 @@
             ], 
             "isStrong": true, 
             "name": "Customer", 
-            "relationships": []
+            "relationships": [
+                {
+                    "Entity": "Order", 
+                    "RelationTypeForeign": "ZeroOrMany", 
+                    "RelationTypeLocal": "ExactlyOne", 
+                    "relationAttributes": []
+                }
+            ]
         }, 
         {
             "attributes": [
@@ -48,7 +55,14 @@
             ], 
             "isStrong": true, 
             "name": "Order", 
-            "relationships": []
+            "relationships": [
+                {
+                    "Entity": "Customer", 
+                    "RelationTypeForeign": "ExactlyOne", 
+                    "RelationTypeLocal": "ZeroOrMany", 
+                    "relationAttributes": []
+                }
+            ]
         }
     ]
 }
