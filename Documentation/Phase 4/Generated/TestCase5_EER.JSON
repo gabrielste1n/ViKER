@@ -23,7 +23,16 @@
             ], 
             "isStrong": true, 
             "name": "Employee", 
-            "relationships": []
+            "relationships": [
+                {
+                    "Entity": "Course", 
+                    "RelationTypeForeign": "ZeroOrMany", 
+                    "RelationTypeLocal": "ZeroOrMany", 
+                    "relationAttributes": [
+                        "DateCompleted"
+                    ]
+                }
+            ]
         }, 
         {
             "attributes": [
@@ -42,7 +51,16 @@
             ], 
             "isStrong": true, 
             "name": "Course", 
-            "relationships": []
+            "relationships": [
+                {
+                    "Entity": "Employee", 
+                    "RelationTypeForeign": "ZeroOrMany", 
+                    "RelationTypeLocal": "ZeroOrMany", 
+                    "relationAttributes": [
+                        "DateCompleted"
+                    ]
+                }
+            ]
         }
     ]
 }
