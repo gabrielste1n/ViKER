@@ -11,9 +11,10 @@ from Table import Relation, Entity
 
 path_write = '../Documentation/Phase 4/Generated/'
 
-def EERToARM(filePathRead, filePathWrite):
+#def EERToARM(filePath, fileNum=1):
+def EERToARM(file, fileNum=1):
     # Produce a JSON representation of given schema in ARM
-    entities = np.array(readEER(filePathRead)) # read in array of entities from JSON file
+    entities = np.array(readEER(file)) # read in array of entities from JSON file
     strongEntities = np.array([E for E in entities if E.isStrongEntity()])
     weakEntities = np.array([E for E in entities if not E.isStrongEntity()])
     relations = np.array([])
@@ -74,9 +75,9 @@ def EERToARM(filePathRead, filePathWrite):
                 T = np.array(manyToManyTransform(E, FE, R)) # create a new relation for the many-many relationship 
                 relations = np.concatenate([relations, T])
 
-                alreadyProcessed.append(pair)
-
-    writeARM(filePathWrite, list(relations))
+        alreadyProcessed.append(E.getName())
+        
+    return writeARM(path_write+"ARM"+str(fileNum)+".JSON", list(relations))
 
 def ARMToEER(filePathRead, filePathWrite):
     # Produce JSON representation of given schema in EER
