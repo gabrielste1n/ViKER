@@ -19,8 +19,19 @@ class RelationGraphModel {
             
             let attributeArray = []; //need to turn attributes into correct format name : dataType
             for(let attribute in this.relationClasses[index].attributes){
-                let convertedAttribute = this.relationClasses[index].attributes[attribute].attributeName + ": "+ this.relationClasses[index].attributes[attribute].dataType;
-                if(this.relationClasses[index].attributes[attribute].attributeName !== 'self'){ attributeArray.push(convertedAttribute)};
+                let convertedAttribute = '';
+                if(this.relationClasses[index].attributes[attribute].attributeName === 'self'){ 
+                    // do nothing
+                }
+                else{
+                    if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency){
+                        convertedAttribute = '{'+ this.relationClasses[index].attributes[attribute].attributeName + " : "+ this.relationClasses[index].attributes[attribute].dataType+'} -> self';
+                    }
+                    else{
+                        convertedAttribute = this.relationClasses[index].attributes[attribute].attributeName + " : "+ this.relationClasses[index].attributes[attribute].dataType;
+                    }
+                    attributeArray.push(convertedAttribute); 
+                }
             }
 
             let tempObject = {

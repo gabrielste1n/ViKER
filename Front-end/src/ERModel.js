@@ -123,18 +123,19 @@ var Customer = new erd.Entity({
             fill: '#000',
             text: 'Customer',
             letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
+            style: { textShadow: '1px 0 1px #333333' },
+            fontSize: 10
         },
         '.outer': {
             fill: '#fff',
             stroke: 'none',
             filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
-        },
-        '.inner': {
-            fill: '#fff',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
         }
+        // '.inner': {
+        //     fill: '#fff',
+        //     stroke: 'none',
+        //     filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
+        // }
     }
 });
 
@@ -210,16 +211,13 @@ var CustomerID = new erd.Key({
             fill: '#000',
             text: 'CustomerID',
             letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #000' }
+            style: { textShadow: '1px 0 1px #000' },
+            fontSize: 10
         },
         '.outer': {
             fill: '#fff',
             stroke: 'none',
             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        },
-        '.inner': {
-            fill: '#fff',
-            stroke: 'none'
         }
     }
 });
@@ -232,25 +230,29 @@ var CustomerName = new erd.Normal({
             fill: '#000',
             text: 'CustomerName',
             letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
+            style: { textShadow: '1px 0 1px #333333' },
+            fontSize: 10
         },
         '.outer': {
             fill: '#fff',
             stroke: '#fff',
             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
+            
         }
+        
     }
 });
 
 var CustomerPostalCode = new erd.Normal({
 
-    position: { x: 75, y: 30 },
+    position: { x: 175, y: 300 },
     attrs: {
         text: {
             fill: '#000',
             text: 'CustomerPostalCode',
             letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
+            style: { textShadow: '1px 0 1px #333333' },
+            fontSize: 10
         },
         '.outer': {
             fill: '#fff',
@@ -262,13 +264,14 @@ var CustomerPostalCode = new erd.Normal({
 
 var CustomerAddress = new erd.Normal({
 
-    position: { x: 75, y: 30 },
+    position: { x: 325, y: 30 },
     attrs: {
         text: {
             fill: '#000',
             text: 'CustomerAddress',
             letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
+            style: { textShadow: '1px 0 1px #333333' },
+            fontSize: 10
         },
         '.outer': {
             fill: '#fff',

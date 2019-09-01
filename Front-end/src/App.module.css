@@ -1,13 +1,11 @@
 .App{
     display: flex;
     flex-direction: column;
-    background-color: rgb(37, 37, 46);
 }
 
 .GraphsWrapper{
   display: flex;
     flex-direction: row;
-    background-color: rgb(37, 37, 46);
 }
 
 .InputDiagram {
@@ -15,19 +13,19 @@
     height: 550px;
     box-sizing: border-box;
     border-right: 1px solid grey;
-    background-color: rgb(37, 37, 46);
+    background-color: rgb(224, 219, 219);
   }
 
   .OutputDiagram {
     width: 50%;
     height: 550px;
-    background-color: rgb(37, 37, 46);
+    background-color: rgb(224, 219, 219);
   }
 
   .ErrorLog {
     width: 100%;
     height: 240px;
-    background-color: black;
+    background-color: #222222;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,11 +45,11 @@
     box-sizing: border-box;
     padding: 16px;
     width: 95%;
-    background-color: rgb(37, 37, 46);;
+    background-color: white;
     border-radius: 20px;
     border: 1px solid gray;
     outline: none;
-    color: white;
+    color: #222222;
     height: 100%;
 }
 
@@ -70,10 +68,16 @@
     font-size: 16px;
     padding: 5px;
     margin: 5px;
-    background-image: linear-gradient(180deg, black,rgb(37, 37, 46));
+    background-color: #337ab7;
+    border-color: #2e6da4;
     color: white;
     border: 1px solid grey;
     outline: none;
     cursor: pointer;
     border-radius: 10px;
+}
+
+.ButtonContainer button:hover{
+    background-color: #286090;
+    border-color: #122b40;
 }
