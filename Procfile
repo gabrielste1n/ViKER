@@ -1,1 +1,1 @@
-web: python --pythonpath Back-end WebServer.py
+web: python Back-end/WebServer.py
