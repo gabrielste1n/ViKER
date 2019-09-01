@@ -1,1 +1,1 @@
-web: python Back-end/WebServer.py -p $PORT
+web: gunicorn --pythonpath Back-end/WebServer WebServer.py
