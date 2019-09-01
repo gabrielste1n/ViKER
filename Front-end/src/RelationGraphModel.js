@@ -30,11 +30,6 @@ class RelationGraphModel {
                     let name = this.relationClasses[index].attributes[attribute].attributeName;
                     let type = this.relationClasses[index].attributes[attribute].dataType;
 
-                    console.log(name);
-                    console.log(type);
-                    console.log(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency);
-                    console.log(outerPFDCounter);
-
                     if(this.relationClasses[index].attributes[attribute].isFK){ //checking to see if it is a foreign key
                         name = name + '*';
                     }
@@ -63,7 +58,7 @@ class RelationGraphModel {
                             convertedAttribute = name + " : "+ type + self;
                             innerPFDCounter++;
                         }
-                        if(!this.relationClasses[index].attributes[attribute].isPathFunctionalDependency){
+                        if(!this.relationClasses[index].attributes[attribute].isPathFunctionalDependency){ // normal attribute
                             convertedAttribute = name + " : "+ type;
                         }
                     }
@@ -71,21 +66,7 @@ class RelationGraphModel {
                     attributeArray.push(convertedAttribute); 
                 }
             }
-           
-            //we want to see if there was only one PFD
-            // let placeCounter = 0;
-            // for(let index in this.relationClasses){
-            
-            //     for(let attribute in this.relationClasses[index].attributes){
-                    
-            //             if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency && outerPFDCounter === 1){
-            //                 attributeArray[placeCounter] += self;
-            //             }
-    
-            //         }
-            //         placeCounter++;
-            //     }
-
+        
             //creating object to store graph info
             let tempObject = {
                 position: { x: widthAdjust  , y: heightAdjust }, // adjust height

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { dia, shapes, g, V}  from 'jointjs';
+import EntityGraphModel from './EntityGraphModel';
 
 class OutputGraph extends React.Component {
 
@@ -92,6 +93,23 @@ erd.ISA.prototype.getConnectionPoint = function(referencePoint) {
     );
 };
 
+var createLink = function(elm1, elm2) {
+
+    var myLink = new erd.Line({
+        markup: [
+            '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
+            '<path class="connection-wrap" d="M 0 0 0 0"/>',
+            '<g class="labels"/>',
+            '<g class="marker-vertices"/>'
+            // '<g class="marker-arrowheads"/>'
+        ].join(''),
+        source: { id: elm1.id },
+        target: { id: elm2.id }
+    });
+
+    return myLink.addTo(graph);
+};
+
 
 // Unbind orignal highligting handlers.
 this.paper.off('cell:highlight cell:unhighlight');
@@ -115,13 +133,18 @@ this.paper.on('cell:unhighlight', function() {
 
 // Create shapes
 
-var Customer = new erd.Entity({
+let graphModel = new EntityGraphModel(this.props.classes);
+let classes = graphModel.classes;
+let composedClasses = graphModel.composedClasses;
+console.log('composedClasses', composedClasses);
 
-    position: { x: 100, y: 200 },
+var entity = new erd.Entity({ //entity is always the outer object - need to make sure this is a loop and gets all entities
+
+    position: { x: 250, y: 100 },
     attrs: {
         text: {
             fill: '#000',
-            text: 'Customer',
+            text: this.props.classes[0].name,
             letterSpacing: 0,
             style: { textShadow: '1px 0 1px #333333' },
             fontSize: 10
@@ -131,13 +154,38 @@ var Customer = new erd.Entity({
             stroke: 'none',
             filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
         }
-        // '.inner': {
-        //     fill: '#fff',
-        //     stroke: 'none',
-        //     filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
-        // }
     }
 });
+
+graph.addCell(entity);
+graph.addCells(classes);
+
+for(let linkClass in classes){
+    createLink(entity,classes[linkClass]);
+}
+
+// for(let linkClass in classes){
+//     for(let key in composedClasses.keys){
+//         for(let name in composedClasses[key]){
+//             if(name === linkClass){
+//                 for(){
+//                     createLink(classes[key]);
+//                 }
+//             }
+//             else{
+//                 createLink(entity,classes[linkClass]);
+//             }
+//             createLink(classes[key]);
+//         }
+        
+//     }
+    
+// }
+
+
+// createLink(Customer, paid).set(createLabel('1'));
+
+
 
 // var wage = new erd.WeakEntity({
 
@@ -202,85 +250,6 @@ var Customer = new erd.Entity({
 //         }
 //     }
 // });
-
-var CustomerID = new erd.Key({
-
-    position: { x: 10, y: 90 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerID',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #000' },
-            fontSize: 10
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        }
-    }
-});
-
-var CustomerName = new erd.Normal({
-
-    position: { x: 75, y: 30 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerName',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' },
-            fontSize: 10
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: '#fff',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-            
-        }
-        
-    }
-});
-
-var CustomerPostalCode = new erd.Normal({
-
-    position: { x: 175, y: 300 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerPostalCode',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' },
-            fontSize: 10
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: '#fff',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        }
-    }
-});
-
-var CustomerAddress = new erd.Normal({
-
-    position: { x: 325, y: 30 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerAddress',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' },
-            fontSize: 10
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: '#fff',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        }
-    }
-});
-
 
 // var skills = new erd.Multivalued({
 
@@ -362,22 +331,7 @@ var CustomerAddress = new erd.Normal({
 
 // Helpers
 
-var createLink = function(elm1, elm2) {
 
-    var myLink = new erd.Line({
-        markup: [
-            '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
-            '<path class="connection-wrap" d="M 0 0 0 0"/>',
-            '<g class="labels"/>',
-            '<g class="marker-vertices"/>'
-            // '<g class="marker-arrowheads"/>'
-        ].join(''),
-        source: { id: elm1.id },
-        target: { id: elm2.id }
-    });
-
-    return myLink.addTo(graph);
-};
 
 // var createLabel = function(txt) {
 //     return {
@@ -394,23 +348,12 @@ var createLink = function(elm1, elm2) {
 // Add shapes to the graph
 
 // graph.addCells([Customer, salesman, wage, paid, isa, CustomerID, CustomerName, skills, amount, date, plate, car, uses]);
-graph.addCells([Customer, CustomerID, CustomerName, CustomerAddress, CustomerPostalCode]);
 
-
-// createLink(Customer, paid).set(createLabel('1'));
-createLink(Customer, CustomerID);
-createLink(Customer, CustomerName);
-createLink(Customer, CustomerAddress);
-createLink(Customer, CustomerPostalCode);
 // createLink(Customer, skills).set(createLabel('1..1'));
-// createLink(Customer, isa);
-// createLink(isa, salesman);
 // createLink(salesman, uses).set(createLabel('0..1'));
 // createLink(car, uses).set(createLabel('1..1'));
-// createLink(car, plate);
 // createLink(wage, paid).set(createLabel('N'));
-// createLink(wage, amount);
-// createLink(wage, date);
+
 
     }
 
