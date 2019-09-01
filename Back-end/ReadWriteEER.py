@@ -8,12 +8,11 @@ from Relationship import Relationship
 from Table import Entity
 from Attribute import ERAttribute
 
-def readEER(json_file):
+def readEER(entities):
 #def readEER(json_string):
     '''Reads in JSON EER file and creates relevant objects as needed.'''
     #with open(filename, 'r') as json_file:
     #entities = json.load(json_file)
-    entities = json_file
     toReturn = []
     for entity in entities['entities']:
         attributes = []
@@ -97,7 +96,7 @@ def writeEER(filename, entities):
                 "relationships": relationships
             }
         )
-    json_file=json.dump(json_entities, indent=4, sort_keys=True)
-    return json_file
+    #json_file=json.dump(json_entities, indent=4, sort_keys=True)
+    return json_entities
     # with open(filename, 'w') as json_file:
     #     json.dump(json_entities, json_file, indent=4, sort_keys=True)
