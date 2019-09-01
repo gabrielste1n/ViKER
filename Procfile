@@ -1,1 +1,1 @@
-web: gunicorn Back-end/WebServer:WebServer
+web: gunicorn --pythonpath WebServer.WebServer
