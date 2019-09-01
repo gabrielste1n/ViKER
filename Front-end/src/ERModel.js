@@ -138,29 +138,29 @@ var Customer = new erd.Entity({
     }
 });
 
-var wage = new erd.WeakEntity({
+// var wage = new erd.WeakEntity({
 
-    position: { x: 530, y: 200 },
-    attrs: {
-        text: {
-            fill: '#ffffff',
-            text: 'Wage',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
-        },
-        '.inner': {
-            fill: '#31d0c6',
-            stroke: 'none',
-            points: '155,5 155,55 5,55 5,5'
-        },
-        '.outer': {
-            fill: 'none',
-            stroke: '#31d0c6',
-            points: '160,0 160,60 0,60 0,0',
-            filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
-        }
-    }
-});
+//     position: { x: 530, y: 200 },
+//     attrs: {
+//         text: {
+//             fill: '#ffffff',
+//             text: 'Wage',
+//             letterSpacing: 0,
+//             style: { textShadow: '1px 0 1px #333333' }
+//         },
+//         '.inner': {
+//             fill: '#31d0c6',
+//             stroke: 'none',
+//             points: '155,5 155,55 5,55 5,5'
+//         },
+//         '.outer': {
+//             fill: 'none',
+//             stroke: '#31d0c6',
+//             points: '160,0 160,60 0,60 0,0',
+//             filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
+//         }
+//     }
+// });
 
 // var paid = new erd.IdentifyingRelationship({
 
@@ -230,7 +230,7 @@ var CustomerName = new erd.Normal({
     attrs: {
         text: {
             fill: '#000',
-            text: 'employeeName',
+            text: 'CustomerName',
             letterSpacing: 0,
             style: { textShadow: '1px 0 1px #333333' }
         },
@@ -242,54 +242,91 @@ var CustomerName = new erd.Normal({
     }
 });
 
-var skills = new erd.Multivalued({
+var CustomerPostalCode = new erd.Normal({
 
-    position: { x: 150, y: 90 },
+    position: { x: 75, y: 30 },
     attrs: {
         text: {
-            fill: '#ffffff',
-            text: 'Skills',
-            letterSpacing: 0,
-            style: { 'text-shadow': '1px 0px 1px #333333' }
-        },
-        '.inner': {
-            fill: '#fe8550',
-            stroke: 'none',
-            rx: 43,
-            ry: 21
-
-        },
-        '.outer': {
-            fill: '#464a65',
-            stroke: '#fe8550',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        }
-    }
-});
-
-var amount = new erd.Derived({
-
-    position: { x: 440, y: 80 },
-    attrs: {
-        text: {
-            fill: '#ffffff',
-            text: 'Amount',
+            fill: '#000',
+            text: 'CustomerPostalCode',
             letterSpacing: 0,
             style: { textShadow: '1px 0 1px #333333' }
         },
-        '.inner': {
-            fill: '#fca079',
-            stroke: 'none',
-            display: 'block'
-        },
         '.outer': {
-            fill: '#464a65',
-            stroke: '#fe854f',
-            'stroke-dasharray': '3,1',
+            fill: '#fff',
+            stroke: '#fff',
             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
         }
     }
 });
+
+var CustomerAddress = new erd.Normal({
+
+    position: { x: 75, y: 30 },
+    attrs: {
+        text: {
+            fill: '#000',
+            text: 'CustomerAddress',
+            letterSpacing: 0,
+            style: { textShadow: '1px 0 1px #333333' }
+        },
+        '.outer': {
+            fill: '#fff',
+            stroke: '#fff',
+            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
+        }
+    }
+});
+
+
+// var skills = new erd.Multivalued({
+
+//     position: { x: 150, y: 90 },
+//     attrs: {
+//         text: {
+//             fill: '#ffffff',
+//             text: 'Skills',
+//             letterSpacing: 0,
+//             style: { 'text-shadow': '1px 0px 1px #333333' }
+//         },
+//         '.inner': {
+//             fill: '#fe8550',
+//             stroke: 'none',
+//             rx: 43,
+//             ry: 21
+
+//         },
+//         '.outer': {
+//             fill: '#464a65',
+//             stroke: '#fe8550',
+//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
+//         }
+//     }
+// });
+
+// var amount = new erd.Derived({
+
+//     position: { x: 440, y: 80 },
+//     attrs: {
+//         text: {
+//             fill: '#ffffff',
+//             text: 'Amount',
+//             letterSpacing: 0,
+//             style: { textShadow: '1px 0 1px #333333' }
+//         },
+//         '.inner': {
+//             fill: '#fca079',
+//             stroke: 'none',
+//             display: 'block'
+//         },
+//         '.outer': {
+//             fill: '#464a65',
+//             stroke: '#fe854f',
+//             'stroke-dasharray': '3,1',
+//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
+//         }
+//     }
+// });
 
 // var uses = new erd.Relationship({
 
@@ -311,13 +348,13 @@ var amount = new erd.Derived({
 
 // Create new shapes by cloning
 
-var salesman = Customer.clone().translate(0, 200).attr('text/text', 'Salesman');
+// var salesman = Customer.clone().translate(0, 200).attr('text/text', 'Salesman');
 
-var date = CustomerName.clone().position(585, 80).attr('text/text', 'Date');
+// var date = CustomerName.clone().position(585, 80).attr('text/text', 'Date');
 
-var car = Customer.clone().position(430, 400).attr('text/text', 'Company car');
+// var car = Customer.clone().position(430, 400).attr('text/text', 'Company car');
 
-var plate = CustomerID.clone().position(405, 500).attr('text/text', 'Plate');
+// var plate = CustomerID.clone().position(405, 500).attr('text/text', 'Plate');
 
 
 // Helpers
@@ -329,8 +366,8 @@ var createLink = function(elm1, elm2) {
             '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
             '<path class="connection-wrap" d="M 0 0 0 0"/>',
             '<g class="labels"/>',
-            '<g class="marker-vertices"/>',
-            '<g class="marker-arrowheads"/>'
+            '<g class="marker-vertices"/>'
+            // '<g class="marker-arrowheads"/>'
         ].join(''),
         source: { id: elm1.id },
         target: { id: elm2.id }
@@ -339,36 +376,38 @@ var createLink = function(elm1, elm2) {
     return myLink.addTo(graph);
 };
 
-var createLabel = function(txt) {
-    return {
-        labels: [{
-            position: -20,
-            attrs: {
-                text: { dy: -8, text: txt, fill: '#ffffff' },
-                rect: { fill: 'none' }
-            }
-        }]
-    };
-};
+// var createLabel = function(txt) {
+//     return {
+//         labels: [{
+//             position: -20,
+//             attrs: {
+//                 text: { dy: -8, text: txt, fill: '#ffffff' },
+//                 rect: { fill: 'none' }
+//             }
+//         }]
+//     };
+// };
 
 // Add shapes to the graph
 
 // graph.addCells([Customer, salesman, wage, paid, isa, CustomerID, CustomerName, skills, amount, date, plate, car, uses]);
-graph.addCells([Customer, salesman, wage, CustomerID, CustomerName, skills, amount, date, plate, car]);
+graph.addCells([Customer, CustomerID, CustomerName, CustomerAddress, CustomerPostalCode]);
 
 
 // createLink(Customer, paid).set(createLabel('1'));
 createLink(Customer, CustomerID);
 createLink(Customer, CustomerName);
-createLink(Customer, skills).set(createLabel('1..1'));
+createLink(Customer, CustomerAddress);
+createLink(Customer, CustomerPostalCode);
+// createLink(Customer, skills).set(createLabel('1..1'));
 // createLink(Customer, isa);
 // createLink(isa, salesman);
 // createLink(salesman, uses).set(createLabel('0..1'));
 // createLink(car, uses).set(createLabel('1..1'));
 // createLink(car, plate);
 // createLink(wage, paid).set(createLabel('N'));
-createLink(wage, amount);
-createLink(wage, date);
+// createLink(wage, amount);
+// createLink(wage, date);
 
     }
 
