@@ -1,0 +1,68 @@
+{
+    "entities": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "CustomerID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerPostalCode",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerAddress",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Customer",
+            "relationships": [
+                {
+                    "Entity": "Order",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "OrderID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "OrderDate",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Order",
+            "relationships": [
+                {
+                    "Entity": "Customer",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": []
+                }
+            ]
+        }
+    ]
+}
