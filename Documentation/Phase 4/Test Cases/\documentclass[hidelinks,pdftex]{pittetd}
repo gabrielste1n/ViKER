@@ -1,0 +1,220 @@
+\documentclass[hidelinks,pdftex]{pittetd}   
+%CHAPTER NUMBERING
+%1) default = No specification needed
+        %Chapters with numbers (1.0, 2.0, etc.) 
+        %sections with numbers and sub-numbers (1.1, 1.2, 2.1, 2.2, etc.) 
+        %subsections with numbers and sub-numbers (an additional sub-number) (1.1.1, 1.1.2, 2.1.1, 2.1.2, etc)
+        %subsubsections with numbers and sub-numbers (two additional sub-numbers) (1.1.1.1, 1.1.1.2, 2.1.1.1, 2.1.1.2, etc.)
+%2)'sectionletters'= Changes numbering format
+        %Chapters with Roman numerals (I, II, etc.) 
+        %sections with letters (A, B) 
+        %subsections with numbers (1, 2)
+        %subsubsections with lowercase letters (a, b)
+
+%==========================================================================================%
+%OPTIONAL PACKAGES FOR THE DOCUMENT
+%==========================================================================================%
+
+% Change '\usepackage' with '\usewithpatch' if patches of the package are used
+% Package to include figures in the document
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{url}
+\usepackage{hyperref}
+% Package and patches to include mathematical expressions
+\usepackage{amsmath,amsthm}
+\usepackage{pdflscape}
+
+% Patches for the packages 'amsmatch' and 'amsthm'
+\patch{amsmatch}
+\patch{amsthm}
+
+%==========================================================================================%
+%CREATING THE TITLE PAGE
+%==========================================================================================%
+
+% TITLE OF THE DISSERTATION
+\title[Title displayed in Acrobat Reader's Document Info Dialog Box]{An Overview of the Mathematics Behind Zcash and its use of Zero-Knowledge Proofs}
+
+% AUTHOR INFORMATION
+%Name
+\author{Gabriel Stein}
+%Previous Degree
+\degree{MAM3040W, 2019}
+
+% DEPARTMENT INFORMATION 
+\school{Department of Applied Mathematics}
+% The name of the school will be preceded by 'the' unless otherwise specified, as in:
+%\school[certain]{department}
+
+% School is also needed in the 'Committee' page
+
+% DATES
+% Dissertation Date (Second Page, 'ii', of the title)
+%1) Default ('today' = date of latest compilation) = No specification needed
+%2) Custom date =\date{July 20th 2017}
+
+% Document Year (First page, i, of the the title
+%1) Default ('current year' = year of latest compilation) = No specification needed
+%2) Custom year = \year{2017}                     
+
+%==========================================================================================%
+%CREATING THE DOCUMENT AND TITLE PAGE
+%==========================================================================================%
+% These instructions create a document and the title page with the information previously specified.
+
+\begin{document}
+\maketitle
+
+%==========================================================================================%
+% TABLE OF CONTENTS, FIGURES, AND TABLES
+%==========================================================================================%
+
+% Table of contents
+\tableofcontents
+
+%==========================================================================================%
+% STARTING THE DOCUMENT
+%==========================================================================================%
+
+\chapter{Introduction to Zcash}%             
+
+Zcash is a privacy-protecting, digital currency built on strong science. Transact efficiently and safely with low fees while ensuring digital transactions remain private. Selectively share address and transaction information for auditing or regulatory compliance.
+
+
+\section{How Zcash Works}
+
+Zcash addresses are either private (z-addresses) or transparent (t-addresses). Z-addresses start with a “z,” and t-addresses start with a "t."
+
+A Z-to-Z transaction appears on the public blockchain, so it is known to have occured and that the fees were paid. But the addresses, transaction amount and the memo field are all encrypted and not publicly visible. Using encryption on a blockchain is only possible through the use of zero-knowledge proofs. More information on these proofs and Zcash’s implementation of zk-SNARKs is available.
+
+The owner of an address may choose to disclose z-address and transaction details with trusted third parties — think auditory and compliance needs — through the use of view keys and payment disclosure.
+
+Transactions between two transparent addresses (t-addresses) work just like Bitcoin: The sender, receiver and transaction value are publicly visible. While many wallets and exchanges exclusively use t-addresseses today, many are moving to shielded addresses to better protect user privacy.
+
+The two Zcash address types are interoperable. Funds can be transferred between z-addresses and t-addresses. However, is important that users understand the privacy implications of shielding or de-shielding information through these transactions. More information on the various transaction types is available.
+
+\chapter{Introduction to zk-SNARKs}
+
+Zcash is the first widespread application of zk-SNARKs, a novel form of zero-knowledge cryptography. The strong privacy guarantee of Zcash is derived from the fact that shielded transactions in Zcash can be fully encrypted on the blockchain, yet still be verified as valid under the network’s consensus rules by using zk-SNARK proofs.
+
+The acronym zk-SNARK stands for “Zero-Knowledge Succinct Non-Interactive Argument of Knowledge,” and refers to a proof construction where one can prove possession of certain information, e.g. a secret key, without revealing that information, and without any interaction between the prover and verifier.
+
+
+\section{How zk-SNARKs work}
+
+“Zero-knowledge” proofs allow one party (the prover) to prove to another (the verifier) that a statement is true, without revealing any information beyond the validity of the statement itself. For example, given the hash of a random number, the prover could convince the verifier that there indeed exists a number with this hash value, without revealing what it is.
+In a zero-knowledge “Proof of Knowledge” the prover can convince the verifier not only that the number exists, but that they in fact know such a number – again, without revealing any information about the number.
+
+“Succinct” zero-knowledge proofs can be verified within a few milliseconds, with a proof length of only a few hundred bytes even for statements about programs that are very large. In the first zero-knowledge protocols, the prover and verifier had to communicate back and forth for multiple rounds, but in “non-interactive” constructions, the proof consists of a single message sent from prover to verifier. Currently, the most efficient known way to produce zero-knowledge proofs that are non-interactive and short enough to publish to a block chain is to have an initial setup phase that generates a common reference string shared between prover and verifier. We refer to this common reference string as the public parameters of the system.
+
+If someone had access to the secret randomness used to generate these parameters, they would be able to create false proofs that would look valid to the verifier. For Zcash, this would mean the malicious party could create counterfeit coins. To prevent this from ever happening, Zcash generated the public parameters through an elaborate, multi-party ceremony.\lin
+
+The verifier must check constraint that needs to be checked is now between polynomials rather than between numbers. The polynomials can be quite large, but this is alright because when an identity does not hold between polynomials, it will fail to hold at most points. Therefore, you only have to check that the two polynomials match at one randomly chosen point in order to correctly verify the proof with high probability.
+
+If the prover knew in advance which point the verifier would choose to check, they might be able to craft polynomials that are invalid, but still satisfy the identity at that point. With zk-SNARKs, sophisticated mathematical techniques such as homomorphic encryption and pairings of elliptic curves are used to evaluate polynomials “blindly” – i.e. without knowing which point is being evaluated. The public parameters described above are used to determine which point will be checked, but in encrypted form so that neither the prover nor the verifier know what it is.
+
+\subsection{How zk-SNARKs are constructed in Zcash}
+
+In order to have zero-knowledge privacy in Zcash, the function determining the validity of a transaction according to the network’s consensus rules must return the answer of whether the transaction is valid or not, without revealing any of the information it performed the calculations on. This is done by encoding some of the network’s consensus rules in zk-SNARKs. At a high level, zk-SNARKs work by first turning what you want to prove into an equivalent form about knowing a solution to some algebraic equations. In the following section, we give a brief overview of how the rules for determining a valid transaction get transformed into equations that can then be evaluated on a candidate solution without revealing any sensitive information to the parties verifying the equations.
+
+Computation → Arithmetic Circuit → R1CS → QAP → zk-SNARK
+
+The first step in turning our transaction validity function into a mathematical representation is to break down the logical steps into the smallest possible operations, creating an “arithmetic circuit”. Similar to a boolean circuit where a program is compiled down to discrete, single steps like AND, OR, NOT, when a program is converted to an arithmetic circuit, it’s broken down into single steps consisting of the basic arithmetic operations of addition, subtraction, multiplication, and division (although in our particular case, we will avoid using division).
+
+Here is an example of what an arithmetic circuit looks like for computing the expression (a+b)*(b*c) :
+
+%==========================================================================================%
+% CIRCUIT IMAGE GOES HERE - FROM WHAT ARE ZK-SNARKS
+%==========================================================================================%
+
+In this R1CS representation, the verifier has to check many constraints — one for almost every wire of the circuit. (For technical reasons, it turns out we only have a constraint for wires coming out of multiplication gates.) In a 2012 paper on the topic, Gennaro, Gentry, Parno and Raykova presented a nice way to “bundle all these constraints into one”. This method uses a representation of the circuit called a Quadratic Arithmetic Program (QAP). The single constraint that needs to be checked is now between polynomials rather than between numbers. The polynomials can be quite large, but this is alright because when an identity does not hold between polynomials, it will fail to hold at most points. Therefore, you only have to check that the two polynomials match at one randomly chosen point in order to correctly verify the proof with high probability.
+
+If the prover knew in advance which point the verifier would choose to check, they might be able to craft polynomials that are invalid, but still satisfy the identity at that point. With zk-SNARKs, sophisticated mathematical techniques such as homomorphic encryption and pairings of elliptic curves are used to evaluate polynomials “blindly” – i.e. without knowing which point is being evaluated. The public parameters described above are used to determine which point will be checked, but in encrypted form so that neither the prover nor the verifier know what it is.
+
+The description so far has mainly addressed how to get the S and N in “SNARKs” — how to get a short, non-interactive, single message proof — but hasn’t addressed the “zk” (zero-knowledge) part which allows the prover to maintain the confidentiality of their secret inputs. It turns out that at this stage, the “zk” part can be easily added by having the prover use “random shifts” of the original polynomials that still satisfy the required identity.
+
+\subsection{How zk-SNARKs are applied to create a shielded transaction}
+
+In Bitcoin, transactions are validated by linking the sender address, receiver address, and input and output values on the public blockchain. Zcash uses zk-SNARKs to prove that the conditions for a valid transaction have been satisfied without revealing any crucial information about the addresses or values involved. The sender of a shielded transaction constructs a proof to show that, with high probability:
+
+the input values sum to the output values for each shielded transfer.
+the sender proves that they have the private spending keys of the input notes, giving them the authority to spend.
+The private spending keys of the input notes are cryptographically linked to a signature over the whole transaction, in such a way that the transaction cannot be modified by a party who did not know these private keys.
+In addition, shielded transactions must satisfy some other conditions that are described below.
+
+Bitcoin tracks unspent transaction outputs (UTXOs) to determine what transactions are spendable. In Zcash, the shielded equivalent of a UTXO is called a “commitment”, and spending a commitment involves revealing a “nullifier”. Zcash nodes keep lists of all the commitments that have been created, and all the nullifiers that have been revealed. Commitments and nullifiers are stored as hashes, to avoid disclosing any information about the commitments, or which nullifiers relate to which commitments.
+
+For each new note created by a shielded payment, a commitment is published which consists of a hash of: the address to which the note was sent, the amount being sent, a number “rho” which is unique to this note (later used to derive the nullifier), and a random nonce.
+
+Commitment = HASH(recipient address, amount, rho, r)
+
+When a shielded transaction is spent, the sender uses their spending key to publish a nullifier which is the hash of the secret unique number (“rho”) from an existing commitment that has not been spent, and provides a zero-knowledge proof demonstrating that they are authorized to spend it. This hash must not already be in the set of nullifiers tracking spent transactions kept by every node in the blockchain.
+
+Nullifier = HASH(spending key, rho)
+
+The zero-knowledge proof for a shielded transaction verifies that, in addition to the conditions listed above, the following assertions are also true:
+
+For each input note, a revealed commitment exists.
+The nullifiers and note commitments are computed correctly.
+It is infeasible for the nullifier of an output note to collide with the nullifier of any other note.
+In addition to the spending keys used to control addresses, Zcash uses a set of proving and verifying keys to create and check proofs. These keys are generated in the public parameter ceremony discussed above, and shared among all participants in the Zcash network. For each shielded transaction, the sender uses their proving key to generate a proof that their inputs are valid. Miners check that the shielded transaction follows consensus rules by checking the prover’s computation with the verifying key. The way that Zcash’s proof generation is designed requires the prover to do more work up-front, but it simplifies verifying, so that the major computational work is offloaded to the creator of the transaction (this is why creating a shielded Zcash transaction can take up to 40 seconds, while verifying that a transaction is valid only takes milliseconds).
+
+The privacy of Zcash’s shielded transactions relies upon standard, tried-and-tested cryptography (hash functions and stream ciphers), but it’s the addition of zk-SNARKs, applied with the system of commitments and nullifiers, that allows senders and receivers of shielded transactions to prove that encrypted transactions are valid. Other methods of providing privacy for cryptocurrencies rely upon obscuring the linkage between transactions, but the fact that Zcash transactions can be stored on the blockchain fully encrypted opens up new possibilities for cryptocurrency applications. Encrypted transactions allow parties to enjoy the benefits of public blockchains, while still protecting their privacy.
+
+
+\subsection{Homomorphic Hiding}
+
+Constructions of zk-SNARKs involve a careful combination of several ingredients; fully understanding how these ingredients all work together can take a while.
+
+If I had to choose one ingredient whose role is most prominent, it would be what I will call here Homomorphic Hiding (HH).
+
+
+
+\footnote{Homomorphic hiding is not a term formally used in cryptography, and is introduced here for didactic purposes. It is similar to but weaker than the well-known notion of a computationally hiding commitment. The difference is that an HH is a deterministic function of the input, whereas a commitment uses additional randomness. As a consequence, HHs essentially ”hide most x’s” whereas commitments ”hide every x”.}
+\footnote{Bob does learn some information about x and y. For example, he can choose a random x’, and check whether x=x’ by computing E(x’). For this reason the above protocol is not really a Zero-Knowledge protocol, and is only used here for explanatory purposes. In fact, as we shall see in later posts, HH is ultimately used in snarks to conceal verifier challenges rather than prover secrets.}
+\footnote{When p is not a prime it is problematic to define multiplication this way. One issue is that the multiplication result can be zero even when both arguments are not zero. For example when p=4, we can get 2*2=0 (mod 4).}
+
+\subsection{Blind Evaluation of polynomials}
+
+\subsubsection{Polynomials and Linear Combinations}
+
+\subsubsection{Blind Evaluation of a Polynomial}
+
+\subsection{The Coefficient Test}
+
+\subsection{Making Blind Evaluation of Polynomials Verifiable}
+
+This is what we call verifiable blind evaluation of a polynomial. The protocol in Part II gave us the first item but not the second. To get verifiability we need an extended version of the Knowledge of Coefficient Assumption (KCA) that was presented in Part III.
+
+The verifiability and blindness properties are useful together because they make Alice decide what polynomial
+P she will use without seeing s. [1] This, in a sense, commits Alice to an “answer polynomial” without seeing the “challenge point” s. This intuition will become more clear in the next parts of the series.
+
+\subsubsection{An Extended KCA}
+
+\subsubsection{The Verifiable Blind Evaluation Protocol}
+
+\subsection{From Computation to Polynomials}
+
+\subsection{The Pinocchio Protocol}
+
+\subsection{Pairings of Elliptic Curves}
+
+\subsubsection{Elliptic Curves and their Pairings}
+
+\subsubsection{Non-interactive proofs in the common reference string model}
+
+\subsubsection{A non-interactive evaluation protocol}
+
+\chapter{Conclusions}
+This is the third chapter of the present dissertation. It is more interesting than the first two, for it is the last one.
+
+%==========================================================================================%
+% BIBLIOGRAPHY
+%==========================================================================================%
+\safebibliography{Bibfile.bib}
+\bibliographystyle{plain}
+%==========================================================================================%
+%==========================================================================================%
+
+\end{document}
