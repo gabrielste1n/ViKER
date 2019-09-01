@@ -1,0 +1,66 @@
+{
+    "entities": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "EmployeeID", 
+                    "composedOf": [], 
+                    "isIdentifier": true, 
+                    "isMultiValued": false
+                }, 
+                {
+                    "AttributeName": "EmployeeName", 
+                    "composedOf": [], 
+                    "isIdentifier": false, 
+                    "isMultiValued": false
+                }, 
+                {
+                    "AttributeName": "EmployeeBirthDate", 
+                    "composedOf": [], 
+                    "isIdentifier": false, 
+                    "isMultiValued": false
+                }
+            ], 
+            "isStrong": true, 
+            "name": "Employee", 
+            "relationships": [
+                {
+                    "Entity": "Course", 
+                    "RelationTypeForeign": "ZeroOrMany", 
+                    "RelationTypeLocal": "ZeroOrMany", 
+                    "relationAttributes": [
+                        "DateCompleted"
+                    ]
+                }
+            ]
+        }, 
+        {
+            "attributes": [
+                {
+                    "AttributeName": "CourseID", 
+                    "composedOf": [], 
+                    "isIdentifier": true, 
+                    "isMultiValued": false
+                }, 
+                {
+                    "AttributeName": "CourseTitle", 
+                    "composedOf": [], 
+                    "isIdentifier": false, 
+                    "isMultiValued": false
+                }
+            ], 
+            "isStrong": true, 
+            "name": "Course", 
+            "relationships": [
+                {
+                    "Entity": "Employee", 
+                    "RelationTypeForeign": "ZeroOrMany", 
+                    "RelationTypeLocal": "ZeroOrMany", 
+                    "relationAttributes": [
+                        "DateCompleted"
+                    ]
+                }
+            ]
+        }
+    ]
+}
