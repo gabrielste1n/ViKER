@@ -110,7 +110,6 @@ var createLink = function(elm1, elm2) {
     return myLink.addTo(graph);
 };
 
-
 // Unbind orignal highligting handlers.
 this.paper.off('cell:highlight cell:unhighlight');
 
@@ -136,35 +135,50 @@ this.paper.on('cell:unhighlight', function() {
 let graphModel = new EntityGraphModel(this.props.classes);
 let classes = graphModel.classes;
 let composedClasses = graphModel.composedClasses;
-console.log('compclasses ', composedClasses);
 
-var entity = new erd.Entity({ //entity is always the outer object - need to make sure this is a loop and gets all entities
+console.log('graphModel classes ', classes);
+console.log('graphModel composedclasses ', composedClasses);
 
-    position: { x: 250, y: 100 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: this.props.classes[0].name,
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' },
-            fontSize: 10
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
+let entities = {}
+
+let xAdj = 0;
+let yAdj = 0;
+for(let entity in this.props.classes){
+    let name = this.props.classes[entity].name;
+    console.log('name',name);
+    var ent = new erd.Entity({ //entity is always the outer object - need to make sure this is a loop and gets all entities
+
+        position: { x: 150 + xAdj, y: 100 + yAdj},
+        attrs: {
+            text: {
+                fill: '#000',
+                text: name,
+                letterSpacing: 0,
+                style: { textShadow: '1px 0 1px #333333' },
+                fontSize: 10
+            },
+            '.outer': {
+                fill: '#fff',
+                stroke: 'none',
+                filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
+            }
         }
-    }
-});
+    });
+    entities[name] = ent;
+    graph.addCell(ent);
+     xAdj = 300;
+     yAdj = -50;
+}
 
-graph.addCell(entity);
+
+
 
 let tempArray = [];
 
 for(let key in classes){
     tempArray.push(classes[key]);   //dictionary into array
 }
-graph.addCells(tempArray);
+
 
 // create a dicitonary customerAddress:  [object, object,object]
 let composedDictionary = {};
@@ -173,6 +187,7 @@ for(let key in composedClasses){
     for(let comp in composedClasses[key]){
             for(let normalKey in classes){
                 if(composedClasses[key][comp] === normalKey){
+                    classes[normalKey].attributes.position = {x: classes[normalKey].attributes.position.x ,y: classes[normalKey].attributes.position.y + 100};
                     composedDictionary[key].push(classes[normalKey]);
                     delete classes[normalKey];
             }
@@ -180,16 +195,18 @@ for(let key in composedClasses){
     }
 }
 
+graph.addCells(tempArray);
+
 for(let key in classes){
-    createLink(entity,classes[key]); //create all the links
+    createLink(entities['Customer'],classes[key]); //create all the normal links to entity
 }
 
 for(let key in composedDictionary){
     for(let comp in classes){
         if(key === comp){
             for(let compA in composedDictionary[key]){
-                console.log('composedDic[key]', composedDictionary[key])
-                createLink(classes[comp],composedDictionary[key][compA]);
+               
+                createLink(classes[comp],composedDictionary[key][compA]); //create composed links
             }
         }
     }

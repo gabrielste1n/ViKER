@@ -25,15 +25,6 @@ class App extends React.Component {
 
   constructor(){
     super();
-    this.fileReader = new FileReader();
-    this.fileReader.onload = event => {
-      this.setState({ inputJSONfile: JSON.parse(event.target.result) }, () => {
-
-        this.state.inputJSONfile.entities ? this.parseEntity('input', this.state.inputJSONfile) : this.parseRelation('input', this.state.inputJSONfile); // parse the JSON into the relevant data model
-        console.log(this.state.relations.length > 0 ? this.state.relations : this.state.entities);
-
-      });
-    };
     this.postInputModel = this.postInputModel.bind(this);
     this.saveOutput = this.saveOutput.bind(this);
     this.saveErrorLog = this.saveErrorLog.bind(this);
@@ -204,6 +195,19 @@ window.alert('No Transformation Has Taken Place Yet!');
   
  }
 
+ loadModel(input){
+  this.fileReader = new FileReader();
+  this.fileReader.readAsText(input);
+  this.fileReader.onload = event => {
+    this.setState({ inputJSONfile: JSON.parse(event.target.result) }, () => {
+
+      this.state.inputJSONfile.entities ? this.parseEntity('input', this.state.inputJSONfile) : this.parseRelation('input', this.state.inputJSONfile); // parse the JSON into the relevant data model
+      console.log(this.state.relations.length > 0 ? this.state.relations : this.state.entities);
+
+    });
+  };
+ }
+
 render(){
   
   return (
@@ -231,12 +235,10 @@ render(){
         </div>
         <div className={classes.ButtonContainer}>
           <button>
-          <div className="files">
+          <div className={classes.Files}>
         <Files
           className="files-dropzone"
-          onChange={file => {
-            this.fileReader.readAsText(file[0]);
-          }}
+          onChange={(file) => this.loadModel(file[0])}
           onError={err => console.log(err)}
           accepts={[".JSON"]}
           multiple
