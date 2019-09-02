@@ -3,7 +3,7 @@
 # Date Created: 30 August 2019
 # Version: Alpha v1.0
 
-# Launch virtual environemnet in terminal using source venv/bin/activate
+# Launch virtual environemnet in terminal using 'source venv/bin/activate'
 
 import json
 from Main import *
