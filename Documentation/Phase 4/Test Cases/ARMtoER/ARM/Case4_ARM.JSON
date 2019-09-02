@@ -39,7 +39,7 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": ["Order"],
             "inheritsFrom": "none",
             "name": "Customer"
         },
@@ -69,13 +69,13 @@
                 {
                     "AttributeName": "CustomerID",
                     "dataType": "OID",
-                    "isConcrete": "false",
+                    "isConcrete": false,
                     "isFK": true,
                     "isPathFunctionalDependancy": false
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": ["Customer"],
             "inheritsFrom": "none",
             "name": "Order"
         }
