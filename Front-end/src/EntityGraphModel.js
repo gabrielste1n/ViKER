@@ -5,7 +5,7 @@ class EntityGraphModel {
     constructor(classes){
         this.uml = shapes.uml;
         this.entityClasses = classes;
-        this.classes = [];
+        this.classes = {};
         this.composedClasses = {};
         this.erd = shapes.erd;
         this.parseIntoGraphModel(); 
@@ -36,11 +36,11 @@ class EntityGraphModel {
                     }
                 }
             };
-            if(this.entityClasses[index].attributes[attr].isIdentifier){                                               //check to see if foreign key or not
-                this.classes.push(new this.erd.Key(tempObject));
+            if(this.entityClasses[index].attributes[attr].isIdentifier){                                           //check to see if foreign key or not
+                this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Key(tempObject);
             }
             else{
-                this.classes.push(new this.erd.Normal(tempObject));
+                this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Normal(tempObject);
             }
             horAdj+=100;
             vertAdj+=35;
@@ -51,6 +51,8 @@ class EntityGraphModel {
            }
         
        }
-}}
+}
+
+}
 
 export default EntityGraphModel;

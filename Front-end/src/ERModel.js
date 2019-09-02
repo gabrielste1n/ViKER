@@ -136,7 +136,7 @@ this.paper.on('cell:unhighlight', function() {
 let graphModel = new EntityGraphModel(this.props.classes);
 let classes = graphModel.classes;
 let composedClasses = graphModel.composedClasses;
-console.log('composedClasses', composedClasses);
+console.log('compclasses ', composedClasses);
 
 var entity = new erd.Entity({ //entity is always the outer object - need to make sure this is a loop and gets all entities
 
@@ -158,11 +158,44 @@ var entity = new erd.Entity({ //entity is always the outer object - need to make
 });
 
 graph.addCell(entity);
-graph.addCells(classes);
 
-for(let linkClass in classes){
-    createLink(entity,classes[linkClass]);
+let tempArray = [];
+
+for(let key in classes){
+    tempArray.push(classes[key]);   //dictionary into array
 }
+graph.addCells(tempArray);
+
+// create a dicitonary customerAddress:  [object, object,object]
+let composedDictionary = {};
+for(let key in composedClasses){
+    composedDictionary[key] = [];
+    for(let comp in composedClasses[key]){
+            for(let normalKey in classes){
+                if(composedClasses[key][comp] === normalKey){
+                    composedDictionary[key].push(classes[normalKey]);
+                    delete classes[normalKey];
+            }
+        }
+    }
+}
+
+for(let key in classes){
+    createLink(entity,classes[key]); //create all the links
+}
+
+for(let key in composedDictionary){
+    for(let comp in classes){
+        if(key === comp){
+            for(let compA in composedDictionary[key]){
+                console.log('composedDic[key]', composedDictionary[key])
+                createLink(classes[comp],composedDictionary[key][compA]);
+            }
+        }
+    }
+     //create all the links
+}
+
 
 // for(let linkClass in classes){
 //     for(let key in composedClasses.keys){
