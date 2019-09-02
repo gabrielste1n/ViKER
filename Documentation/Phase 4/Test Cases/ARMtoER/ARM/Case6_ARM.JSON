@@ -1,0 +1,156 @@
+{
+    "relations": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "Integer",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "EmployeeName",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeType",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": ["Skill"],
+            "inheritsFrom": "none",
+            "name": "Employee"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "HourlyRate",
+                    "dataType": "Integer",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": ["Employee"],
+            "disjointWith": ["Skill"],
+            "inheritsFrom": "Employee",
+            "name": "HourlyEmployee"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "AnnualSalary",
+                    "dataType": "Integer",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": ["Employee"],
+            "disjointWith": ["Skill"],
+            "inheritsFrom": "Employee",
+            "name": "SalariedEmployee"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "BillingRate",
+                    "dataType": "Integer",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": ["Employee"],
+            "disjointWith": ["Skill"],
+            "inheritsFrom": "Employee",
+            "name": "ContractEmployee"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "SkillID",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": ["Employee", "HourlyEmployee", "SalariedEmployee", "ContractEmployee"],
+            "inheritsFrom": "none",
+            "name": "Skill"
+        }
+    ]
+}

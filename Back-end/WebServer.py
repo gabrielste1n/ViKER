@@ -3,6 +3,8 @@
 # Date Created: 30 August 2019
 # Version: Alpha v1.0
 
+# Launch virtual environemnet in terminal using 'source venv/bin/activate'
+
 import json
 from Main import *
 from flask import Flask, request, jsonify
@@ -14,8 +16,13 @@ cors = CORS(WebServer)
 def transform(json_file, fileType):
     print ("At transform method")
     if (fileType == "ARM"):
-        #print (ARMToEER(json_file))
-        return ARMToEER(json_file)
+        # --------------------------------------------
+        filename = '../Documentation/Phase 4/Test Cases/ERtoARM/ER/TestCase1_EER.JSON'
+        with open(filename, 'r') as json_file: 
+            entities = json.load(json_file)
+        return entities
+        # --------------------------------------------
+        #return ARMToEER(json_file)
     print (json_file)
     return EERToARM(json_file)
 
@@ -43,7 +50,6 @@ def transform_view():
     file_type = determine_model_type(json_file)
 
     transformed_file = transform(json_file, file_type)
-    print (transformed_file)
     return transformed_file
     #return jsonify(transformed_file)
     
