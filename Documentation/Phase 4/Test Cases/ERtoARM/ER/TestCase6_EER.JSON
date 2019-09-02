@@ -1,0 +1,121 @@
+{
+    "entities": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "EmployeeID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "EmployeeName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "EmployeeType",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                ,
+                {
+                    "AttributeName": "Skill",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": true
+                }
+            ],
+            "isStrong": true,
+            "name": "Employee",
+            "relationships": [
+                {
+                    "Entity": "Skill",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "HourlyEmployee",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "SalariedEmployee",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "ContractEmployee",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "HourlyRate",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": false,
+            "name": "HourlyEmployee",
+            "relationships": [
+                {
+                    "Entity": "Employee",
+                    "RelationTypeForeign": "ISA",
+                    "RelationTypeLocal": "ISA",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "AnnualSalary",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": false,
+            "name": "SalariedEmployee",
+            "relationships": [
+                {
+                    "Entity": "Employee",
+                    "RelationTypeForeign": "ISA",
+                    "RelationTypeLocal": "ISA",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "BillingRate",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": false,
+            "name": "ContractEmployee",
+            "relationships": [
+                {
+                    "Entity": "Employee",
+                    "RelationTypeForeign": "ISA",
+                    "RelationTypeLocal": "ISA",
+                    "relationAttributes": []
+                }
+            ]
+        }
+    ]
+}

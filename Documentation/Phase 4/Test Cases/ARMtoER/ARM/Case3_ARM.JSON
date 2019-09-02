@@ -25,7 +25,7 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": ["Dependant"],
             "inheritsFrom": "none",
             "name": "Employee"
         },
@@ -62,7 +62,7 @@
                 {
                     "AttributeName": "EmployeeID",
                     "dataType": "OID",
-                    "isConcrete": true,
+                    "isConcrete": false,
                     "isFK": true,
                     "isPathFunctionalDependancy": true
                 },
@@ -82,7 +82,7 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": ["Employee"],
             "inheritsFrom": "none",
             "name": "Dependant"
         }
