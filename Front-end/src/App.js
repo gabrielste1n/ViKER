@@ -134,7 +134,7 @@ class App extends React.Component {
 
   if(this.state.inputModel !== null){
     console.log('posting');
-const url = "http://192.168.0.108:5000/api/transform"; 
+const url = "http://196.24.151.142:5000/api/transform"; 
 
 axios.post( url, this.state.inputJSONfile).then((response) => {
   console.log(response.data);

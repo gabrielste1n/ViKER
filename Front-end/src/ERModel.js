@@ -197,9 +197,35 @@ for(let key in composedClasses){
 
 graph.addCells(tempArray);
 
-for(let key in classes){
-    createLink(entities['Customer'],classes[key]); //create all the normal links to entity
+
+if(entities['Dependant']){
+    createLink(entities['Employee'],entities['Dependant']); //create all the normal links to entity - must change this to be dynamic
 }
+
+
+for(let key in classes){
+    for(let entity in this.props.classes){
+        for(let attribute in this.props.classes[entity].attributes){
+            
+            if(this.props.classes[entity].attributes[attribute].attributeName === key){
+                console.log('attName key', this.props.classes[entity].attributes[attribute].attributeName, key);
+                for(let entityKey in entities){
+                    console.log('entitykey this.props.classes[entity].attributes[attribute].name', entityKey, this.props.classes[entity].name);
+                        if(entityKey === this.props.classes[entity].name){
+                            createLink(entities[entityKey],classes[key]);
+                        }
+                }
+                 //create all the normal links to entity
+            }
+        }
+    }
+}
+
+// for(let key in classes){
+//     if(entities['Customer']){
+//         createLink(entities['Customer'],classes[key]); //create all the normal links to entity
+//     }
+// }
 
 for(let key in composedDictionary){
     for(let comp in classes){
