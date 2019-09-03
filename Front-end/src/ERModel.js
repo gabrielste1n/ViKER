@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { dia, shapes, g, V}  from 'jointjs';
+import EntityGraphModel from './EntityGraphModel';
 
 class OutputGraph extends React.Component {
 
@@ -12,7 +13,7 @@ class OutputGraph extends React.Component {
     componentDidMount() {
         this.paper = new dia.Paper({
             el: ReactDOM.findDOMNode(this.refs.placeholder),
-            width: 720,
+            width: 900,
             height: 500,
             model: this.graph,
             gridSize: 1,
@@ -92,6 +93,22 @@ erd.ISA.prototype.getConnectionPoint = function(referencePoint) {
     );
 };
 
+var createLink = function(elm1, elm2) {
+
+    var myLink = new erd.Line({
+        markup: [
+            '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
+            '<path class="connection-wrap" d="M 0 0 0 0"/>',
+            '<g class="labels"/>',
+            '<g class="marker-vertices"/>'
+            // '<g class="marker-arrowheads"/>'
+        ].join(''),
+        source: { id: elm1.id },
+        target: { id: elm2.id }
+    });
+
+    return myLink.addTo(graph);
+};
 
 // Unbind orignal highligting handlers.
 this.paper.off('cell:highlight cell:unhighlight');
@@ -115,52 +132,199 @@ this.paper.on('cell:unhighlight', function() {
 
 // Create shapes
 
-var Customer = new erd.Entity({
+let graphModel = new EntityGraphModel(this.props.classes);
+let classes = graphModel.classes;
+let composedClasses = graphModel.composedClasses;
 
-    position: { x: 100, y: 200 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'Customer',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
-        },
-        '.inner': {
-            fill: '#fff',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
+let entities = {}; //all entity graphable objects  
+let relationAttributes = {}; //all relationAttributes
+let relationIdentifiers = {}; //all relationAttributes
+
+let xAdj = 0;
+let yAdj = 0;
+for(let entity in this.props.classes){
+
+    let name = this.props.classes[entity].name;
+    let ent = null;
+
+    if(this.props.classes[entity].isStrong){
+        ent = new erd.Entity({ //entity is always the outer object - need to make sure this is a loop and gets all entities
+
+            position: { x: 150 + xAdj, y: 100 + yAdj},
+            attrs: {
+                text: {
+                    fill: '#000',
+                    text: name,
+                    letterSpacing: 0,
+                    style: { textShadow: '1px 0 1px #333333' },
+                    fontSize: 10
+                },
+                '.outer': {
+                    fill: '#fff',
+                    stroke: 'none',
+                    filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
+                }
+            }
+        });
+    }else{
+        ent = new erd.WeakEntity({ //entity is always the outer object - need to make sure this is a loop and gets all entities
+
+            position: { x: 150 + xAdj, y: 100 + yAdj},
+            attrs: {
+                text: {
+                    fill: '#000',
+                    text: name,
+                    letterSpacing: 0,
+                    style: { textShadow: '1px 0 1px #333333' },
+                    fontSize: 10
+                },
+                        '.inner': {
+                             fill: '#fff',
+                             stroke: '000',
+                             points: '155,5 155,55 5,55 5,5'
+                         },
+                         '.outer': {
+                             fill: '000',
+                             stroke: '#fff',
+                             points: '160,0 160,60 0,60 0,0',
+                             filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#000' }}
+                         }
+            }
+        });
+    }
+    
+    entities[name] = ent;
+    graph.addCell(ent);
+     xAdj = 300;
+     yAdj = -50;
+
+for(let rel in this.props.classes[entity].relationships)
+    { 
+        if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0){
+            console.log('this.props.classes[entity].name this.props.classes[entity].relationships[rel].Entity',this.props.classes[entity].name,this.props.classes[entity].relationships[rel].Entity );
+
+            if(!relationIdentifiers[this.props.classes[entity].name]){
+            //create the indentifying relation
+            relationIdentifiers[this.props.classes[entity].relationships[rel].Entity] =  new erd.Relationship({
+
+                     position: {x: ent.position.x , y: ent.position.y },
+                     attrs: {
+                         text: {
+                             fill: '#ffffff',
+                             text: '',
+                             letterSpacing: 0,
+                             style: { textShadow: '1px 0 1px #333333' }
+                         },
+                         '.outer': {
+                             fill: '#fff',
+                             stroke: 'none',
+                             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
+                         }
+                     }
+                 });
+
+                 graph.addCell(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
+                }
+
+            for(let relation in this.props.classes[entity].relationships[rel].relationAttributes)
+            {
+                if(!relationAttributes[relation]) //only if it doesnt already exist
+               {
+                   relationAttributes[relation] = new erd.Normal({
+                position: { x: ent.position.x  , y: ent.position.y },
+                attrs: {
+                    text: {
+                        fill: '#000',
+                        text: this.props.classes[entity].relationships[rel].relationAttributes[relation],
+                        letterSpacing: 0,
+                        style: { textShadow: '1px 0 1px #333333' },
+                        fontSize: 10
+                    },
+                    '.outer': {
+                        fill: '#fff',
+                        stroke: '#fff',
+                        filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
+                    }
+                }
+            });
+            graph.addCell(relationAttributes[relation]);
+            createLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity],relationAttributes[relation]); 
+
+        }
+        }
+     }
+    }
+}
+
+let tempArray = [];
+
+for(let key in classes){
+    tempArray.push(classes[key]);   //dictionary into array
+}
+
+
+// create a dictionary e.g. customerAddress: [object, object, object]
+let composedDictionary = {};
+for(let key in composedClasses){
+    composedDictionary[key] = [];
+    for(let comp in composedClasses[key]){
+            for(let normalKey in classes){
+                if(composedClasses[key][comp] === normalKey){
+                    classes[normalKey].attributes.position = {x: classes[normalKey].attributes.position.x ,y: classes[normalKey].attributes.position.y + 100};
+                    composedDictionary[key].push(classes[normalKey]);
+                    delete classes[normalKey];
+            }
         }
     }
-});
+}
 
-// var wage = new erd.WeakEntity({
+graph.addCells(tempArray);
 
-//     position: { x: 530, y: 200 },
-//     attrs: {
-//         text: {
-//             fill: '#ffffff',
-//             text: 'Wage',
-//             letterSpacing: 0,
-//             style: { textShadow: '1px 0 1px #333333' }
-//         },
-//         '.inner': {
-//             fill: '#31d0c6',
-//             stroke: 'none',
-//             points: '155,5 155,55 5,55 5,5'
-//         },
-//         '.outer': {
-//             fill: 'none',
-//             stroke: '#31d0c6',
-//             points: '160,0 160,60 0,60 0,0',
-//             filter: { name: 'dropShadow',  args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' }}
-//         }
+for(let entity in this.props.classes){
+    for(let relationship in this.props.classes[entity].relationships){
+        if(entities[this.props.classes[entity].relationships[relationship].Entity]){
+            createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+        }
+    }
+}
+
+
+for(let key in classes){
+    for(let entity in this.props.classes){
+        for(let attribute in this.props.classes[entity].attributes){
+            
+            if(this.props.classes[entity].attributes[attribute].attributeName === key){
+                for(let entityKey in entities){
+                        if(entityKey === this.props.classes[entity].name){
+                            createLink(entities[entityKey],classes[key]);
+                        }
+                }
+                 //create all the normal links to entity
+            }
+        }
+    }
+}
+
+// for(let key in classes){
+//     if(entities['Customer']){
+//         createLink(entities['Customer'],classes[key]); //create all the normal links to entity
 //     }
-// });
+// }
+
+for(let key in composedDictionary){
+    for(let comp in classes){
+        if(key === comp){
+            for(let compA in composedDictionary[key]){
+               
+                createLink(classes[comp],composedDictionary[key][compA]); //create composed links
+            }
+        }
+    }
+     //create all the links
+}
+
+// createLink(Customer, paid).set(createLabel('1'));
+
 
 // var paid = new erd.IdentifyingRelationship({
 
@@ -201,83 +365,6 @@ var Customer = new erd.Entity({
 //         }
 //     }
 // });
-
-var CustomerID = new erd.Key({
-
-    position: { x: 10, y: 90 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerID',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #000' }
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: 'none',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        },
-        '.inner': {
-            fill: '#fff',
-            stroke: 'none'
-        }
-    }
-});
-
-var CustomerName = new erd.Normal({
-
-    position: { x: 75, y: 30 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerName',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: '#fff',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        }
-    }
-});
-
-var CustomerPostalCode = new erd.Normal({
-
-    position: { x: 75, y: 30 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerPostalCode',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: '#fff',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        }
-    }
-});
-
-var CustomerAddress = new erd.Normal({
-
-    position: { x: 75, y: 30 },
-    attrs: {
-        text: {
-            fill: '#000',
-            text: 'CustomerAddress',
-            letterSpacing: 0,
-            style: { textShadow: '1px 0 1px #333333' }
-        },
-        '.outer': {
-            fill: '#fff',
-            stroke: '#fff',
-            filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-        }
-    }
-});
-
 
 // var skills = new erd.Multivalued({
 
@@ -359,22 +446,7 @@ var CustomerAddress = new erd.Normal({
 
 // Helpers
 
-var createLink = function(elm1, elm2) {
 
-    var myLink = new erd.Line({
-        markup: [
-            '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
-            '<path class="connection-wrap" d="M 0 0 0 0"/>',
-            '<g class="labels"/>',
-            '<g class="marker-vertices"/>'
-            // '<g class="marker-arrowheads"/>'
-        ].join(''),
-        source: { id: elm1.id },
-        target: { id: elm2.id }
-    });
-
-    return myLink.addTo(graph);
-};
 
 // var createLabel = function(txt) {
 //     return {
@@ -391,23 +463,12 @@ var createLink = function(elm1, elm2) {
 // Add shapes to the graph
 
 // graph.addCells([Customer, salesman, wage, paid, isa, CustomerID, CustomerName, skills, amount, date, plate, car, uses]);
-graph.addCells([Customer, CustomerID, CustomerName, CustomerAddress, CustomerPostalCode]);
 
-
-// createLink(Customer, paid).set(createLabel('1'));
-createLink(Customer, CustomerID);
-createLink(Customer, CustomerName);
-createLink(Customer, CustomerAddress);
-createLink(Customer, CustomerPostalCode);
 // createLink(Customer, skills).set(createLabel('1..1'));
-// createLink(Customer, isa);
-// createLink(isa, salesman);
 // createLink(salesman, uses).set(createLabel('0..1'));
 // createLink(car, uses).set(createLabel('1..1'));
-// createLink(car, plate);
 // createLink(wage, paid).set(createLabel('N'));
-// createLink(wage, amount);
-// createLink(wage, date);
+
 
     }
 
