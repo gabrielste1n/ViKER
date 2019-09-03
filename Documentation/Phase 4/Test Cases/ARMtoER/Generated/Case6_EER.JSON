@@ -19,12 +19,6 @@
                     "composedOf": [],
                     "isIdentifier": false,
                     "isMultiValued": false
-                },
-                {
-                    "AttributeName": "Skill",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": true
                 }
             ],
             "isStrong": true,
@@ -46,6 +40,12 @@
                     "Entity": "ContractEmployee",
                     "RelationTypeForeign": "ISA",
                     "RelationTypeLocal": "ISA",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "Skill",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ExactlyOne",
                     "relationAttributes": []
                 }
             ]
@@ -106,6 +106,26 @@
                     "Entity": "Employee",
                     "RelationTypeForeign": "ISA",
                     "RelationTypeLocal": "ISA",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "SkillID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": false,
+            "name": "Skill",
+            "relationships": [
+                {
+                    "Entity": "Employee",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ZeroOrMany",
                     "relationAttributes": []
                 }
             ]
