@@ -45,7 +45,7 @@ def readEER(entities):
             
     return toReturn
 
-def writeEER(filename, entities):
+def writeEER(entities):
     '''Writes JSON EER representation from OOP representation.'''
 
     json_entities = {}
@@ -96,7 +96,5 @@ def writeEER(filename, entities):
                 "relationships": relationships
             }
         )
-    #json_file=json.dump(json_entities, indent=4, sort_keys=True)
     return json_entities
-    # with open(filename, 'w') as json_file:
-    #     json.dump(json_entities, json_file, indent=4, sort_keys=True)
+
