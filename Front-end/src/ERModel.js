@@ -183,11 +183,12 @@ let composedClasses = graphModel.composedClasses;
 
 let entities = {}; //all entity graphable objects  
 let relationAttributes = {}; //all relationAttributes
-let relationIdentifiers = {}; //all relationAttributes
+let relationIdentifiers = {}; //all relation indentifiers
 
 let xAdj = 0;
 let yAdj = 0;
 
+// parse all entities and render to graph
 for(let entity in this.props.classes){
 
     let name = this.props.classes[entity].name;
@@ -272,7 +273,9 @@ for(let rel in this.props.classes[entity].relationships)
                  });
                 }else
                 {
-                    relationIdentifiers[this.props.classes[entity].relationships[rel].Entity] =  new erd.ISA({
+                    if(!relationIdentifiers[this.props.classes[entity].name] && !relationIdentifiers[this.props.classes[entity].relationships[rel].Entity])
+                    {
+                        relationIdentifiers[this.props.classes[entity].name] =  new erd.ISA({
 
                         position: {x: ent.position.x , y: ent.position.y },
                         attrs: {
@@ -289,10 +292,11 @@ for(let rel in this.props.classes[entity].relationships)
                                  }
                              }
                          });
+                        }
                  }
 
                  //adds the relation diamond to graoh
-                 graph.addCell(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
+                 graph.addCell(relationIdentifiers[this.props.classes[entity].name]);
                 
                 }
 
@@ -332,12 +336,12 @@ for(let rel in this.props.classes[entity].relationships)
 
 let tempArray = [];
 
+//dictionary into array
 for(let key in classes){
-    tempArray.push(classes[key]);   //dictionary into array
+    tempArray.push(classes[key]);   
 }
 
 // create a dictionary e.g. customerAddress: [object, object, object]
-
 let composedDictionary = {};
 for(let key in composedClasses){
     composedDictionary[key] = [];
@@ -352,14 +356,18 @@ for(let key in composedClasses){
     }
 }
 
+//add attributes to graph
 graph.addCells(tempArray);
 
+// create links to relationship types
+console.log('relIdenti',relationIdentifiers);
 for(let entity in this.props.classes){
     if(this.props.classes[entity].relationships){   //look for relation types
         for(let rel in this.props.classes[entity].relationships)
     { 
         if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0 || this.props.classes[entity].relationships[rel].RelationTypeLocal === 'ISA' 
         || relationIdentifiers[this.props.classes[entity].name]){ //if there are relation attributes or ISA
+            
             if(relationIdentifiers[this.props.classes[entity].name]){ //if i exist in the relation array - create link to diamond
                 createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].name])
             }
@@ -371,7 +379,7 @@ for(let entity in this.props.classes){
             for(let relationship in this.props.classes[entity].relationships){
             if(entities[this.props.classes[entity].relationships[relationship].Entity]){
                 if(!relationIdentifiers[this.props.classes[entity].name] && ( !relationIdentifiers[this.props.classes[entity].relationships[relationship].Entity] || !this.props.classes[entity].relationships[relationship].relationAttributes.length >0 )){
-                    createZeroToManyLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+                    createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
                 }
             }
         }
@@ -392,7 +400,7 @@ for(let entity in this.props.classes){
     }
 }
 }
-
+//create links betweeen entities and their attributes
 for(let key in classes){
     for(let entity in this.props.classes){
         for(let attribute in this.props.classes[entity].attributes){
@@ -409,11 +417,11 @@ for(let key in classes){
     }
 }
 
+//create links for composed attributes
 for(let key in composedDictionary){
     for(let comp in classes){
         if(key === comp){
             for(let compA in composedDictionary[key]){
-               
                 createLink(classes[comp],composedDictionary[key][compA]); //create composed links
             }
         }
