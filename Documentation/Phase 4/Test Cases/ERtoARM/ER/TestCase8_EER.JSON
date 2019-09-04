@@ -1,0 +1,126 @@
+{
+    "entities": [
+        {
+            "name": "PatientTreatment",
+            "isStrong": true,
+            "attributes": [
+                {
+                    "AttributeName": "TreatmentDate",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": []
+                },
+                {
+                    "AttributeName": "TreatmentTime",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": []
+                },
+                {
+                    "AttributeName": "TreatmentResults",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": []
+                }
+            ],
+            "relationships": [
+                {
+                    "Entity": "Patient",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "Treatment",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "Physician",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "name": "Patient",
+            "isStrong": true,
+            "attributes": [
+                {
+                    "AttributeName": "PatientID",
+                    "isIdentifier": true,
+                    "isMultiValued": false,
+                    "composedOf": []
+                },
+                {
+                    "AttributeName": "PatientName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": []
+                }
+            ],
+            "relationships": [
+                {
+                    "Entity": "PatientTreatment",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "name": "Treatment",
+            "isStrong": true,
+            "attributes": [
+                {
+                    "AttributeName": "TreatmentCode",
+                    "isIdentifier": true,
+                    "isMultiValued": false,
+                    "composedOf": []
+                },
+                {
+                    "AttributeName": "TreatmentDescription",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": []
+                }
+            ],
+            "relationships": [
+                {
+                    "Entity": "PatientTreatment",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "name": "Physician",
+            "isStrong": true,
+            "attributes": [
+                {
+                    "AttributeName": "PhysicianID",
+                    "isIdentifier": true,
+                    "isMultiValued": false,
+                    "composedOf": []
+                },
+                {
+                    "AttributeName": "PhysicianName",
+                    "isIdentifier": false,
+                    "isMultiValued": false,
+                    "composedOf": []
+                }
+            ],
+            "relationships": [
+                {
+                    "Entity": "PatientTreatment",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "relationAttributes": []
+                }
+            ]
+        }
+    ]
+}
