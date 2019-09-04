@@ -1,3 +1,4 @@
+/* Stylesheet for entire project */
 .App{
     display: flex;
     flex-direction: column;
@@ -14,28 +15,32 @@
     box-sizing: border-box;
     width: 100%;
     height: 50px;
-    padding: 16px;
     font-size: 24px;
-    background-color: #222222;
+    background-color: #235886;
     display: flex;
     flex-direction: row;
     color: white;
 }
 
 .InputHeader {
+    padding: 16px;
     box-sizing: border-box;
     width: 50%;
     height: 50px;
     font-size: 24px;
     color: white;
+    font-family: 'Lilita One', cursive;
+
 }
 
 .OutputHeader {
+    padding: 16px;
     box-sizing: border-box;
     width: 50%;
     height: 50px;
     font-size: 24px;
     color: white;
+    font-family: 'Lilita One', cursive;
 }
 
 .InputDiagram {
@@ -69,12 +74,11 @@
 
 .TextAreaWrap{
     box-sizing: border-box;
-    margin: 16px;
+    margin: 16px 16px 13px 16px;
     height: 100px;
     display: flex;
     justify-content: center;
 }
-
 
 .TextArea{
     white-space: pre-line;
@@ -87,18 +91,22 @@
     outline: none;
     color: #222222;
     height: 100%;
+    resize: none;
+    font-family: 'Roboto', sans-serif;
 }
 
 .ButtonContainer{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 13px;
 }
 
 .ButtonContainer button{
     box-sizing: border-box;
-    width: 180px;
+    font-family: 'Lilita One', cursive;
+
+    width: 220px;
     height: 40px;
     line-height: 16px;
     font-size: 16px;
@@ -112,7 +120,6 @@
     cursor: pointer;
     border-radius: 10px;
 }
-
 
 .ButtonContainer button:hover{
     background-color: #286090;

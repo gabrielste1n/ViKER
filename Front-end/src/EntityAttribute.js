@@ -1,3 +1,4 @@
+// object to parse json for entity attribute
 class EntityAttribute {
    
     constructor(attributeName, isIdentifier, isMultiValued, composedOf){

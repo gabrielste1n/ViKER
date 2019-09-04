@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { dia, shapes }  from 'jointjs';
 import RelationGraphModel from './RelationGraphModel';
 
+// the object for rendering the AR model
 class ARModel extends React.Component {
 
     constructor(props) {
@@ -15,6 +16,7 @@ class ARModel extends React.Component {
     componentDidMount() {
         let graph = this.graph;
 
+        // create the size of the graph
         this.paper = new dia.Paper({
             el: ReactDOM.findDOMNode(this.refs.placeholder),
             width: 900,
@@ -26,6 +28,7 @@ class ARModel extends React.Component {
         let graphModel = new RelationGraphModel(this.props.classes);
         let classes = graphModel.classes;
        
+        // add to graph
         Object.keys(classes).forEach(function(key) {
             graph.addCell(classes[key]);
         });

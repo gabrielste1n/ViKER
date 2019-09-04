@@ -203,7 +203,7 @@ for(let entity in this.props.classes){
                     fill: '#000',
                     text: name,
                     letterSpacing: 0,
-                    style: { textShadow: '1px 0 1px #333333' },
+                    style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto' },
                     fontSize: 10
                 },
                 '.outer': {
@@ -222,7 +222,7 @@ for(let entity in this.props.classes){
                     fill: '#000',
                     text: name,
                     letterSpacing: 0,
-                    style: { textShadow: '1px 0 1px #333333' },
+                    style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto'  },
                     fontSize: 10
                 },
                         '.inner': {
@@ -262,7 +262,7 @@ for(let rel in this.props.classes[entity].relationships)
                              fill: '#ffffff',
                              text: '',
                              letterSpacing: 0,
-                             style: { textShadow: '1px 0 1px #333333' }
+                             style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto'  }
                          },
                          '.outer': {
                              fill: '#fff',
@@ -283,7 +283,7 @@ for(let rel in this.props.classes[entity].relationships)
                                      text: 'ISA',
                                      fill: '#000',
                                      letterSpacing: 0,
-                                     style: { 'text-shadow': '1px 0 1px #333333' }
+                                     style: { 'text-shadow': '1px 0 1px #333333', fontFamily: 'Roboto'  }
                                  },
                                  polygon: {
                                      fill: '#fff',
@@ -292,11 +292,13 @@ for(let rel in this.props.classes[entity].relationships)
                                  }
                              }
                          });
+
+                         graph.addCell(relationIdentifiers[this.props.classes[entity].name]);
                         }
                  }
 
                  //adds the relation diamond to graoh
-                 graph.addCell(relationIdentifiers[this.props.classes[entity].name]);
+                 
                 
                 }
 
@@ -312,7 +314,7 @@ for(let rel in this.props.classes[entity].relationships)
                         fill: '#000',
                         text: this.props.classes[entity].relationships[rel].relationAttributes[relation],
                         letterSpacing: 0,
-                        style: { textShadow: '1px 0 1px #333333' },
+                        style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto'  },
                         fontSize: 10
                     },
                     '.outer': {
@@ -392,7 +394,6 @@ for(let entity in this.props.classes){
         for(let relationship in this.props.classes[entity].relationships){
         if(entities[this.props.classes[entity].relationships[relationship].Entity]){
             if(!relationIdentifiers[this.props.classes[entity].name]){
-                console.log('4) source dest', this.props.classes[entity].name, this.props.classes[entity].relationships[relationship].Entity);
                 createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
 
             }
@@ -429,22 +430,7 @@ for(let key in composedDictionary){
      //create all the links
 }
 
-// Helpers
-
-// var createLabel = function(txt) {
-//     return {
-//         labels: [{
-//             position: -20,
-//             attrs: {
-//                 text: { dy: -8, text: txt, fill: '#ffffff' },
-//                 rect: { fill: 'none' }
-//             }
-//         }]
-//     };
-// };
-// createLink(Customer, skills).set(createLabel('1..1'));
-
-    }
+}
 
     render() {
         return <div ref="placeholder"></div>;
