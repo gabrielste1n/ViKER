@@ -101,7 +101,6 @@ const createLink = function(elm1, elm2) {
             '<path class="connection-wrap" d="M 0 0 0 0"/>',
             '<g class="labels"/>',
             '<g class="marker-vertices"/>'
-            // '<g class="marker-arrowheads"/>'
         ].join(''),
         source: { id: elm1.id },
         target: { id: elm2.id }
@@ -118,10 +117,37 @@ const createDashedLink = function(elm1, elm2) {
             '<path class="connection-wrap" d="M 0 0 0 0"/>',
             '<g class="labels"/>',
             '<g class="marker-vertices"/>'
-            // '<g class="marker-arrowheads"/>'
+            ].join(''),
+        source: { id: elm1.id },
+        target: { id: elm2.id }
+    });
+
+    return myLink.addTo(graph);
+};
+
+const createZeroToManyLink = function(elm1, elm2) {
+console.log('being used');
+    let myLink = new erd.Line({
+        markup: [
+            '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
+            '<path class="connection-wrap" d="M 0 0 0 0"/>',
+            '<g class="labels"/>',
+            '<g class="marker-vertices" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>',
+            '<g class="marker-target" fill="#FFFFFF" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>'
         ].join(''),
         source: { id: elm1.id },
         target: { id: elm2.id }
+    });
+
+    myLink.attr({
+        '.marker-source': {
+            d: 'M 10 0 L 10 20 L 10 10 L 0 10 L 14 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0',
+            fill: '#FFFFFF'
+           },
+          '.marker-target': {
+            d: "M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0",
+            fill: '#FFFFFF'
+           }
     });
 
     return myLink.addTo(graph);
@@ -159,6 +185,7 @@ let relationIdentifiers = {}; //all relationAttributes
 
 let xAdj = 0;
 let yAdj = 0;
+
 for(let entity in this.props.classes){
 
     let name = this.props.classes[entity].name;
@@ -324,7 +351,6 @@ for(let key in composedClasses){
 
 graph.addCells(tempArray);
 
-console.log('relationIdentifiers', relationIdentifiers);
 for(let entity in this.props.classes){
     if(this.props.classes[entity].relationships){   //look for relation types
         for(let rel in this.props.classes[entity].relationships)
@@ -332,21 +358,17 @@ for(let entity in this.props.classes){
         if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0 || this.props.classes[entity].relationships[rel].RelationTypeLocal === 'ISA' 
         || relationIdentifiers[this.props.classes[entity].name]){ //if there are relation attributes or ISA
             if(relationIdentifiers[this.props.classes[entity].name]){ //if i exist in the relation array - create link to diamond
-                console.log('1) source dest', this.props.classes[entity].name,this.props.classes[entity].name);
                 createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].name])
             }
             else{
-                console.log('2) source dest',this.props.classes[entity].name,this.props.classes[entity].relationships[rel].Entity);
-
                 createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
             }
         }else
         {
             for(let relationship in this.props.classes[entity].relationships){
             if(entities[this.props.classes[entity].relationships[relationship].Entity]){
-                console.log('3) source dest', this.props.classes[entity].name,this.props.classes[entity].relationships[relationship].Entity);
                 if(!relationIdentifiers[this.props.classes[entity].name] && ( !relationIdentifiers[this.props.classes[entity].relationships[relationship].Entity] || !this.props.classes[entity].relationships[relationship].relationAttributes.length >0 )){
-                    createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+                    createZeroToManyLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
                 }
             }
         }
@@ -367,7 +389,6 @@ for(let entity in this.props.classes){
     }
 }
 }
-
 
 for(let key in classes){
     for(let entity in this.props.classes){
@@ -415,7 +436,6 @@ for(let key in composedDictionary){
 // createLink(salesman, uses).set(createLabel('0..1'));
 // createLink(car, uses).set(createLabel('1..1'));
 // createLink(wage, paid).set(createLabel('N'));
-
 
     }
 

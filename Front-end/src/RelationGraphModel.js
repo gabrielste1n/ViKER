@@ -41,7 +41,6 @@ class RelationGraphModel {
                     else{
                         
                         if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency && innerPFDCounter === 0){ //first pfd in 2nd table
-                            console.log('gets hit');
                             convertedAttribute = '{'+ name + " : "+ type;
                             innerPFDCounter++;
                         }else{
