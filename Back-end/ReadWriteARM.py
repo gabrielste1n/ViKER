@@ -36,7 +36,9 @@ def readARM(relations):
             
     return toReturn
 
-def writeARM(filename, relations):
+#def writeARM(filename, relations):
+def writeARM(relations):
+
     '''Writes JSON ARM representation from OOP representation.'''
 
     json_relations = {}

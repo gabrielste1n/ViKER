@@ -77,11 +77,14 @@ def EERToARM(file, fileNum=1):
 
         alreadyProcessed.append(E.getName())
         
-    return writeARM(path_write+"ARM"+str(fileNum)+".JSON", list(relations))
+    #return writeARM(path_write+"ARM"+str(fileNum)+".JSON", list(relations))
+    return writeARM(list(relations))
 
-def ARMToEER(filePathRead, filePathWrite):
+#def ARMToEER(filePathRead, filePathWrite):
+def ARMToEER(file, fileNum=1):
+
     # Produce JSON representation of given schema in EER
-    relations = np.array(readARM(filePathRead)) # read in array of entities from JSON file
+    relations = np.array(readARM(file)) # read in array of entities from JSON file
 
     entities = []
     weakRelationshipTypes = []
@@ -113,7 +116,7 @@ def ARMToEER(filePathRead, filePathWrite):
     for T in weakRelationshipTypes:
         createSpecialRelationships(T, entities)
 
-    return entities
+    return writeEER(list(entities))
 
 #############################################################################################
 # ER -> ARM Functions
