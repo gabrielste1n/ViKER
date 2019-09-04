@@ -370,42 +370,42 @@ def EERToARM(filePathRead, filePathWrite):
     # Consider all relationships between entities; transform accordingly
     for LE in strongEntities:
         for R in LE.getRelationships():
-
             # local and foreign entity tuple 
-            pair = sorted((LE.getName(), LE.getName())) 
+            pair = sorted((LE.getName(), R.getEntityName())) 
 
             # A one to one relationship between entities
             oneToOne = (R.getLocalRelationship() == RelationTypes.EXACTLY_ONE.value and 
                         R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
 
             # A one to one relationship between entities
-            manToOne = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
+            manyToOne = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
                         R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
 
             # A many to many relationship between entities
             manyToMany = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
-                          R.getForeignRelationship() == RelationTypes.ZERO_OR_MANY.value) 
-
-            if(manToOne or manyToMany):
-                # Get foreign entity
-                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
-                FE = strongEntities[foreignEntityIndex]
+                          R.getForeignRelationship() == RelationTypes.ZERO_OR_MANY.value)
 
             # For each 1:1 relationship between relation S and T, include as an FK in S, 
             # the PK of T as a constraint
             if(oneToOne and not pair in alreadyProcessed):
+                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
+                FE = strongEntities[foreignEntityIndex] 
                 oneToOneTransform(LE, FE, R)
                 alreadyProcessed.append(pair)
                 
             # For each 1:N relationship between S and T respectively, include as an FK in T, 
             # the PK of S as a constraint
-            elif(manToOne):
+            elif(manyToOne):
+                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
+                FE = strongEntities[foreignEntityIndex] 
                 manyToOneTransform(LE, FE, relations)
 
             # For each M:N relationship between S and T create a new relation R and include 
             # as FK attributes the primary keys of S and T, which will together form the 
             # composite primary key for R. Include other regular attributes belonging to the relationship
             elif(manyToMany and not pair in alreadyProcessed):
+                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
+                FE = strongEntities[foreignEntityIndex] 
                 T = manyToManyTransform(LE, FE, R) 
                 relations = np.concatenate([relations, T])
                 alreadyProcessed.append(pair) 
@@ -766,8 +766,7 @@ def addDisjointCoveringConstraints(PFDMap, nameMap, relations):
             if(PFDMap[key] == pfdAttributes):
                 print(key)
                 print(T.getName())
-    
-    return
+                print("######################")
 
 class DataTypes(Enum):
     '''Specific types of data available'''
