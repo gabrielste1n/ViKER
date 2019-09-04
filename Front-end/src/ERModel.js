@@ -93,11 +93,28 @@ erd.ISA.prototype.getConnectionPoint = function(referencePoint) {
     );
 };
 
-var createLink = function(elm1, elm2) {
+const createLink = function(elm1, elm2) {
 
     var myLink = new erd.Line({
         markup: [
             '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
+            '<path class="connection-wrap" d="M 0 0 0 0"/>',
+            '<g class="labels"/>',
+            '<g class="marker-vertices"/>'
+            // '<g class="marker-arrowheads"/>'
+        ].join(''),
+        source: { id: elm1.id },
+        target: { id: elm2.id }
+    });
+
+    return myLink.addTo(graph);
+};
+
+const createDashedLink = function(elm1, elm2) {
+
+    let myLink = new erd.Line({
+        markup: [
+            '<path class="connection" stroke="black" stroke-dasharray="2,5"  d="M 0 0 0 0"/>',
             '<path class="connection-wrap" d="M 0 0 0 0"/>',
             '<g class="labels"/>',
             '<g class="marker-vertices"/>'
@@ -201,7 +218,6 @@ for(let entity in this.props.classes){
 for(let rel in this.props.classes[entity].relationships)
     { 
         if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0){
-            console.log('this.props.classes[entity].name this.props.classes[entity].relationships[rel].Entity',this.props.classes[entity].name,this.props.classes[entity].relationships[rel].Entity );
 
             if(!relationIdentifiers[this.props.classes[entity].name]){
             //create the indentifying relation
@@ -248,13 +264,16 @@ for(let rel in this.props.classes[entity].relationships)
                 }
             });
             graph.addCell(relationAttributes[relation]);
-            createLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity],relationAttributes[relation]); 
+            createDashedLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity],relationAttributes[relation]); 
 
+         }
         }
-        }
+
      }
     }
 }
+
+
 
 let tempArray = [];
 
@@ -281,11 +300,35 @@ for(let key in composedClasses){
 graph.addCells(tempArray);
 
 for(let entity in this.props.classes){
-    for(let relationship in this.props.classes[entity].relationships){
+    if(this.props.classes[entity].relationships){   //look for relation types
+        for(let rel in this.props.classes[entity].relationships)
+    { 
+        if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0){
+            if(relationIdentifiers[this.props.classes[entity].name]){
+                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].name])
+            }else{
+                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]) ;
+
+            }
+        }else
+        {
+            for(let relationship in this.props.classes[entity].relationships){
+            if(entities[this.props.classes[entity].relationships[relationship].Entity]){
+                createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+            }
+        }
+    }
+        
+    }
+}
+    else
+    {
+        for(let relationship in this.props.classes[entity].relationships){
         if(entities[this.props.classes[entity].relationships[relationship].Entity]){
             createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
         }
     }
+}
 }
 
 
@@ -305,12 +348,6 @@ for(let key in classes){
     }
 }
 
-// for(let key in classes){
-//     if(entities['Customer']){
-//         createLink(entities['Customer'],classes[key]); //create all the normal links to entity
-//     }
-// }
-
 for(let key in composedDictionary){
     for(let comp in classes){
         if(key === comp){
@@ -323,30 +360,6 @@ for(let key in composedDictionary){
      //create all the links
 }
 
-// createLink(Customer, paid).set(createLabel('1'));
-
-
-// var paid = new erd.IdentifyingRelationship({
-
-//     position: { x: 350, y: 190 },
-//     attrs: {
-//         text: {
-//             fill: '#ffffff',
-//             text: 'Gets paid',
-//             letterSpacing: 0,
-//             style: { textShadow: '1px 0 1px #333333' }
-//         },
-//         '.inner': {
-//             fill: '#7c68fd',
-//             stroke: 'none'
-//         },
-//         '.outer': {
-//             fill: 'none',
-//             stroke: '#7c68fd',
-//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
-//         }
-//     }
-// });
 
 // var isa = new erd.ISA({
 
@@ -366,87 +379,8 @@ for(let key in composedDictionary){
 //     }
 // });
 
-// var skills = new erd.Multivalued({
-
-//     position: { x: 150, y: 90 },
-//     attrs: {
-//         text: {
-//             fill: '#ffffff',
-//             text: 'Skills',
-//             letterSpacing: 0,
-//             style: { 'text-shadow': '1px 0px 1px #333333' }
-//         },
-//         '.inner': {
-//             fill: '#fe8550',
-//             stroke: 'none',
-//             rx: 43,
-//             ry: 21
-
-//         },
-//         '.outer': {
-//             fill: '#464a65',
-//             stroke: '#fe8550',
-//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-//         }
-//     }
-// });
-
-// var amount = new erd.Derived({
-
-//     position: { x: 440, y: 80 },
-//     attrs: {
-//         text: {
-//             fill: '#ffffff',
-//             text: 'Amount',
-//             letterSpacing: 0,
-//             style: { textShadow: '1px 0 1px #333333' }
-//         },
-//         '.inner': {
-//             fill: '#fca079',
-//             stroke: 'none',
-//             display: 'block'
-//         },
-//         '.outer': {
-//             fill: '#464a65',
-//             stroke: '#fe854f',
-//             'stroke-dasharray': '3,1',
-//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
-//         }
-//     }
-// });
-
-// var uses = new erd.Relationship({
-
-//     position: { x: 300, y: 390 },
-//     attrs: {
-//         text: {
-//             fill: '#ffffff',
-//             text: 'Uses',
-//             letterSpacing: 0,
-//             style: { textShadow: '1px 0 1px #333333' }
-//         },
-//         '.outer': {
-//             fill: '#797d9a',
-//             stroke: 'none',
-//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
-//         }
-//     }
-// });
-
-// Create new shapes by cloning
-
-// var salesman = Customer.clone().translate(0, 200).attr('text/text', 'Salesman');
-
-// var date = CustomerName.clone().position(585, 80).attr('text/text', 'Date');
-
-// var car = Customer.clone().position(430, 400).attr('text/text', 'Company car');
-
-// var plate = CustomerID.clone().position(405, 500).attr('text/text', 'Plate');
-
 
 // Helpers
-
-
 
 // var createLabel = function(txt) {
 //     return {
@@ -459,10 +393,6 @@ for(let key in composedDictionary){
 //         }]
 //     };
 // };
-
-// Add shapes to the graph
-
-// graph.addCells([Customer, salesman, wage, paid, isa, CustomerID, CustomerName, skills, amount, date, plate, car, uses]);
 
 // createLink(Customer, skills).set(createLabel('1..1'));
 // createLink(salesman, uses).set(createLabel('0..1'));

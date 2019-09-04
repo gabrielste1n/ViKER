@@ -38,6 +38,33 @@ class EntityGraphModel {
             if(this.entityClasses[index].attributes[attr].isIdentifier){                                           //check to see if foreign key or not
                 this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Key(tempObject);
             }
+            else if(this.entityClasses[index].attributes[attr].isMultiValued){
+                this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Multivalued({
+
+                    position: { x: 10 + horAdj, y: 150 + vertAdj},
+                    attrs: {
+                             text: {
+                                 fill: '#000',
+                                 text: this.entityClasses[index].attributes[attr].attributeName,
+                                 letterSpacing: 0,
+                                 style: { 'text-shadow': '1px 0px 1px #333333' }
+                             },
+                             '.inner': {
+                                 fill: '#fff',
+                                 stroke: 'none',
+                                 rx: 43,
+                                 ry: 21
+                    
+                             },
+                             '.outer': {
+                                 fill: '#000',
+                                 stroke: '#fff',
+                                 filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 2, color: '#222138' }}
+                             }
+                         }
+                     });
+
+            }
             else{
                 this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Normal(tempObject);
             }

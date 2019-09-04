@@ -48,17 +48,6 @@ class ARModel extends React.Component {
                         for(let relatedAttr in this.props.classes[relatedRel].attributes){
                             if(this.props.classes[relatedRel].attributes[relatedAttr].attributeName === foreignKey && this.props.classes[relatedRel].attributes[relatedAttr].isFK === false){
                                 let primaryObject = this.props.classes[relatedRel].name;
-                                //currently makes source foreign key - should change
-                                // let myLink = new erd.Line({
-                                //     markup: [
-                                //         '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
-                                //         '<path class="connection-wrap" d="M 0 0 0 0"/>',
-                                //         '<g class="labels"/>',
-                                //         '<g class="marker-vertices"/>'
-                                //     ].join(''),
-                                //     source: { id: classes[foreignObject].id },
-                                //     target: { id: classes[primaryObject].id }
-                                // });
                                 let link = new shapes.standard.Link({ source: { id: classes[foreignObject].id }, target: { id: classes[primaryObject].id }});
                                 link.attr('root/title', 'joint.shapes.standard.Link');
                                 connections.push(link);
