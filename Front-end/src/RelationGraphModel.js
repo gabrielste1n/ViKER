@@ -12,17 +12,19 @@ class RelationGraphModel {
     
    
     parseIntoGraphModel(){
+
         let heightAdjust = 50 ;
         let widthAdjust = 100 ;
-        let innerPFDCounter = 0;
-        let outerPFDCounter = 0; //counts how many path funcitonal dependencies there are
-        let self = '} -> self';
+        let pathAttrs = [];
+        let pathFD = 'pathFD(';
+
         for(let index in this.relationClasses){
             
             
             let attributeArray = []; //need to turn attributes into correct format name : dataType
             for(let attribute in this.relationClasses[index].attributes){
                 let convertedAttribute = '';
+                
                 if(this.relationClasses[index].attributes[attribute].attributeName === 'self'){ 
                     // do nothing
                 }
@@ -34,34 +36,11 @@ class RelationGraphModel {
                         name = name + '*';
                     }
 
-                    if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency && outerPFDCounter === 0 ){ //if in first table
-                        convertedAttribute = '{'+ name + " : "+ type + self;
-                        outerPFDCounter++;
+                    if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency ){ //if in first table
+                        pathAttrs.push(name);
                     }
-                    else{
-                        
-                        if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency && innerPFDCounter === 0){ //first pfd in 2nd table
-                            convertedAttribute = '{'+ name + " : "+ type;
-                            innerPFDCounter++;
-                        }else{
-                            if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency && innerPFDCounter > 0){ //not the first pfd in 2nd table
-                                convertedAttribute = name + " : "+ type;
-                                innerPFDCounter++;
-                            }
-                        }
-                        if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency && innerPFDCounter === 0 && type === 'OID'){ //last pfd in 2nd table
-                            convertedAttribute = '{'+ name + " : "+ type + self;
-                            innerPFDCounter++;
-                        }
-                        if(this.relationClasses[index].attributes[attribute].isPathFunctionalDependency && innerPFDCounter > 0 && type === 'OID'){ //last pfd in 2nd table
-                            convertedAttribute = name + " : "+ type + self;
-                            innerPFDCounter++;
-                        }
-                        if(!this.relationClasses[index].attributes[attribute].isPathFunctionalDependency){ // normal attribute
-                            convertedAttribute = name + " : "+ type;
-                        }
-                    }
-                    
+                     // normal attribute
+                    convertedAttribute = name + " : "+ type;
                     attributeArray.push(convertedAttribute); 
                 }
             }
@@ -69,9 +48,9 @@ class RelationGraphModel {
             //creating object to store graph info
             let tempObject = {
                 position: { x: widthAdjust  , y: heightAdjust }, // adjust height
-                size: { width: 260, height: (attributeArray.length * 25) + 25 },           // standard width and height variabled by number of attributes
+                size: { width: (pathAttrs.length * 80) + 150, height: (attributeArray.length * 25) + 25 },           // standard width and height variabled by number of attributes
                 name: this.relationClasses[index].name,
-                attributes: ['*Self'],                      // we want to structure arm so thta self appears in the standard attributes section of an uml
+                attributes: [(pathFD + pathAttrs.join(',')+ ') -> self')],                      // we want to structure arm so thta self appears in the standard attributes section of an uml
                 methods: attributeArray,
                 attrs: {
                     '.uml-class-name-rect': {
@@ -99,7 +78,8 @@ class RelationGraphModel {
             heightAdjust += 150;
             widthAdjust += 100;
             
-            
+            pathAttrs = []; //reset path functional entities
+
         }
     }
 }
