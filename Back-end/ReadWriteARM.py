@@ -10,8 +10,6 @@ from Attribute import ARMAttribute
 def readARM(relations):
 #def readARM(filename):
     '''Reads in JSON ARM file and creates relevant objects as needed.'''
-    # with open(filename, 'r') as json_file:
-    #     relations = json.load(json_file)
     toReturn = []
     for relation in relations['relations']:
         attributes = []
@@ -36,7 +34,9 @@ def readARM(relations):
             
     return toReturn
 
-def writeARM(filename, relations):
+#def writeARM(filename, relations):
+def writeARM(relations):
+
     '''Writes JSON ARM representation from OOP representation.'''
 
     json_relations = {}
@@ -75,7 +75,5 @@ def writeARM(filename, relations):
                 "disjointWith": disjointWith
             }
         )
-    # with open(filename, 'w') as json_file:
-    #     json.dump(json_relations, json_file, indent=4, sort_keys=True)
+
     return json_relations
-    #return json.dumps(json_relations)

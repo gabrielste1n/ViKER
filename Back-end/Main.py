@@ -12,7 +12,7 @@ import json
 #############################################################################################
 # ARM -> ER Functions
 #############################################################################################
-def ARMToEER(filePathRead, filePathWrite):
+def ARMToEER(relations):
     """
     Given a JSON representation of an ARM schema, transform and produce a JSON 
     representation of the schema as an EER model.
@@ -28,11 +28,6 @@ def ARMToEER(filePathRead, filePathWrite):
     entities: an array of entity objects representing the resultanting from
               the transformation. 
     """
-
-    # REMOVE WHEN DONE ########################
-    with open(filePathRead, 'r') as json_file:
-        relations = json.load(json_file)
-    # REMOVE WHEN DONE ########################
 
     # Get an array of relation objects belonging to the ARM
     relations = np.array(readARM(relations)) 
@@ -80,7 +75,8 @@ def ARMToEER(filePathRead, filePathWrite):
         createManyToManyRelationship(T, entities)
 
     # Write resultant entities to file
-    writeEER(filePathWrite, list(entities))
+    return writeEER(list(entities))
+
 
 def getRelationshipType(T):
     """
@@ -330,7 +326,7 @@ def createManyToManyRelationship(T, entities):
 #############################################################################################
 # ER -> ARM Functions
 #############################################################################################
-def EERToARM(filePathRead, filePathWrite):
+def EERToARM(entities):
     """
     Given a JSON representation of an ER conceptual model, transform and produce a JSON 
     representation of the schema as an ARM.
@@ -346,13 +342,8 @@ def EERToARM(filePathRead, filePathWrite):
     entities: an array of entity objects representing the resultanting from
               the transformation. 
     """
-    
-    # REMOVE WHEN DONE ########################
-    with open(filePathRead, 'r') as json_file:
-        entity_file = json.load(json_file)
-    # REMOVE WHEN DONE ########################
 
-    entities = np.array(readEER(entity_file)) # read in array of entities from JSON file
+    entities = np.array(readEER(entities)) # read in array of entities from JSON file
     strongEntities = np.array([E for E in entities if E.isStrongEntity()]) 
     weakEntities = np.array([E for E in entities if not E.isStrongEntity()])
     relations = np.array([])
@@ -417,7 +408,7 @@ def EERToARM(filePathRead, filePathWrite):
     addDisjointCoveringConstraints(PFDMap, nameMap, relations)
 
     # Write resultant relations to file
-    writeARM(filePathWrite, list(relations))
+    return writeARM(list(relations))
 
 def StrongEntityToRelation(strongEntities):
     """

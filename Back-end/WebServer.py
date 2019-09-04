@@ -16,13 +16,13 @@ cors = CORS(WebServer)
 def transform(json_file, fileType):
     print ("At transform method")
     if (fileType == "ARM"):
-        # --------------------------------------------
-        filename = '../Documentation/Phase 4/Test Cases/ERtoARM/ER/TestCase1_EER.JSON'
-        with open(filename, 'r') as json_file: 
-            entities = json.load(json_file)
-        return entities
-        # --------------------------------------------
-        #return ARMToEER(json_file)
+        # # --------------------------------------------
+        # filename = '../Documentation/Phase 4/Test Cases/ERtoARM/ER/TestCase1_EER.JSON'
+        # with open(filename, 'r') as json_file: 
+        #     entities = json.load(json_file)
+        # return entities
+        # # --------------------------------------------
+        return ARMToEER(json_file)
     print (json_file)
     return EERToARM(json_file)
 
