@@ -217,10 +217,13 @@ for(let entity in this.props.classes){
 
 for(let rel in this.props.classes[entity].relationships)
     { 
-        if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0){
+        if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0 || this.props.classes[entity].relationships[rel].RelationTypeLocal === 'ISA'){
 
-            if(!relationIdentifiers[this.props.classes[entity].name]){
-            //create the indentifying relation
+            if(!relationIdentifiers[this.props.classes[entity].name] && !relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]){
+
+            if(this.props.classes[entity].relationships[rel].RelationTypeLocal !== 'ISA')
+            {//create the indentifying relation
+
             relationIdentifiers[this.props.classes[entity].relationships[rel].Entity] =  new erd.Relationship({
 
                      position: {x: ent.position.x , y: ent.position.y },
@@ -238,10 +241,33 @@ for(let rel in this.props.classes[entity].relationships)
                          }
                      }
                  });
+                }else
+                {
+                    relationIdentifiers[this.props.classes[entity].relationships[rel].Entity] =  new erd.ISA({
 
+                        position: {x: ent.position.x , y: ent.position.y },
+                        attrs: {
+                                 text: {
+                                     text: 'ISA',
+                                     fill: '#000',
+                                     letterSpacing: 0,
+                                     style: { 'text-shadow': '1px 0 1px #333333' }
+                                 },
+                                 polygon: {
+                                     fill: '#fff',
+                                     stroke: 'none',
+                                     filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
+                                 }
+                             }
+                         });
+                 }
+
+                 //adds the relation diamond to graoh
                  graph.addCell(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
+                
                 }
 
+            //create the relationship attributes
             for(let relation in this.props.classes[entity].relationships[rel].relationAttributes)
             {
                 if(!relationAttributes[relation]) //only if it doesnt already exist
@@ -263,6 +289,8 @@ for(let rel in this.props.classes[entity].relationships)
                     }
                 }
             });
+
+            //add the relationship attributes to the graph
             graph.addCell(relationAttributes[relation]);
             createDashedLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity],relationAttributes[relation]); 
 
@@ -273,14 +301,11 @@ for(let rel in this.props.classes[entity].relationships)
     }
 }
 
-
-
 let tempArray = [];
 
 for(let key in classes){
     tempArray.push(classes[key]);   //dictionary into array
 }
-
 
 // create a dictionary e.g. customerAddress: [object, object, object]
 let composedDictionary = {};
@@ -299,22 +324,30 @@ for(let key in composedClasses){
 
 graph.addCells(tempArray);
 
+console.log('relationIdentifiers', relationIdentifiers);
 for(let entity in this.props.classes){
     if(this.props.classes[entity].relationships){   //look for relation types
         for(let rel in this.props.classes[entity].relationships)
     { 
-        if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0){
-            if(relationIdentifiers[this.props.classes[entity].name]){
+        if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0 || this.props.classes[entity].relationships[rel].RelationTypeLocal === 'ISA' 
+        || relationIdentifiers[this.props.classes[entity].name]){ //if there are relation attributes or ISA
+            if(relationIdentifiers[this.props.classes[entity].name]){ //if i exist in the relation array - create link to diamond
+                console.log('1) source dest', this.props.classes[entity].name,this.props.classes[entity].name);
                 createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].name])
-            }else{
-                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]) ;
+            }
+            else{
+                console.log('2) source dest',this.props.classes[entity].name,this.props.classes[entity].relationships[rel].Entity);
 
+                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
             }
         }else
         {
             for(let relationship in this.props.classes[entity].relationships){
             if(entities[this.props.classes[entity].relationships[relationship].Entity]){
-                createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+                console.log('3) source dest', this.props.classes[entity].name,this.props.classes[entity].relationships[relationship].Entity);
+                if(!relationIdentifiers[this.props.classes[entity].name] && ( !relationIdentifiers[this.props.classes[entity].relationships[relationship].Entity] || !this.props.classes[entity].relationships[relationship].relationAttributes.length >0 )){
+                    createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+                }
             }
         }
     }
@@ -325,7 +358,11 @@ for(let entity in this.props.classes){
     {
         for(let relationship in this.props.classes[entity].relationships){
         if(entities[this.props.classes[entity].relationships[relationship].Entity]){
-            createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+            if(!relationIdentifiers[this.props.classes[entity].name]){
+                console.log('4) source dest', this.props.classes[entity].name, this.props.classes[entity].relationships[relationship].Entity);
+                createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+
+            }
         }
     }
 }
@@ -359,26 +396,6 @@ for(let key in composedDictionary){
     }
      //create all the links
 }
-
-
-// var isa = new erd.ISA({
-
-//     position: { x: 125, y: 300 },
-//     attrs: {
-//         text: {
-//             text: 'ISA',
-//             fill: '#ffffff',
-//             letterSpacing: 0,
-//             style: { 'text-shadow': '1px 0 1px #333333' }
-//         },
-//         polygon: {
-//             fill: '#fdb664',
-//             stroke: 'none',
-//             filter: { name: 'dropShadow',  args: { dx: 0, dy: 2, blur: 1, color: '#333333' }}
-//         }
-//     }
-// });
-
 
 // Helpers
 

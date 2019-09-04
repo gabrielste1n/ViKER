@@ -30,6 +30,8 @@
             "name": "Department"
         },
         {
+            "attributes": [
+                {
                     "AttributeName": "self",
                     "dataType": "OID",
                     "isConcrete": false,
@@ -64,6 +66,8 @@
             "name": "Course"
         },
         {
+            "attributes": [
+                {
                     "AttributeName": "self",
                     "dataType": "OID",
                     "isConcrete": false,
@@ -105,6 +109,8 @@
             "name": "Professor"
         },
         {
+            "attributes": [
+                {
                     "AttributeName": "self",
                     "dataType": "OID",
                     "isConcrete": false,

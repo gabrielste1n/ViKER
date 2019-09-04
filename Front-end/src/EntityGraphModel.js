@@ -11,8 +11,6 @@ class EntityGraphModel {
         this.parseIntoGraphModel(); 
     }
 
-    
-   
     parseIntoGraphModel(){
         let horAdj = 0;
         let vertAdj = 0;
