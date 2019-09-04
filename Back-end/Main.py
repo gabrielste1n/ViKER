@@ -2,169 +2,264 @@
 # Authors: St John Grimbly & Jeremy du Plessis
 # Date Created: 27 August 2019
 # Version: Beta v1.0
-
 from enum import Enum
 import numpy as np
 from ReadWriteEER import readEER, writeEER
 from ReadWriteARM import readARM, writeARM
 from Table import Relation, Entity
+import json
 
 #############################################################################################
 # ARM -> ER Functions
 #############################################################################################
 def ARMToEER(filePathRead, filePathWrite):
-    # Produce JSON representation of given schema in EER
-    relations = np.array(readARM(filePathRead)) # read in array of entities from JSON file
+    """
+    Given a JSON representation of an ARM schema, transform and produce a JSON 
+    representation of the schema as an EER model.
 
-    entities = []
+    Parameters
+    ----------
+    relations: a dictionary containing the ARM schema data 
+
+    filePathWrite: the directory where the JSON file output must be written to
+
+    Returns
+    -------
+    entities: an array of entity objects representing the resultanting from
+              the transformation. 
+    """
+
+    # REMOVE WHEN DONE ########################
+    with open(filePathRead, 'r') as json_file:
+        relations = json.load(json_file)
+    # REMOVE WHEN DONE ########################
+
+    # Get an array of relation objects belonging to the ARM
+    relations = np.array(readARM(relations)) 
+
+    entities = [] # array for output entity objects
+
+    # Sorting arrays for different catagories of relation objects
     weakRelationTypes = []
     StrongOrRegularRelationTypes = []
 
+    # loop through all relation objects
     for T in relations:
-        # loop through all relations
-        relationType = getRelationshipType(T) #
+
+        # A relation type can be strong, regular or weak (see function)
+        relationType = getRelationshipType(T)
 
         if(relationType=="strong"):
-            # If relationType == "strong" create a strong entity 
+            # If relationType is "strong" create a strong entity 
             entities.append(createEntity(T, isStrong=True))
             StrongOrRegularRelationTypes.append(T)
  
         elif(relationType == "regular"):
-            # If relationType == "regular" create a weak entity 
+            # If relationType is "regular" create a weak entity 
             entities.append(createEntity(T, isStrong=False))
             StrongOrRegularRelationTypes.append(T)
 
         elif(relationType == 'weak'):
-            # If relationType == "weak" do NOT create a new entity, rather let the attributes belong to the relationship (alternatively this could be an associative relationship)
+            # If relationType is "weak" do NOT create a new entity, rather let the attributes 
+            # be assigned to the relationship between the entities on either side 
             weakRelationTypes.append(T)
 
         elif(relationType == 'isa'):
-            # If relationshipType == 'isa' create a weak entity that inherits from a super-entity 
+            # If relationshipType is 'isa' create a weak entity that inherits from (has an 
+            # ISA relationship with) a super-entity 
             entities.append(createISAEntity(T, entities))
 
+    # for each entity object created from a relation object catagorised as having a "strong" 
+    # or "regular" type, create relationships based off foreign key attributes 
     for T in StrongOrRegularRelationTypes:
-        createRegularRelationships(T, entities)
+        createManyToOneRelationship(T, entities)
 
+    # for each entity object created from a relation object catagorised as having a "weak" type, 
+    # transform the relation into a many to many relationship between two associated entities
     for T in weakRelationTypes:
-        createAttributeRelationships(T, entities)
+        createManyToManyRelationship(T, entities)
 
+    # Write resultant entities to file
     writeEER(filePathWrite, list(entities))
 
 def getRelationshipType(T):
-    PFDs = [A for A in T.getAttributes() if A.isPathFunctionalDependency()] # All attributes A1,..., An s.t. pathfd(A1,...An) -> self
+    """
+    Takes as argument a relation object and catagorises it as:
+
+    Strong:  None of the attributes A1,...,An such that pathfd(A1,...,An) -> self
+             are foreign keys
+
+    Regular: Some of the attributes A1,...,Ak such that pathfd(A1,...Ak,Ak+1,...,An)->self
+             are foreign keys
+
+    Weak:    All of the attributes A1,...,An such that pathfd(A1,...,An) -> self
+             are foreign keys
+
+    Parameters
+    ----------
+    T: a relation object
+
+    Returns
+    -------
+    String object ("weak", "regular" or "strong")
+    """
+
+    # Select all attributes A1,..., An such that pathfd(A1,...An) -> self
+    PFDs = [A for A in T.getAttributes() if A.isPathFunctionalDependency()] 
     FKs = 0
 
     for A in PFDs:
+        # If an attribute forms path of the pathFD and is also a foreign key
         if(A.isForeignKey()):
-            FKs += 1 # An attribute is both a PFD and an FK
+            FKs += 1 
 
     if(FKs == len(PFDs)):
-        # All PFD attributes are also foreign keys => weak entity (dependant)
-        if(T.getInheritsFrom() == "none"):
-            return "weak"
-        else:
+        # All PFD attributes are also foreign keys, then either:
+        if(T.getInheritsFrom() != "none"):
+            # The relation is part of an inheritence hierachy (a subsumption relationship)
             return "isa"
+        else:
+            # The relation type is "weak" 
+            return "weak"
 
     elif(FKs == 0):
-        # None of the PFD attributes are foreign keys => strong entity
+        # None of the PFD attributes are foreign keys => the relation type is strong
         return "strong"
 
     else:
-        # Some of the PFD attributes are foreign keys, but some are not => regular
+        # Some of the PFD attributes are foreign keys, but some are not => the relation
+        # type is regular
         return "regular"
 
 def createEntity(T, isStrong):
-    """Add a strong entity"""
-    # Create a new entity object, add regular attributes of T
-    
-    # create new entity object
-    E = Entity(
-               name = T.getName(), 
-               isStrong = isStrong
-               )
+    """
+    Create a new strong entity object.
 
-    # Add attributes
+    Parameters
+    ----------
+    T: Associated relation object from which to construct the entity
+
+    isStrong: a boolean value indicating whether or not the entity is strong or not
+
+    Returns
+    -------
+    E: Entity object
+
+    """
+
+    # create new entity object
+    E = Entity(name = T.getName(), isStrong = isStrong)
+
+    # Add attributes to entity object
     for ARMattrib in T.getAttributes():
+
+        # If an attribute is concrete
         if(ARMattrib.isConcreteAttribute()):
-            # All non-OID attributes
+
+            # is identifier attribute
             if(ARMattrib.isPathFunctionalDependency()):
-                # is identifier attribute
-                E.addAttribute(
-                               name = ARMattrib.getName(), 
-                               isIdentifier=True
-                              )
+
+                E.addAttribute(name = ARMattrib.getName(), isIdentifier=True)
+
+            # is not identifier attribute
             else:
-                # is not identifier attribute
-                E.addAttribute(
-                               name = ARMattrib.getName(), 
-                               isIdentifier=False
-                              )
+                E.addAttribute(name = ARMattrib.getName(), isIdentifier=False)
+    
     return E
 
 def createISAEntity(T, entities):
+    """
+    Given a relation object, create the corresponding entity object 
+    which has a subsumption relatioship to a parent entity.
+
+    Parameters
+    ----------
+    T: relation object
+
+    entities: array of existing entity objects
+
+    Returns
+    -------
+    subEntity: the new (child) entity object
+    """
     # create new entity object
-    subEntity = Entity(
-                       name = T.getName(), 
-                       isStrong = False
-                      )
+    subEntity = Entity(name = T.getName(), isStrong = False)
 
+    # add all concrete attributes which are not foreign keys
     for A in T.getAttributes():
-        if((not A.isForeignKey()) and (A.isConcreteAttribute()))  :
-            subEntity.addAttribute(
-                                   name=A.getName(), 
-                                   isIdentifier=False, 
-                                  )
+        if(not A.isForeignKey() and A.isConcreteAttribute()):
+            subEntity.addAttribute(name=A.getName(), isIdentifier=False)
 
+    # Find the parent entity
     superEntityName = T.getInheritsFrom()
     for E in entities:
         if(E.getName() == superEntityName):
             superEntity = E
             break
 
+    # Add ISA relationship to child entity 
     subEntity.addRelationship(
                               entityName = superEntity.getName(), 
                               relationshipTypeLocal = RelationTypes.INHERITS_FROM.value, 
-                              relationshipTypeForeign = RelationTypes.INHERITS_FROM.value, 
-                              attributes=None
-                              )
+                              relationshipTypeForeign = RelationTypes.INHERITS_FROM.value
+                             )
 
+    # Add ISA relationship to parent entity
     superEntity.addRelationship(
                                 entityName = subEntity.getName(), 
                                 relationshipTypeLocal = RelationTypes.INHERITS_FROM.value, 
                                 relationshipTypeForeign = RelationTypes.INHERITS_FROM.value, 
-                                attributes=None
                                )
 
+    # return new child entity
     return subEntity
 
-def createRegularRelationships(T, entities):
+def createManyToOneRelationship(T, entities):
+    """
+    Given a relation object, add the 1:N relationships based on the 
+    foreign keys to the associated local and foreign entities.
+
+    Parameters
+    ----------
+    T: relation object
+
+    entities: array of existing entity objects
+
+    Returns
+    -------
+    NoneType
+    """
+
     # get local entity associated with T 
     localEntityIndex = [e.getName() for e in entities].index(T.getName())
     LE = entities[localEntityIndex]
 
-    # Names of all foreign key attributes of local relation
+    # Get the names of all foreign key attributes belonging to the relation
     FKnames = [a.getName() for a in T.getAttributes() if a.isForeignKey()] 
     
+    # For each foreign entity in existing entities
     for FE in entities:
 
-        # Check that each Id attribute of the foreign entity is present in 
-        # the list of foreign keys belonging to the local entity
+        # Get all identifier attributes beloning to the foreign entity
         foreignIdAttribs = FE.getIDAttribs()
-        if(len(foreignIdAttribs) == 0):
-            continue
 
+        # If the foreign entity has no idenitifier attributes; continue (next loop)
+        if(len(foreignIdAttribs) == 0): continue
+
+        # Check whether all foreign entity ID attributes are also foreign keys of the local entity
         for foreignIdAttrib in foreignIdAttribs:
             add = True
             if((foreignIdAttrib.getName() not in FKnames)):
                 add = False
 
-        # If the foreign entity is the same as the local entity
+        # If the foreign entity is the same as the local entity; continue (next loop)
         if((FE.getName == LE.getName) and add):
-            # A recursive relationship - TBC
+            # A recursive relationship - CANNOT TRANSFORM THIS
             continue
 
-        # If the foreign entity is not the same as the local entity
-        # add a many to one relationship between the LE (many) and FE (one)
+        # Local entity is not foreign entity and local entity has foreign key(s)
+        # Which are the same as the ID attributes of the foreign entity
+        # Create a 1(foreign) to many(local) relationship 
         elif((FE.getName() != LE.getName()) and add):
             FE.addRelationship(
                                entityName = LE.getName(), 
@@ -177,25 +272,47 @@ def createRegularRelationships(T, entities):
                                relationshipTypeLocal = RelationTypes.ZERO_OR_MANY.value, 
                                relationshipTypeForeign = RelationTypes.EXACTLY_ONE.value
                                )
+    # end
+    return
 
-def createAttributeRelationships(T, entities):
-    """Create a relationship with regular attributes from the weak Relation"""
-    regularAttributes = [a.getName() for a in T.getAttributes() 
-                         if (not a.isForeignKey()) 
-                         and (a.isConcreteAttribute())]
-    FKAttributeNames = [a.getName() for a in T.getAttributes() if a.isForeignKey()]
-    relatedEntities = []
+def createManyToManyRelationship(T, entities):
+    """
+    Given a relation object representing a "weak" relation type, transform the relation
+    into a relationship between two existing entities, with the regular attributes of 
+    the relation belonging to the relationship.
     
+    Parameters
+    ----------
+    T: a relation object representing a "weak" type relation
+
+    entities: array of existing entity objects
+
+    Returns
+    -------
+    None
+
+    """
+
+    # Get all regular attributes belonging to the relation
+    regularAttributes = [a.getName() for a in T.getAttributes() 
+                         if (not a.isForeignKey()) and (a.isConcreteAttribute())]
+
+    # Get names of all foreign key attributes belonging to the relation
+    FKAttributeNames = [a.getName() for a in T.getAttributes() if a.isForeignKey()]
+    
+    relatedEntities = []
+
+    # Find both entities referefnced by the foreign keys of the relation
     for E in entities:
-        # Find both entities referefnce in the foreign key list of the Relation
         for A in E.getIDAttribs():
             add = True
             if(not A.getName() in FKAttributeNames):
                 add = False
             if(add and not E.getName() in relatedEntities):
-                # Add a many (local) to many (foreign) relationship to the entity
                 relatedEntities.append(E)
 
+    # Add a many (local) to many (foreign) relationship to the related entities
+    # Include regular attributes as attributes of the relationship 
     if(len(relatedEntities) == 2):
         relatedEntities[0].addRelationship(
                                            entityName = relatedEntities[1].getName(), 
@@ -214,86 +331,117 @@ def createAttributeRelationships(T, entities):
 # ER -> ARM Functions
 #############################################################################################
 def EERToARM(filePathRead, filePathWrite):
-    # Produce a JSON representation of given schema in ARM
-    entities = np.array(readEER(filePathRead)) # read in array of entities from JSON file
-    strongEntities = np.array([E for E in entities if E.isStrongEntity()])
+    """
+    Given a JSON representation of an ER conceptual model, transform and produce a JSON 
+    representation of the schema as an ARM.
+
+    Parameters
+    ----------
+    entities: a dictionary containing the ER model data 
+
+    filePathWrite: the directory where the JSON file output must be written to
+
+    Returns
+    -------
+    entities: an array of entity objects representing the resultanting from
+              the transformation. 
+    """
+    
+    # REMOVE WHEN DONE ########################
+    with open(filePathRead, 'r') as json_file:
+        entity_file = json.load(json_file)
+    # REMOVE WHEN DONE ########################
+
+    entities = np.array(readEER(entity_file)) # read in array of entities from JSON file
+    strongEntities = np.array([E for E in entities if E.isStrongEntity()]) 
     weakEntities = np.array([E for E in entities if not E.isStrongEntity()])
-    PFDMap = {}
     relations = np.array([])
 
-    # Step 1: 
-    # For each strong entity E, create a Relation T Add regular Attributes to each T & 
-    # Identify pathFD attributes 
+    # For each strong entity E, create a Relation TE, include all FK and PK (pathFD) constraints 
     T = StrongEntityToRelation(strongEntities)
     relations = np.concatenate([relations, T])
 
-    # Step 2:
-    # For each weak entity W create a relation T, Add regular Attributes to each T &
-    # create pathFD from weak entity + related strong entity identifiers
+    # For each weak entity E create a relation TE, include all FK and PK (pathFD) constraints
     T = WeakEntityToRelation(weakEntities, strongEntities)
     relations = np.concatenate([relations, T])
 
     alreadyProcessed = [] # store foreign entity references which have already been processed
 
-    for E in strongEntities:
-        for R in E.getRelationships():
-            pair = sorted((E.getName(), R.getEntityName())) # tuple (local, foreign)
+    # Consider all relationships between entities; transform accordingly
+    for LE in strongEntities:
+        for R in LE.getRelationships():
 
-            # Step 3: 
-            # For each 1:1 relationship (only possible between two strong entities)
-            # Identify entities S and T participating in the relationship, select and 
-            # include in S as a foregin key, the primary key of T
-            if((R.getLocalRelationship() == RelationTypes.EXACTLY_ONE.value and 
-                R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value) and not 
-                pair in alreadyProcessed):
+            # local and foreign entity tuple 
+            pair = sorted((LE.getName(), LE.getName())) 
 
-                oneToOneTransform(relations, R, E)
+            # A one to one relationship between entities
+            oneToOne = (R.getLocalRelationship() == RelationTypes.EXACTLY_ONE.value and 
+                        R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
+
+            # A one to one relationship between entities
+            manToOne = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
+                        R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
+
+            # A many to many relationship between entities
+            manyToMany = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
+                          R.getForeignRelationship() == RelationTypes.ZERO_OR_MANY.value) 
+
+            if(manToOne or manyToMany):
+                # Get foreign entity
+                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
+                FE = strongEntities[foreignEntityIndex]
+
+            # For each 1:1 relationship between relation S and T, include as an FK in S, 
+            # the PK of T as a constraint
+            if(oneToOne and not pair in alreadyProcessed):
+                oneToOneTransform(LE, FE, R)
                 alreadyProcessed.append(pair)
                 
-            # Step 4: 
-            # For each 1:0...N relationship (only possible between two strong entities)
-            # Identify relations S->0..N (local), T->1 (foreign). Include as a foreign key 
-            # in S, the primary key of T
-            elif((R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
-                R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)):
+            # For each 1:N relationship between S and T respectively, include as an FK in T, 
+            # the PK of S as a constraint
+            elif(manToOne):
+                manyToOneTransform(LE, FE, relations)
 
-                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
-                FE = strongEntities[foreignEntityIndex] # get foreign entity
-                manyToOneTransform(E, FE, relations)
-
-            # Step 5: 
-            # For each M:N relationship (only possible between two strong entities)
-            # between relations S (local) and T (foreign) create a new relation R. 
-            # include as foreign key attributes the primary keys of S and T, which will 
-            # together form the primary key for R. Also add any simple attributes belonging 
-            # to the relationship to R.
-            elif((R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
-                R.getForeignRelationship() == RelationTypes.ZERO_OR_MANY.value) and not
-                pair in alreadyProcessed):
-
-                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
-                FE = strongEntities[foreignEntityIndex] # get foreign entity
-                T = np.array(manyToManyTransform(E, FE, R)) # create a new relation for the many-many relationship 
+            # For each M:N relationship between S and T create a new relation R and include 
+            # as FK attributes the primary keys of S and T, which will together form the 
+            # composite primary key for R. Include other regular attributes belonging to the relationship
+            elif(manyToMany and not pair in alreadyProcessed):
+                T = manyToManyTransform(LE, FE, R) 
                 relations = np.concatenate([relations, T])
-
-                alreadyProcessed.append(pair)
+                alreadyProcessed.append(pair) 
 
     # Store pathFD references in pathFD map
-    for relation in relations: 
-        key = relation.getName() + "_" +str(hex(id(relation)))
-        PFDMap[key] = (hex(id(a))  for a in relation.getAttributes() if a.isPathFunctionalDependency())
+    PFDMap, nameMap = createPathFDMap(relations)
 
+    # Add all covering & disjointness constraints based on pathFD map
+    addDisjointCoveringConstraints(PFDMap, nameMap, relations)
+
+    # Write resultant relations to file
     writeARM(filePathWrite, list(relations))
 
 def StrongEntityToRelation(strongEntities):
+    """
+    For each strong entity, create a new relation. 
+    Add to it regular and PK attributes.
+
+    Additionally, create a new relation for each multivalued attribute.
+
+
+    Parameters
+    ----------
+    strongEntities: an array of entity objects
+
+    Returns:
+    toReturn: an array of relation objects
+    """
     toReturn = [] 
     multivaluedAttributes = []
 
     for E in strongEntities:
-        # Create the relation that corresponds with the strong entity
+        # Create a new relation corresponding with the strong entity
         T = Relation(
                      name=E.name,
-                     inheritsFrom="none", # TO BE UPDATED
+                     inheritsFrom="none",
                      )
 
         # Add the "self" reference 
@@ -305,44 +453,68 @@ def StrongEntityToRelation(strongEntities):
                        isFK=False
                        )
 
-        # Add all non-composite (simple) attributes
-        for A in [x for x in E.attributes if len(x.composedOf) == 0]:
-            if(A.isMultiValuedAttribute()):
-                multivaluedAttributes.append(A)
+        # Add all regular and PK attributes
+        for A in E.getAttributes():
+            # If A is not a composite attribute 
+            if(len(A.getComposedOf()) == 0):
+
+                # if A is multivalued, append to array to handle below
+                if(A.isMultiValuedAttribute()):
+                    multivaluedAttributes.append(A)
+
+                # If A is a regular or PK attribute
+                else:
+                    T.addAttribute(
+                                   name=A.getName(), 
+                                   isConcrete=True,
+                                   dataType=DataTypes.ANY_TYPE.value, 
+                                   isPFD=A.isIdentifierAttribute(), 
+                                   isFK=False
+                                   )
             else:
-                T.addAttribute(
-                               name=A.getName(), 
-                               isConcrete=True,
-                               dataType=DataTypes.ANY_TYPE.value, 
-                               isPFD=A.isIdentifierAttribute(), 
-                               isFK=False
-                               )
+                print("lost info: composite attribute",A.getName(), "belonging to", E.getName())
 
         toReturn.append(T) # append relation to list to be returned
 
+        # For each multivalued attribute create a new relation
         for multivaluedAttribute in multivaluedAttributes:
             T = multivaluedToRelation(multivaluedAttribute, E.getIDAttribs())
             toReturn.append(T)
 
-    return np.array(toReturn) # return list of relations
+    # return list of relations
+    return np.array(toReturn) 
 
 def WeakEntityToRelation(weakEntities, strongEntities):
+    """
+    For each weak entity, create a new relation. 
+    Add to it regular, PK and FK attributes.
+
+
+    Parameters
+    ----------
+    weakEntities: an array of entity objects
+
+    strongEntities: an array of entity objects
+
+    Returns:
+    toReturn: an array of relation objects
+    """
     toReturn = []
     for W in weakEntities:
-        # Create a new relation for each weak entity
 
+        # Check whether the associated entity is in an inheritence hierachy
         inheritsFrom = "none"
-
         for r in W.getRelationships():
             if(r.getForeignRelationship() == RelationTypes.INHERITS_FROM.value):
                 inheritsFrom = r.getEntityName()
 
+        # Create a new relation for each weak entity
         T = Relation(
                     name=W.getName(),
                     inheritsFrom=inheritsFrom,
                     )
 
-        # Add the "self" reference 
+        # Add the "self" attribute 
         T.addAttribute(
                        name="self", 
                        isConcrete=False, 
@@ -351,112 +523,188 @@ def WeakEntityToRelation(weakEntities, strongEntities):
                        isFK=False
                        )
 
-        # Add all non-composite (simple) attributes
-        for A in [x for x in W.attributes if len(x.composedOf) == 0]:
-            T.addAttribute(
-                           name=A.getName(), 
-                           isConcrete=True, 
-                           dataType=DataTypes.ANY_TYPE.value, 
-                           isPFD=A.isIdentifierAttribute(), 
-                           isFK=False
-                           )
+        # Add all simple attributes
+        for A in W.getAttributes():
+            # If A is non-composite
+            if(len(A.getComposedOf()) == 0):
+                # If a weak entity has a multivalued attribute, log error
+                if(A.isMultiValuedAttribute()):
+                    print("Can't handle weak entities with multivalued attributes") 
+                # A is a regular or PK attribute
+                else:
+                    T.addAttribute(
+                                   name=A.getName(), 
+                                   isConcrete=True, 
+                                   dataType=DataTypes.ANY_TYPE.value, 
+                                   isPFD=A.isIdentifierAttribute(), 
+                                   isFK=False
+                                   )
+            # Lost info: composite attributes
+            else:
+                print("lost info: composite attribute",A.getName(), "belonging to", W.getName())
 
+        # For each relationship W has with a strong entity, add an FK attribute to the associated relation
         for R in W.getRelationships():
-            # Loop through each relationship W has with other entities
 
+            # get owner entity
             index = [x.getName() for x in strongEntities].index(R.entityName)
             ownerEntity = strongEntities[index]
 
-            # Add each identifier attribute belonging to the owner entity as a foregn key attribute to the weak entity 
+            # Add FK attribute to the relation associated with W
             for A in ownerEntity.getIDAttribs():
-
                 T.addAttribute(
                        name=A.getName(), 
                        isConcrete=False, 
                        dataType=DataTypes.OID.value, 
                        isPFD=True, 
-                       isFK=True,
-                       FKPointer = A # A reference to the Attribute (Column in DB) 
+                       isFK=True
                        )
 
-        toReturn.append(T) # Add relation to list to be returned
+        # Add relation to list to be returned
+        toReturn.append(T) 
 
     return np.array(toReturn)
 
 def multivaluedToRelation(attribute, FKAttributes):
-    # Create the relation that corresponds with the strong entity
-        T = Relation(
-                     name=attribute.getName(),
-                     inheritsFrom="none", # TO BE UPDATED
-                     )
+    """
+    Given a multivalued attribute, create a new relation with PFD attributes 
+    made up partially of the PK attributes of the owner relation.
 
-        # Add the "self" reference 
+    Parameters
+    ----------
+    attribute: multivalued attribute
+
+    FKAttributes: ID attributes of the foreign entity, to be added as foreign key 
+                  attributes to the kew relaion.
+
+    Returns
+    -------
+    T: relation corresponding to the multivalued attribute
+    """
+    # create new relation 
+    T = Relation(
+                 name=attribute.getName(),
+                 inheritsFrom="none", # TO BE UPDATED
+                 )
+
+    # Add the "self" attribute 
+    T.addAttribute(
+                   name="self", 
+                   isConcrete=False, 
+                   dataType=DataTypes.OID.value, 
+                   isPFD=False,
+                   isFK=False
+                   )
+
+    # Add unique ID attribute 
+    T.addAttribute(
+                   name=attribute.getName()+"ID", 
+                   isConcrete=True, 
+                   dataType=DataTypes.ANY_TYPE.value, 
+                   isPFD=True,
+                   isFK=False
+                   )
+
+    # Add all FK attributes from owner entity
+    for FKAttrib in FKAttributes:
         T.addAttribute(
-                       name="self", 
-                       isConcrete=False, 
-                       dataType=DataTypes.OID.value, 
-                       isPFD=False,
-                       isFK=False
-                       )
+                   name=FKAttrib.getName(), 
+                   isConcrete=False, 
+                   dataType=DataTypes.OID.value, 
+                   isPFD=True,
+                   isFK=True
+                   )
 
-        # Add ID attribute 
-        T.addAttribute(
-                       name=attribute.getName()+"ID", 
-                       isConcrete=True, 
-                       dataType=DataTypes.ANY_TYPE.value, 
-                       isPFD=True,
-                       isFK=False
-                       )
+    # return relation
+    return T
 
-        for FKAttrib in FKAttributes:
-            T.addAttribute(
-                       name=FKAttrib.getName(), 
-                       isConcrete=False, 
-                       dataType=DataTypes.OID.value, 
-                       isPFD=True,
-                       isFK=True
-                       )
-        return T
+def oneToOneTransform(LE, FE, relations):
+    """
+    Given a local and foreign entity with a one-one relationship between them
+    add as a foreign key to the associated foreign relation, the primary key
+    of the associated local relation.
 
-def oneToOneTransform(relations, R, E):
-    foreignRelationIndex = [x.getName() for x in relations].index(R.getEntityName()) # get the index of the relation corresponding to the foreign entity
-    T = relations[foreignRelationIndex] # the relation corresponding to the foreign entity 
+    Parameters
+    ----------
+    LE: local entity object
 
-    # Add primary key attribute(s) to T corresponding to the identifier attributes in E 
-    for A in E.getIDAttribs():
-        T.addAttribute(
-               name=A.getName(), 
-               isConcrete=False, 
-               dataType=DataTypes.OID.value, 
-               isPFD=False, 
-               isFK=True,
-               FKPointer = A
-               )
+    FE: foreign entity object
 
-def manyToOneTransform(E, FE, relations):
-    localRelationIndex = [x.getName() for x in relations].index(E.getName())
-    T = relations[localRelationIndex] # the relation corresponding to the foreign entity (The many-side)
+    relations: array of relation objects
 
-    # TO DO: If E has no ID attributes (but is obviously still strong) it is an associative entity
-    # and it must have as it's primary key(s) the primary keys of each of it's related entitiys
+    Returns
+    -------
+    None
+    """
+    # get the index of the relation associated with the foreign entity
+    foreignRelationIndex = [x.getName() for x in relations].index(FE.getName()) 
+    FT = relations[foreignRelationIndex] # the relation corresponding to the foreign entity 
+
+    # Add to the foreign relation as a foreign key, the ID attribute of the local entity
+    for A in LE.getIDAttribs():
+        FT.addAttribute(
+                        name=A.getName(), 
+                        isConcrete=False, 
+                        dataType=DataTypes.OID.value, 
+                        isPFD=False, 
+                        isFK=True,
+                        )
+    return
+
+def manyToOneTransform(LE, FE, relations):
+    """
+    Given a foreign and a local entity object with a many-one relationship between them,
+    add to the associated local relation, as foreign key attributes, the ID attributes of
+    the foreign entity.
+
+    Parameters
+    ----------
+    LE: local entity object
+
+    FE: foreign entity object
+
+    relations: array of relation objects
+
+    Returns
+    -------
+    None
+    """
+    # get associated local relation object
+    localRelationIndex = [x.getName() for x in relations].index(LE.getName())
+    T = relations[localRelationIndex]
     
-    # Add as foreign keys (and PFDs) to the many-side relation the identifiers of the one-side entity (E)   
+    # Add as foreign keys to the local (many-side) relation the ID attributes of 
+    # the foreign (one-side) entity   
     for A in FE.getIDAttribs():
         T.addAttribute(
                name=A.getName(), 
                isConcrete=False, 
                dataType=DataTypes.OID.value, 
                isPFD=False, 
-               isFK=True,
-               FKPointer = A
+               isFK=True
                )
+    return
 
-def manyToManyTransform(E, FE, R):
-    
+def manyToManyTransform(LE, FE, R):
+    """
+    Given a local and foreign entity with a many-many relationship between them
+    create a new relation and add to it, as foreign key attributes, the primary
+    key attributes of the associated relations. Also add any regular attributes 
+    belonging to the relation.
 
+    Parameters
+    ----------
+    LE: local entity object
+
+    FE: foreign entity object
+
+    Returns
+    -------
+    R: relationship object 
+    """
     # Create a new relation corresponding to the Manay-Many relationship
     T = Relation(
-                name="joinRelation["+E.getName()+"-"+FE.getName()+"]",
+                name="joinRelation["+LE.getName()+"-"+FE.getName()+"]",
                 inheritsFrom="none", # TO BE UPDATED
                 coveredBy=[], 
                 disjointWith=[]
@@ -481,7 +729,7 @@ def manyToManyTransform(E, FE, R):
                         )
 
     # Add ID attributes from local entity
-    for A in E.getIDAttribs(): 
+    for A in LE.getIDAttribs(): 
         T.addAttribute(
                         name=A.getName(), 
                         isConcrete=False, 
@@ -499,8 +747,27 @@ def manyToManyTransform(E, FE, R):
                         isPFD=True, 
                         isFK=True
                         )
-
+    #return relation
     return np.array([T])
+
+def createPathFDMap(relations):
+    PFDMap = {}
+    nameAdressMap = {}
+
+    for relation in relations: 
+        PFDMap[(relation.getName(), hex(id(relation)))] = sorted([a.getName()  for a in relation.getAttributes() if a.isPathFunctionalDependency()])
+
+    return PFDMap, nameAdressMap
+
+def addDisjointCoveringConstraints(PFDMap, nameMap, relations):
+    for T in relations:
+        pfdAttributes = sorted([A.getName() for A in T.getAttributes() if A.isPathFunctionalDependency()])
+        for key in PFDMap.keys():
+            if(PFDMap[key] == pfdAttributes):
+                print(key)
+                print(T.getName())
+    
+    return
 
 class DataTypes(Enum):
     '''Specific types of data available'''
@@ -515,7 +782,3 @@ class RelationTypes(Enum):
     EXACTLY_ONE = 'ExactlyOne'
     ZERO_OR_MANY = 'ZeroOrMany'
     INHERITS_FROM = 'ISA'
-    ONE_OR_MORE = 'OneOrMore'
-    # MANY = 'Many' 
-    # ZERO_OR_ONE = 'ZeroOrOne'
-
