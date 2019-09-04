@@ -212,14 +212,17 @@ render(){
   
   return (
     <div className={classes.App}>
+       <div className={classes.Header}>
+      <div className={classes.InputHeader}>Input</div>
+      <div className={classes.OutputHeader}>Output</div>
+    </div>
       <div className={classes.GraphsWrapper}>
         <div className={classes.InputDiagram}>
-          <Header header="Input" />
+          
           {this.state.inputModel === null ? null : this.state.inputModel} {/* while input type is unknown, render null, then when it is known, render something */}
         </div>                                                                                                    
 
         <div className={classes.OutputDiagram}>
-          <Header header="Output" />
           {this.state.outputModel === null ? null : this.state.outputModel } {/* while output type is unknown, render null, then when it is known, render something */}
           {/* <ERModel /> */}
         </div>

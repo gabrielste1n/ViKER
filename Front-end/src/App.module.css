@@ -1,12 +1,41 @@
 .App{
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .GraphsWrapper{
   display: flex;
   width: 100%;
  flex-direction: row;
+}
+
+.Header {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    padding: 16px;
+    font-size: 24px;
+    background-color: #222222;
+    display: flex;
+    flex-direction: row;
+    color: white;
+}
+
+.InputHeader {
+    box-sizing: border-box;
+    width: 50%;
+    height: 50px;
+    font-size: 24px;
+    color: white;
+}
+
+.OutputHeader {
+    box-sizing: border-box;
+    width: 50%;
+    height: 50px;
+    font-size: 24px;
+    color: white;
 }
 
 .InputDiagram {
@@ -31,7 +60,7 @@
 
   .ErrorLog {
     width: 100%;
-    height: 240px;
+    height: 100%;
     background-color: #222222;
     display: flex;
     flex-direction: column;
@@ -64,7 +93,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .ButtonContainer button{
