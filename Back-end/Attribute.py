@@ -7,8 +7,7 @@ class Attribute:
         return object.__new__(cls)
 
     def __init__(self, name):
-        # Create an attribute, specifying whether it is a foreign, primary 
-        # (etc) key
+        # Create an attribute, specifying whether it is a foreign/primary key
         self.name = name
 
     def getName(self):
@@ -38,16 +37,19 @@ class ERAttribute(Attribute):
         """Returns entity name"""
         return self.composedOf
 
+    def getComposedOf(self):
+        """return list of 'composed of' attributes"""
+        return self.composedOf
+
 class ARMAttribute(Attribute):
     '''An ARM attribute is a characteristics of an ARM relation'''
-    def __init__(self, name, isConcrete, dataType, isPFD=False, isFK=False, FKPointer="none"):
+    def __init__(self, name, isConcrete, dataType, isPFD=False, isFK=False):
         # Create an ARM attribute
         Attribute.__init__(self, name)
         self.isConcrete = isConcrete
         self.dataType = dataType
         self.isPFD = isPFD
         self.isFK = isFK
-        self.FKPoint = FKPointer
 
     def isConcreteAttribute(self):
         """Returns true if it is concrete attribute"""

@@ -35,6 +35,41 @@
         {
             "attributes": [
                 {
+                    "AttributeName": "CourseID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CourseName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Course",
+            "relationships": [
+                {
+                    "Entity": "Department",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "Professor",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": [
+                        "Selection",
+                        "Term"
+                    ]
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
                     "AttributeName": "ProfessorID",
                     "composedOf": [],
                     "isIdentifier": true,
@@ -63,74 +98,13 @@
                     "relationAttributes": []
                 },
                 {
-                    "Entity": "Class",
-                    "RelationTypeForeign": "ZeroOrMany",
-                    "RelationTypeLocal": "ExactlyOne",
-                    "relationAttributes": []
-                }
-            ]
-        },
-        {
-            "attributes": [
-                {
-                    "AttributeName": "CourseID",
-                    "composedOf": [],
-                    "isIdentifier": true,
-                    "isMultiValued": false
-                },
-                {
-                    "AttributeName": "CourseName",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                }
-            ],
-            "isStrong": true,
-            "name": "Course",
-            "relationships": [
-                {
-                    "Entity": "Department",
-                    "RelationTypeForeign": "ExactlyOne",
-                    "RelationTypeLocal": "ZeroOrMany",
-                    "relationAttributes": []
-                },
-                {
-                    "Entity": "Class",
-                    "RelationTypeForeign": "ZeroOrMany",
-                    "RelationTypeLocal": "ExactlyOne",
-                    "relationAttributes": []
-                }
-            ]
-        },
-        {
-            "attributes": [
-                {
-                    "AttributeName": "Selection",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                },
-                {
-                    "AttributeName": "Term",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                }
-            ],
-            "isStrong": false,
-            "name": "Class",
-            "relationships": [
-                {
                     "Entity": "Course",
-                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeForeign": "ZeroOrMany",
                     "RelationTypeLocal": "ZeroOrMany",
-                    "relationAttributes": []
-                },
-                {
-                    "Entity": "Professor",
-                    "RelationTypeForeign": "ExactlyOne",
-                    "RelationTypeLocal": "ZeroOrMany",
-                    "relationAttributes": []
+                    "relationAttributes": [
+                        "Selection",
+                        "Term"
+                    ]
                 }
             ]
         }

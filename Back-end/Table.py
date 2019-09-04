@@ -35,11 +35,13 @@ class Entity(Table):
 
     def addRelationship(self, entityName, relationshipTypeLocal, relationshipTypeForeign, attributes=None):
         """Add a binary relationship with a given entity"""
-        r = Relationship(relationshipType, entityName)
+        r = Relationship(entityName, relationshipTypeLocal, relationshipTypeForeign, attributes)
         self.relationships.append(r)
 
-    def addAttribute(self, name, isIdentifier, isMultiValued, composedOf):
+    def addAttribute(self, name, isIdentifier, isMultiValued=False, composedOf=None):
         """Add a new attribute to the Entity"""
+        if(composedOf is None):
+            composedOf = []
         A = ERAttribute(name, isIdentifier, isMultiValued, composedOf)
         self.attributes.append(A)
 
@@ -69,9 +71,9 @@ class Relation(Table):
         self.coveredBy = coveredBy
         self.disjointWith = disjointWith
 
-    def addAttribute(self, name, isConcrete, dataType, isPFD, isFK, FKPointer = "none"):
+    def addAttribute(self, name, isConcrete, dataType, isPFD, isFK):
         """Add a new attribute to the Relation"""
-        A = ARMAttribute(name, isConcrete, dataType, isPFD, isFK, FKPointer)
+        A = ARMAttribute(name, isConcrete, dataType, isPFD, isFK)
         self.attributes.append(A)
 
     def getInheritsFrom(self):

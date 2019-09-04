@@ -11,21 +11,21 @@
                 },
                 {
                     "AttributeName": "DepartmentID",
-                    "dataType": "String",
+                    "dataType": "AnyType",
                     "isConcrete": true,
                     "isFK": false,
                     "isPathFunctionalDependancy": true
                 },
                 {
                     "AttributeName": "DepartmentName",
-                    "dataType": "String",
+                    "dataType": "AnyType",
                     "isConcrete": true,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
                 }
             ],
             "coveredBy": [],
-            "disjointWith": ["Professor", "Course", "Class"],
+            "disjointWith": [],
             "inheritsFrom": "none",
             "name": "Department"
         },
@@ -39,72 +39,36 @@
                     "isPathFunctionalDependancy": false
                 },
                 {
-                    "AttributeName": "DepartmentID",
-                    "dataType": "OID",
-                    "isConcrete": false,
-                    "isFK": true,
-                    "isPathFunctionalDependancy": false
-                },
-                {
-                    "AttributeName": "CourseID",
-                    "dataType": "String",
-                    "isConcrete": true,
-                    "isFK": false,
-                    "isPathFunctionalDependancy": true
-                },
-                {
-                    "AttributeName": "CourseName",
-                    "dataType": "String",
-                    "isConcrete": true,
-                    "isFK": false,
-                    "isPathFunctionalDependancy": false
-                }
-            ],
-            "coveredBy": [],
-            "disjointWith": ["Professor", "Department", "Class"],
-            "inheritsFrom": "none",
-            "name": "Course"
-        },
-        {
-            "attributes": [
-                {
-                    "AttributeName": "self",
-                    "dataType": "OID",
-                    "isConcrete": false,
-                    "isFK": false,
-                    "isPathFunctionalDependancy": false
-                },
-                {
-                    "AttributeName": "DepartmentID",
-                    "dataType": "OID",
-                    "isConcrete": false,
-                    "isFK": true,
-                    "isPathFunctionalDependancy": false
-                },
-                {
                     "AttributeName": "ProfessorID",
-                    "dataType": "String",
+                    "dataType": "AnyType",
                     "isConcrete": true,
                     "isFK": false,
                     "isPathFunctionalDependancy": true
                 },
                 {
                     "AttributeName": "ProfessorName",
-                    "dataType": "String",
+                    "dataType": "AnyType",
                     "isConcrete": true,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
                 },
                 {
                     "AttributeName": "OfficeNumber",
-                    "dataType": "String",
+                    "dataType": "AnyType",
                     "isConcrete": true,
                     "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "DepartmentID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
                     "isPathFunctionalDependancy": false
                 }
             ],
             "coveredBy": [],
-            "disjointWith": ["Course", "Department", "Class"],
+            "disjointWith": [],
             "inheritsFrom": "none",
             "name": "Professor"
         },
@@ -119,6 +83,56 @@
                 },
                 {
                     "AttributeName": "CourseID",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "CourseName",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "DepartmentID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": [],
+            "inheritsFrom": "none",
+            "name": "Course"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "Selection",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "Term",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "CourseID",
                     "dataType": "OID",
                     "isConcrete": false,
                     "isFK": true,
@@ -130,24 +144,10 @@
                     "isConcrete": false,
                     "isFK": true,
                     "isPathFunctionalDependancy": true
-                },
-                {
-                    "AttributeName": "Selection",
-                    "dataType": "String",
-                    "isConcrete": true,
-                    "isFK": false,
-                    "isPathFunctionalDependancy": false
-                },
-                {
-                    "AttributeName": "Term",
-                    "dataType": "String",
-                    "isConcrete": true,
-                    "isFK": false,
-                    "isPathFunctionalDependancy": false
                 }
             ],
             "coveredBy": [],
-            "disjointWith": ["Course", "Department", "Professor"],
+            "disjointWith": [],
             "inheritsFrom": "none",
             "name": "Class"
         }
