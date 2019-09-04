@@ -14,7 +14,7 @@ class OutputGraph extends React.Component {
         this.paper = new dia.Paper({
             el: ReactDOM.findDOMNode(this.refs.placeholder),
             width: 900,
-            height: 500,
+            height: 900,
             model: this.graph,
             gridSize: 1,
             linkPinning: false,
@@ -125,6 +125,8 @@ const createDashedLink = function(elm1, elm2) {
     return myLink.addTo(graph);
 };
 
+
+// come back here
 const createZeroToManyLink = function(elm1, elm2) {
 console.log('being used');
     let myLink = new erd.Line({
@@ -335,6 +337,7 @@ for(let key in classes){
 }
 
 // create a dictionary e.g. customerAddress: [object, object, object]
+
 let composedDictionary = {};
 for(let key in composedClasses){
     composedDictionary[key] = [];
@@ -431,11 +434,7 @@ for(let key in composedDictionary){
 //         }]
 //     };
 // };
-
 // createLink(Customer, skills).set(createLabel('1..1'));
-// createLink(salesman, uses).set(createLabel('0..1'));
-// createLink(car, uses).set(createLabel('1..1'));
-// createLink(wage, paid).set(createLabel('N'));
 
     }
 

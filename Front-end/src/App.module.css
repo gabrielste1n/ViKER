@@ -16,6 +16,8 @@
     border-right: 1px solid grey;
     background-color: rgb(224, 219, 219);
     overflow-x: scroll;
+    overflow-y: scroll;
+
   }
 
   .OutputDiagram {
@@ -23,6 +25,8 @@
     height: 550px;
     background-color: rgb(224, 219, 219);
     overflow-x: scroll;
+    overflow-y: scroll;
+
   }
 
   .ErrorLog {

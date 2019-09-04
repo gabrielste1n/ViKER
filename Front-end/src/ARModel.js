@@ -14,13 +14,11 @@ class ARModel extends React.Component {
 
     componentDidMount() {
         let graph = this.graph;
-        // let uml = this.uml;
-        // let erd = this.erd;
 
         this.paper = new dia.Paper({
             el: ReactDOM.findDOMNode(this.refs.placeholder),
-            width: 720,
-            height: 500,
+            width: 900,
+            height: 900,
             model: this.graph,
             gridSize: 1
         });
@@ -30,10 +28,6 @@ class ARModel extends React.Component {
        
         Object.keys(classes).forEach(function(key) {
             graph.addCell(classes[key]);
-            
-            // console.log('key', key);
-            // console.log('classes[key]', classes[key]);
-
         });
 
         //find which classes have foreign id's and then class that has same attribute but not foreign id
@@ -57,9 +51,8 @@ class ARModel extends React.Component {
                 
             }
         }
-    }
+        }
         
-       
         Object.keys(connections).forEach(function(key) {
             graph.addCell(connections[key]);
         });
