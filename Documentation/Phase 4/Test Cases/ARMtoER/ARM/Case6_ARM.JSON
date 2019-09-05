@@ -31,7 +31,7 @@
                     "isPathFunctionalDependancy": false
                 }
             ],
-            "coveredBy": [],
+            "coveredBy": ["ContractEmployee", "HourlyEmployee", "SalariedEmployee"],
             "disjointWith": ["Skill"],
             "inheritsFrom": "none",
             "name": "Employee"
@@ -60,7 +60,7 @@
                     "isPathFunctionalDependancy": false
                 }
             ],
-            "coveredBy": ["Employee"],
+            "coveredBy": [],
             "disjointWith": ["Skill"],
             "inheritsFrom": "Employee",
             "name": "HourlyEmployee"
@@ -89,7 +89,7 @@
                     "isPathFunctionalDependancy": false
                 }
             ],
-            "coveredBy": ["Employee"],
+            "coveredBy": [],
             "disjointWith": ["Skill"],
             "inheritsFrom": "Employee",
             "name": "SalariedEmployee"
@@ -118,7 +118,7 @@
                     "isPathFunctionalDependancy": false
                 }
             ],
-            "coveredBy": ["Employee"],
+            "coveredBy": [],
             "disjointWith": ["Skill"],
             "inheritsFrom": "Employee",
             "name": "ContractEmployee"

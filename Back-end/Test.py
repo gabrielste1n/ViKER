@@ -200,6 +200,17 @@ class TestEERToARM(unittest.TestCase):
         
         print("Passed ER to ARM test case 7.")
 
+    def test_EERToARM_case_8(self): # include assert
+        test_case_ER = "TestCase8_EER.JSON"
+        test_case_ARM = "TestCase8_ARM.JSON"
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+        
+        print("Passed ER to ARM test case 8.")
+
 class TestARMToEER(unittest.TestCase):
     # Run all test cases for ARM -> ER transformations
 
@@ -217,7 +228,7 @@ class TestARMToEER(unittest.TestCase):
 
         print("ARM to ER test case 1 succeeded")
 
-    def test_EERToARM_case_2(self):
+    def test_ARMToEER_case_2(self):
         test_case_ER = "Case2_EER.JSON"
         test_case_ARM = "Case2_ARM.JSON"
 
@@ -228,7 +239,7 @@ class TestARMToEER(unittest.TestCase):
 
         print("ARM to ER test case 2 succeeded")
 
-    def test_EERToARM_case_3(self):
+    def test_ARMToEER_case_3(self):
         test_case_ER = "Case3_EER.JSON"
         test_case_ARM = "Case3_ARM.JSON"
 
@@ -239,7 +250,7 @@ class TestARMToEER(unittest.TestCase):
 
         print("ARM to ER test case 3 succeeded")
 
-    def test_EERToARM_case_4(self):
+    def test_ARMToEERv_case_4(self):
         test_case_ER = "Case4_EER.JSON"
         test_case_ARM = "Case4_ARM.JSON"
 
@@ -250,7 +261,7 @@ class TestARMToEER(unittest.TestCase):
 
         print("ARM to ER test case 4 succeeded")
 
-    def test_EERToARM_case_5(self):
+    def test_ARMToEER_case_5(self):
         test_case_ER = "Case5_EER.JSON"
         test_case_ARM = "Case5_ARM.JSON"
 
@@ -261,7 +272,7 @@ class TestARMToEER(unittest.TestCase):
 
         print("ARM to ER test case 5 succeeded")
 
-    def test_EERToARM_case_6(self):
+    def test_ARMToEER_case_6(self):
         test_case_ER = "Case6_EER.JSON"
         test_case_ARM = "Case6_ARM.JSON"
         
@@ -272,7 +283,7 @@ class TestARMToEER(unittest.TestCase):
 
         print("ARM to ER test case 6 succeeded")
 
-    def test_EERToARM_case_7(self):
+    def test_ARMToEER_case_7(self):
         test_case_ER = "Case7_EER.JSON"
         test_case_ARM = "Case7_ARM.JSON"
         
@@ -282,6 +293,17 @@ class TestARMToEER(unittest.TestCase):
         HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
         
         print("ARM to ER test case 7 succeeded")
+
+    def test_ARMToEER_case_8(self):
+        test_case_ER = "Case8_EER.JSON"
+        test_case_ARM = "Case8_ARM.JSON"
+        
+        # Read in an array of relation objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+        
+        print("ARM to ER test case 8 succeeded")
 
 if __name__ == '__main__':
     unittest.main()

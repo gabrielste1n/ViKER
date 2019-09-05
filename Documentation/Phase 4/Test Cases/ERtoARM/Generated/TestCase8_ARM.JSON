@@ -5,168 +5,161 @@
                 "attributes": [
                     {
                         "AttributeName": "self",
-                        "dataType": "0x11482ebe0 (OID)",
+                        "dataType": "0x11482e908 (OID)",
                         "isConcrete": false,
                         "isFK": false,
                         "isPathFunctionalDependancy": false
                     },
                     {
-                        "AttributeName": "DepartmentID",
+                        "AttributeName": "TreatmentDate",
                         "dataType": "AnyType",
                         "isConcrete": true,
                         "isFK": false,
-                        "isPathFunctionalDependancy": true
+                        "isPathFunctionalDependancy": false
                     },
                     {
-                        "AttributeName": "DepartmentName",
+                        "AttributeName": "TreatmentTime",
                         "dataType": "AnyType",
                         "isConcrete": true,
                         "isFK": false,
+                        "isPathFunctionalDependancy": false
+                    },
+                    {
+                        "AttributeName": "TreatmentResults",
+                        "dataType": "AnyType",
+                        "isConcrete": true,
+                        "isFK": false,
+                        "isPathFunctionalDependancy": false
+                    },
+                    {
+                        "AttributeName": "PatientID",
+                        "dataType": "OID",
+                        "isConcrete": false,
+                        "isFK": true,
+                        "isPathFunctionalDependancy": false
+                    },
+                    {
+                        "AttributeName": "TreatmentCode",
+                        "dataType": "OID",
+                        "isConcrete": false,
+                        "isFK": true,
+                        "isPathFunctionalDependancy": false
+                    },
+                    {
+                        "AttributeName": "PhysicianID",
+                        "dataType": "OID",
+                        "isConcrete": false,
+                        "isFK": true,
                         "isPathFunctionalDependancy": false
                     }
                 ],
                 "coveredBy": [],
                 "disjointWith": [
-                    "Professor",
-                    "Course",
-                    "Class"
+                    "Patient",
+                    "Treatment",
+                    "Physician"
                 ],
                 "inheritsFrom": "none",
-                "name": "Department"
+                "name": "PatientTreatment"
             },
             {
                 "attributes": [
                     {
                         "AttributeName": "self",
-                        "dataType": "0x11482e780 (OID)",
+                        "dataType": "0x11482ed68 (OID)",
                         "isConcrete": false,
                         "isFK": false,
                         "isPathFunctionalDependancy": false
                     },
                     {
-                        "AttributeName": "ProfessorID",
+                        "AttributeName": "PatientID",
                         "dataType": "AnyType",
                         "isConcrete": true,
                         "isFK": false,
                         "isPathFunctionalDependancy": true
                     },
                     {
-                        "AttributeName": "ProfessorName",
+                        "AttributeName": "PatientName",
                         "dataType": "AnyType",
                         "isConcrete": true,
                         "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "OfficeNumber",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "DepartmentID",
-                        "dataType": "OID",
-                        "isConcrete": false,
-                        "isFK": true,
                         "isPathFunctionalDependancy": false
                     }
                 ],
                 "coveredBy": [],
                 "disjointWith": [
-                    "Department",
-                    "Course",
-                    "Class"
+                    "PatientTreatment",
+                    "Treatment",
+                    "Physician"
                 ],
                 "inheritsFrom": "none",
-                "name": "Professor"
+                "name": "Patient"
             },
             {
                 "attributes": [
                     {
                         "AttributeName": "self",
-                        "dataType": "0x11482ec88 (OID)",
+                        "dataType": "0x11482ea90 (OID)",
                         "isConcrete": false,
                         "isFK": false,
                         "isPathFunctionalDependancy": false
                     },
                     {
-                        "AttributeName": "CourseID",
+                        "AttributeName": "TreatmentCode",
                         "dataType": "AnyType",
                         "isConcrete": true,
                         "isFK": false,
                         "isPathFunctionalDependancy": true
                     },
                     {
-                        "AttributeName": "CourseName",
+                        "AttributeName": "TreatmentDescription",
                         "dataType": "AnyType",
                         "isConcrete": true,
                         "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "DepartmentID",
-                        "dataType": "OID",
-                        "isConcrete": false,
-                        "isFK": true,
                         "isPathFunctionalDependancy": false
                     }
                 ],
                 "coveredBy": [],
                 "disjointWith": [
-                    "Department",
-                    "Professor",
-                    "Class"
+                    "PatientTreatment",
+                    "Patient",
+                    "Physician"
                 ],
                 "inheritsFrom": "none",
-                "name": "Course"
+                "name": "Treatment"
             },
             {
                 "attributes": [
                     {
                         "AttributeName": "self",
-                        "dataType": "0x11482e8d0 (OID)",
+                        "dataType": "0x11482ef60 (OID)",
                         "isConcrete": false,
                         "isFK": false,
                         "isPathFunctionalDependancy": false
                     },
                     {
-                        "AttributeName": "Selection",
+                        "AttributeName": "PhysicianID",
+                        "dataType": "AnyType",
+                        "isConcrete": true,
+                        "isFK": false,
+                        "isPathFunctionalDependancy": true
+                    },
+                    {
+                        "AttributeName": "PhysicianName",
                         "dataType": "AnyType",
                         "isConcrete": true,
                         "isFK": false,
                         "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "Term",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "CourseID",
-                        "dataType": "OID",
-                        "isConcrete": false,
-                        "isFK": true,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "ProfessorID",
-                        "dataType": "OID",
-                        "isConcrete": false,
-                        "isFK": true,
-                        "isPathFunctionalDependancy": true
                     }
                 ],
                 "coveredBy": [],
                 "disjointWith": [
-                    "Department",
-                    "Professor",
-                    "Course"
+                    "PatientTreatment",
+                    "Patient",
+                    "Treatment"
                 ],
                 "inheritsFrom": "none",
-                "name": "Class"
+                "name": "Physician"
             }
         ]
     },
