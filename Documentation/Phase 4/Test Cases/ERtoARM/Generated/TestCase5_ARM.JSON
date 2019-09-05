@@ -4,7 +4,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66b70 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -32,7 +32,10 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Course",
+                "joinRelation[Employee-Course]"
+            ],
             "inheritsFrom": "none",
             "name": "Employee"
         },
@@ -40,7 +43,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66860 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -61,7 +64,10 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Employee",
+                "joinRelation[Employee-Course]"
+            ],
             "inheritsFrom": "none",
             "name": "Course"
         },
@@ -69,7 +75,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66ac8 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -97,7 +103,10 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Employee",
+                "Course"
+            ],
             "inheritsFrom": "none",
             "name": "joinRelation[Employee-Course]"
         }
