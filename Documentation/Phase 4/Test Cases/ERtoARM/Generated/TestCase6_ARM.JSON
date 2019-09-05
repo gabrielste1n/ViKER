@@ -4,7 +4,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66dd8 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -31,8 +31,14 @@
                     "isPathFunctionalDependancy": false
                 }
             ],
-            "coveredBy": [],
-            "disjointWith": [],
+            "coveredBy": [
+                "HourlyEmployee",
+                "SalariedEmployee",
+                "ContractEmployee"
+            ],
+            "disjointWith": [
+                "Skill"
+            ],
             "inheritsFrom": "none",
             "name": "Employee"
         },
@@ -40,7 +46,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66c50 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -61,7 +67,12 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Employee",
+                "HourlyEmployee",
+                "SalariedEmployee",
+                "ContractEmployee"
+            ],
             "inheritsFrom": "none",
             "name": "Skill"
         },
@@ -69,9 +80,9 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x10f657668 (OID)",
                     "isConcrete": false,
-                    "isFK": false,
+                    "isFK": true,
                     "isPathFunctionalDependancy": false
                 },
                 {
@@ -90,7 +101,9 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Skill"
+            ],
             "inheritsFrom": "Employee",
             "name": "HourlyEmployee"
         },
@@ -98,9 +111,9 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x10f657668 (OID)",
                     "isConcrete": false,
-                    "isFK": false,
+                    "isFK": true,
                     "isPathFunctionalDependancy": false
                 },
                 {
@@ -119,7 +132,9 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Skill"
+            ],
             "inheritsFrom": "Employee",
             "name": "SalariedEmployee"
         },
@@ -127,9 +142,9 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x10f657668 (OID)",
                     "isConcrete": false,
-                    "isFK": false,
+                    "isFK": true,
                     "isPathFunctionalDependancy": false
                 },
                 {
@@ -148,7 +163,9 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Skill"
+            ],
             "inheritsFrom": "Employee",
             "name": "ContractEmployee"
         }

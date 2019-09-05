@@ -1,0 +1,120 @@
+{
+    "relations": [
+        {
+            "name": "PatientTreatment",
+            "attributes": [
+                {
+                    "AttributeName": "PatientID",
+                    "isConcrete": false,
+                    "dataType": "OID",
+                    "isPathFunctionalDependancy": true,
+                    "isFK": true
+                },
+                {
+                    "AttributeName": "PhysicianID",
+                    "isConcrete": false,
+                    "dataType": "OID",
+                    "isPathFunctionalDependancy": true,
+                    "isFK": true
+                },
+                {
+                    "AttributeName": "TreatmentCode",
+                    "isConcrete": false,
+                    "dataType": "OID",
+                    "isPathFunctionalDependancy": true,
+                    "isFK": true
+                },
+                {
+                    "AttributeName": "TreatmentDate",
+                    "isConcrete": true,
+                    "dataType": "String",
+                    "isPathFunctionalDependancy": true,
+                    "isFK": false
+                },
+                {
+                    "AttributeName": "TreatmentTime",
+                    "isConcrete": true,
+                    "dataType": "String",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                },
+                {
+                    "AttributeName": "TreatmentResults",
+                    "isConcrete": true,
+                    "dataType": "String",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                }
+            ],
+            "inheritsFrom": "none",
+            "coveredBy": [],
+            "disjointWith": []
+        },
+        {
+            "name": "Patient",
+            "attributes": [
+                {
+                    "AttributeName": "PatientID",
+                    "isConcrete": true,
+                    "dataType": "Integer",
+                    "isPathFunctionalDependancy": true,
+                    "isFK": false
+                },
+                {
+                    "AttributeName": "PatientName",
+                    "isConcrete": true,
+                    "dataType": "String",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                }
+            ],
+            "inheritsFrom": "none",
+            "coveredBy": [],
+            "disjointWith": []
+        },
+        {
+            "name": "Treatment",
+            "attributes": [
+                {
+                    "AttributeName": "TreatmentCode",
+                    "isConcrete": true,
+                    "dataType": "Integer",
+                    "isPathFunctionalDependancy": true,
+                    "isFK": false
+                },
+                {
+                    "AttributeName": "TreatmentDescription",
+                    "isConcrete": true,
+                    "dataType": "String",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                }
+            ],
+            "inheritsFrom": "none",
+            "coveredBy": [],
+            "disjointWith": []
+        },
+        {
+            "name": "Physician",
+            "attributes": [
+                {
+                    "AttributeName": "PhysicianID",
+                    "isConcrete": true,
+                    "dataType": "Integer",
+                    "isPathFunctionalDependancy": true,
+                    "isFK": false
+                },
+                {
+                    "AttributeName": "PhysicianName",
+                    "isConcrete": true,
+                    "dataType": "String",
+                    "isPathFunctionalDependancy": false,
+                    "isFK": false
+                }
+            ],
+            "inheritsFrom": "none",
+            "coveredBy": [],
+            "disjointWith": []
+        }
+    ]
+}

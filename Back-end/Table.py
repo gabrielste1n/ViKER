@@ -71,9 +71,9 @@ class Relation(Table):
         self.coveredBy = coveredBy
         self.disjointWith = disjointWith
 
-    def addAttribute(self, name, isConcrete, dataType, isPFD, isFK, FKPointer = "none"):
+    def addAttribute(self, name, isConcrete, dataType, isPFD, isFK):
         """Add a new attribute to the Relation"""
-        A = ARMAttribute(name, isConcrete, dataType, isPFD, isFK, FKPointer)
+        A = ARMAttribute(name, isConcrete, dataType, isPFD, isFK)
         self.attributes.append(A)
 
     def getInheritsFrom(self):
@@ -87,3 +87,11 @@ class Relation(Table):
     def getDisjointWith(self):
         """return disjointWith (list)"""
         return self.disjointWith
+
+    def setDisjointWith(self, disjointWith):
+        """Set disjoint-with list"""
+        self.disjointWith = disjointWith
+
+    def setCoveredBy(self, coveredBy):
+        """Set disjoint-with list"""
+        self.coveredBy = coveredBy

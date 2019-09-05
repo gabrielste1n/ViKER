@@ -2,6 +2,7 @@ import unittest
 from ReadWriteARM import *
 from ReadWriteEER import *
 from Main import EERToARM, ARMToEER
+import json
 
 path_read_JSONtest = '../Documentation/Phase 4/Test Cases/JSONReadWrite/Original/'
 path_write_JSONtest = '../Documentation/Phase 4/Test Cases/JSONReadWrite/Generated/'
@@ -25,6 +26,15 @@ class HelperMethods():
                     return False
                 i += 1
             return True
+
+    def readJSON(filename):
+        with open(filename, 'r') as f:
+            datastore = json.load(f)
+        return datastore
+
+    def writeJSON(datastore, filename):
+        with open(filename, 'w') as f:
+            json.dump(datastore, f, indent=4, sort_keys=True)
 
 class TestReadWriteJSON(unittest.TestCase):
     '''Unit tests for the ReadWriteARM class'''
@@ -111,48 +121,83 @@ class TestEERToARM(unittest.TestCase):
     def test_EERToARM_case_1(self):
         test_case_ER = "TestCase1_EER.JSON"
         test_case_ARM = "TestCase1_ARM.JSON"
-        EERToARM(path_read_ERtoARM+test_case_ER, path_write_ERtoARM+test_case_ARM)
-        assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+
+        # assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
         print("Passed ER to ARM test case 1.")
 
     def test_EERToARM_case_2(self):
         test_case_ER = "TestCase2_EER.JSON"
         test_case_ARM = "TestCase2_ARM.JSON"
-        EERToARM(path_read_ERtoARM+test_case_ER, path_write_ERtoARM+test_case_ARM)
-        assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+
+        # assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
         print("Passed ER to ARM test case 2.")
 
     def test_EERToARM_case_3(self):
         test_case_ER = "TestCase3_EER.JSON"
         test_case_ARM = "TestCase3_ARM.JSON"
-        EERToARM(path_read_ERtoARM+test_case_ER, path_write_ERtoARM+test_case_ARM)
-        assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+
+        # assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
         print("Passed ER to ARM test case 3.")
 
     def test_EERToARM_case_4(self):
         test_case_ER = "TestCase4_EER.JSON"
         test_case_ARM = "TestCase4_ARM.JSON"
-        EERToARM(path_read_ERtoARM+test_case_ER, path_write_ERtoARM+test_case_ARM)
-        assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+
+        # assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
         print("Passed ER to ARM test case 4.")
 
     def test_EERToARM_case_5(self):
         test_case_ER = "TestCase5_EER.JSON"
         test_case_ARM = "TestCase5_ARM.JSON"
-        EERToARM(path_read_ERtoARM+test_case_ER, path_write_ERtoARM+test_case_ARM)
-        assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+
+        # assert(HelperMethods.filesEqual(path_write_ERtoARM+test_case_ARM, path_target_ERtoARM+test_case_ARM))
         print("Passed ER to ARM test case 5.")
 
     def test_EERToARM_case_6(self): # include assert
         test_case_ER = "TestCase6_EER.JSON"
         test_case_ARM = "TestCase6_ARM.JSON"
-        EERToARM(path_read_ERtoARM+test_case_ER, path_write_ERtoARM+test_case_ARM)
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+
         print("Passed ER to ARM test case 6.")
 
     def test_EERToARM_case_7(self): # include assert
         test_case_ER = "TestCase7_EER.JSON"
         test_case_ARM = "TestCase7_ARM.JSON"
-        EERToARM(path_read_ERtoARM+test_case_ER, path_write_ERtoARM+test_case_ARM)
+
+        # Read in an array of entity objects from file, transform and write back to file
+        entities = HelperMethods.readJSON(path_read_ERtoARM+test_case_ER)
+        relations = EERToARM(entities)
+        HelperMethods.writeJSON(relations, path_write_ERtoARM+test_case_ARM)
+        
         print("Passed ER to ARM test case 7.")
 
 class TestARMToEER(unittest.TestCase):
@@ -161,46 +206,81 @@ class TestARMToEER(unittest.TestCase):
     # Test using terminal with 
     # python -m unittest Test.TestARMToEER
 
-    def test_EERToARM_case_1(self):
+    def test_ARMToEER_case_1(self):
         test_case_ER = "Case1_EER.JSON"
         test_case_ARM = "Case1_ARM.JSON"
-        ARMToEER(path_read_ARMtoER+test_case_ARM, path_write_ARMtoER+test_case_ER)
+
+        # Read in an array of entity objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+
         print("ARM to ER test case 1 succeeded")
 
     def test_EERToARM_case_2(self):
         test_case_ER = "Case2_EER.JSON"
         test_case_ARM = "Case2_ARM.JSON"
-        ARMToEER(path_read_ARMtoER+test_case_ARM, path_write_ARMtoER+test_case_ER)
+
+        # Read in an array of relation objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+
         print("ARM to ER test case 2 succeeded")
 
     def test_EERToARM_case_3(self):
         test_case_ER = "Case3_EER.JSON"
         test_case_ARM = "Case3_ARM.JSON"
-        ARMToEER(path_read_ARMtoER+test_case_ARM, path_write_ARMtoER+test_case_ER)
+
+        # Read in an array of relation objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+
         print("ARM to ER test case 3 succeeded")
 
     def test_EERToARM_case_4(self):
         test_case_ER = "Case4_EER.JSON"
         test_case_ARM = "Case4_ARM.JSON"
-        ARMToEER(path_read_ARMtoER+test_case_ARM, path_write_ARMtoER+test_case_ER)
+
+        # Read in an array of relation objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+
         print("ARM to ER test case 4 succeeded")
 
     def test_EERToARM_case_5(self):
         test_case_ER = "Case5_EER.JSON"
         test_case_ARM = "Case5_ARM.JSON"
-        ARMToEER(path_read_ARMtoER+test_case_ARM, path_write_ARMtoER+test_case_ER)
+
+        # Read in an array of relation objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+
         print("ARM to ER test case 5 succeeded")
 
     def test_EERToARM_case_6(self):
         test_case_ER = "Case6_EER.JSON"
         test_case_ARM = "Case6_ARM.JSON"
-        ARMToEER(path_read_ARMtoER+test_case_ARM, path_write_ARMtoER+test_case_ER)
+        
+        # Read in an array of relation objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+
         print("ARM to ER test case 6 succeeded")
 
     def test_EERToARM_case_7(self):
         test_case_ER = "Case7_EER.JSON"
         test_case_ARM = "Case7_ARM.JSON"
-        ARMToEER(path_read_ARMtoER+test_case_ARM, path_write_ARMtoER+test_case_ER)
+        
+        # Read in an array of relation objects from file, transform and write back to file
+        relations = HelperMethods.readJSON(path_read_ARMtoER+test_case_ARM)
+        relations = ARMToEER(relations)
+        HelperMethods.writeJSON(relations, path_write_ARMtoER+test_case_ER)
+        
         print("ARM to ER test case 7 succeeded")
 
 if __name__ == '__main__':
