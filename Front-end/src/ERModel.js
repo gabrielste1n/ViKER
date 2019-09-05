@@ -125,61 +125,19 @@ const createDashedLink = function(elm1, elm2) {
     return myLink.addTo(graph);
 };
 
-
-// come back here
-const createZeroToManyLink = function(elm1, elm2) {
-console.log('being used');
-    // let myLink = new erd.Line({
-    //     markup: [
-    //         '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
-    //         '<path class="connection-wrap" d="M 0 0 0 0"/>',
-    //         '<g class="labels"/>',
-    //         '<g class="marker-vertices" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>',
-    //         '<g class="marker-target" fill="#FFFFFF" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>'
-    //     ].join(''),
-    //     source: { id: elm1.id },
-    //     target: { id: elm2.id }
-    // });
-
-    // myLink.attr({
-    //     '.marker-source': {
-    //         d: 'M 10 0 L 10 20 L 10 10 L 0 10 L 14 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0',
-    //         fill: '#FFFFFF'
-    //        },
-    //       '.marker-target': {
-    //         d: "M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0",
-    //         fill: '#FFFFFF'
-    //        }
-    // });
-
-    let mylink = new shapes.standard.Link();
-    mylink.prop('source', { id: elm1.id });
-    mylink.prop('target', { id: elm2.id });
-    mylink.attr('root/title', 'joint.shapes.standard.Link');
-    mylink.attr('line/stroke', '#000');
-    mylink.attr({
-        line: {
-            sourceMarker: { // hour hand
-                type: 'path',
-                    'd': 'M 0 -5 L 0 5 M 3 -5 L 3 5',
-                    'stroke': 'black',
-                    'fill': 'none',
-                    'stroke-width': 1
-            },
-            targetMarker: {
-                type: 'path',
-
-                'd': 'M50 50 L 0 25 M50 50 L0 75 M50 50 a25 25 0 1 1 0 1 Z',
-                'stroke': 'black',
-                'fill': 'none',
-                'stroke-width': 1
-              }
-        }
-    });
-    mylink.addTo(graph);
-
-    return mylink.addTo(graph);
+// create labels for entity to entity multiplicity
+var createLabel = function(txt) {
+    return {
+        labels: [{
+            position: -20,
+            attrs: {
+                text: { dy: -8, text: txt, fill: '#000', fontFamily: 'Roboto' },
+                rect: { fill: 'none' }
+            }
+        }]
+    };
 };
+
 
 // Unbind orignal highligting handlers.
 this.paper.off('cell:highlight cell:unhighlight');
@@ -354,10 +312,6 @@ for(let rel in this.props.classes[entity].relationships)
 
             //add the relationship attributes to the graph
             graph.addCell(relationAttributes[relation]);
-            
-            console.log('src',relationIdentifiers[this.props.classes[entity].name]);
-            console.log('dest',relationAttributes[relation]);
-
             createDashedLink(relationIdentifiers[this.props.classes[entity].name],relationAttributes[relation]); 
 
          }
@@ -393,7 +347,6 @@ for(let key in composedClasses){
 graph.addCells(tempArray);
 
 // create links to relationship types
-console.log('relIdenti',relationIdentifiers);
 for(let entity in this.props.classes){
     if(this.props.classes[entity].relationships){   //look for relation types
         for(let rel in this.props.classes[entity].relationships)
@@ -402,17 +355,60 @@ for(let entity in this.props.classes){
         || relationIdentifiers[this.props.classes[entity].name]){ //if there are relation attributes or ISA
             
             if(relationIdentifiers[this.props.classes[entity].name]){ //if i exist in the relation array - create link to diamond
-                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].name])
+                let textRel = '';
+                switch(this.props.classes[entity].relationships[rel].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                createLink(relationIdentifiers[this.props.classes[entity].name],entities[this.props.classes[entity].name]).set(createLabel(textRel))
             }
             else{
-                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
+                let textRel = '';
+                switch(this.props.classes[entity].relationships[rel].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                createLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity], entities[this.props.classes[entity].name]).set(createLabel(textRel));
             }
         }else
         {
             for(let relationship in this.props.classes[entity].relationships){
             if(entities[this.props.classes[entity].relationships[relationship].Entity]){
                 if(!relationIdentifiers[this.props.classes[entity].name] && ( !relationIdentifiers[this.props.classes[entity].relationships[relationship].Entity] || !this.props.classes[entity].relationships[relationship].relationAttributes.length >0 )){
-                    createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+                    let textRel = '';
+                switch(this.props.classes[entity].relationships[relationship].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                   
+                    createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]).set(createLabel(textRel)); //create all the entity to entity links
                 }
             }
         }
@@ -425,8 +421,22 @@ for(let entity in this.props.classes){
         for(let relationship in this.props.classes[entity].relationships){
         if(entities[this.props.classes[entity].relationships[relationship].Entity]){
             if(!relationIdentifiers[this.props.classes[entity].name]){
-                createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
-
+                let textRel = '';
+                switch(this.props.classes[entity].relationships[relationship].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                
+                createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]).set(createLabel(textRel)); //create all the entity to entity links
             }
         }
     }
