@@ -21,12 +21,12 @@ Your browser will then open on [http://localhost:3000/](http://localhost:3000/)
 
   ![enter image description here](https://lh3.googleusercontent.com/Wkl2bOji6vcVqEFlGRmFsz9Eehf626xd6FSC0WQgiMWOWFozfyYMpQ__zrvkmHvUU4qqx1FeG6A)
 
-1.) Where the input model is rendered
-2.) Where the output model is rendered
-3.) Where the error log is printed
-4.) Button to load model as a JSON file
-5.) Button to send input model to server and transform to output model
-6.) Saves the output model as a JSON file along with the error log
+ 1. Where the input model is rendered
+ 2. Where the output model is rendered
+ 3. Where the error log is printed
+ 4. Button to load model as a JSON file
+ 5. Button to send input model to server and transform to output model
+ 6. Saves the output model as a JSON file along with the error log
 
 # What the models look like in JSON
 
