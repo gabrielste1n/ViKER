@@ -17,7 +17,7 @@ class App extends React.Component {
     outputJSONfile: {}, // file that the server sends back after transform button has been pressed
     inputModel: null,   // object for the input JSON
     outputModel: null,  // object for the ouput JSON
-    errors: ["SUCCESS: Node 1 created", "SUCCESS: Node 2 created","FAILURE: Nodes cannot be linked" ],
+    errors: [],
     relations: [],     // stores all the relation objects
     entities: []       // stores all the entity objects
   }
@@ -141,7 +141,7 @@ axios.post( url, this.state.inputJSONfile).then((response) => {
   console.log(response.data);
   this.setState({ outputJSONfile: response.data });
   this.state.outputJSONfile.entities ? this.parseEntity('output',this.state.outputJSONfile) : this.parseRelation('output',this.state.outputJSONfile); // parse the JSON into the relevant data model
-
+  this.parseErrors();
 }).catch((e) => 
 {
   console.error(e);
@@ -150,6 +150,20 @@ axios.post( url, this.state.inputJSONfile).then((response) => {
     window.alert('No Input Model Has Been Loaded Yet!');
   }
 
+ }
+
+ // parse the errors JSON
+ parseErrors(){
+   let tempError = [];
+   if(this.state.outputJSONfile.log.Success){
+     tempError.push('Transformation Successful.');
+   }else{
+    tempError.push('Transformation Unsuccessful.');
+   }
+   for(let error in this.state.outputJSONfile.log.couldNotTransform){
+    tempError.push(this.state.outputJSONfile.log.couldNotTransform[error]);
+   }
+  this.setState({errors: tempError});
  }
 
  //download the trandformation report including json structure of model and error log

@@ -127,33 +127,59 @@ const createDashedLink = function(elm1, elm2) {
 
 
 // come back here
-// const createZeroToManyLink = function(elm1, elm2) {
-// console.log('being used');
-//     let myLink = new erd.Line({
-//         markup: [
-//             '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
-//             '<path class="connection-wrap" d="M 0 0 0 0"/>',
-//             '<g class="labels"/>',
-//             '<g class="marker-vertices" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>',
-//             '<g class="marker-target" fill="#FFFFFF" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>'
-//         ].join(''),
-//         source: { id: elm1.id },
-//         target: { id: elm2.id }
-//     });
+const createZeroToManyLink = function(elm1, elm2) {
+console.log('being used');
+    // let myLink = new erd.Line({
+    //     markup: [
+    //         '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
+    //         '<path class="connection-wrap" d="M 0 0 0 0"/>',
+    //         '<g class="labels"/>',
+    //         '<g class="marker-vertices" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>',
+    //         '<g class="marker-target" fill="#FFFFFF" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>'
+    //     ].join(''),
+    //     source: { id: elm1.id },
+    //     target: { id: elm2.id }
+    // });
 
-//     myLink.attr({
-//         '.marker-source': {
-//             d: 'M 10 0 L 10 20 L 10 10 L 0 10 L 14 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0',
-//             fill: '#FFFFFF'
-//            },
-//           '.marker-target': {
-//             d: "M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0",
-//             fill: '#FFFFFF'
-//            }
-//     });
+    // myLink.attr({
+    //     '.marker-source': {
+    //         d: 'M 10 0 L 10 20 L 10 10 L 0 10 L 14 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0',
+    //         fill: '#FFFFFF'
+    //        },
+    //       '.marker-target': {
+    //         d: "M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0",
+    //         fill: '#FFFFFF'
+    //        }
+    // });
 
-//     return myLink.addTo(graph);
-// };
+    let mylink = new shapes.standard.Link();
+    mylink.prop('source', { id: elm1.id });
+    mylink.prop('target', { id: elm2.id });
+    mylink.attr('root/title', 'joint.shapes.standard.Link');
+    mylink.attr('line/stroke', '#000');
+    mylink.attr({
+        line: {
+            sourceMarker: { // hour hand
+                type: 'path',
+                    'd': 'M 0 -5 L 0 5 M 3 -5 L 3 5',
+                    'stroke': 'black',
+                    'fill': 'none',
+                    'stroke-width': 1
+            },
+            targetMarker: {
+                type: 'path',
+
+                'd': 'M50 50 L 0 25 M50 50 L0 75 M50 50 a25 25 0 1 1 0 1 Z',
+                'stroke': 'black',
+                'fill': 'none',
+                'stroke-width': 1
+              }
+        }
+    });
+    mylink.addTo(graph);
+
+    return mylink.addTo(graph);
+};
 
 // Unbind orignal highligting handlers.
 this.paper.off('cell:highlight cell:unhighlight');
