@@ -4,7 +4,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66da0 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -25,7 +25,11 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Professor",
+                "Course",
+                "Class"
+            ],
             "inheritsFrom": "none",
             "name": "Department"
         },
@@ -33,7 +37,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66d30 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -68,7 +72,11 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Department",
+                "Course",
+                "Class"
+            ],
             "inheritsFrom": "none",
             "name": "Professor"
         },
@@ -76,7 +84,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66be0 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -104,7 +112,11 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Department",
+                "Professor",
+                "Class"
+            ],
             "inheritsFrom": "none",
             "name": "Course"
         },
@@ -112,7 +124,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66b00 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -147,7 +159,11 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Department",
+                "Professor",
+                "Course"
+            ],
             "inheritsFrom": "none",
             "name": "Class"
         }

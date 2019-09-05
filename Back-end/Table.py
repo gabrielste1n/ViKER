@@ -87,3 +87,11 @@ class Relation(Table):
     def getDisjointWith(self):
         """return disjointWith (list)"""
         return self.disjointWith
+
+    def setDisjointWith(self, disjointWith):
+        """Set disjoint-with list"""
+        self.disjointWith = disjointWith
+
+    def setCoveredBy(self, coveredBy):
+        """Set disjoint-with list"""
+        self.coveredBy = coveredBy
