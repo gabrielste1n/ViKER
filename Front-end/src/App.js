@@ -175,15 +175,6 @@ window.alert('No Transformation Has Taken Place Yet!');
 
  // loads and parses the input JSON file
  loadModel(input){
-  this.setState ({
-    inputJSONfile: {}, //file that the user loads
-    outputJSONfile: {}, // file that the server sends back after transform button has been pressed
-    inputModel: null,   // object for the input JSON
-    outputModel: null,  // object for the ouput JSON
-    errors: ["SUCCESS: Node 1 created", "SUCCESS: Node 2 created","FAILURE: Nodes cannot be linked" ],
-    relations: [],     // stores all the relation objects
-    entities: []       // stores all the entity objects
-  });
 
   this.fileReader = new FileReader();
   this.fileReader.readAsText(input);
@@ -195,7 +186,7 @@ window.alert('No Transformation Has Taken Place Yet!');
 
     });
   };
-  console.log('data',this.state.inputJSONfile);
+  // console.log('data',this.state.inputJSONfile.log.success);
  }
 
  // where the entire app is rendered

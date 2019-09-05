@@ -127,33 +127,33 @@ const createDashedLink = function(elm1, elm2) {
 
 
 // come back here
-const createZeroToManyLink = function(elm1, elm2) {
-console.log('being used');
-    let myLink = new erd.Line({
-        markup: [
-            '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
-            '<path class="connection-wrap" d="M 0 0 0 0"/>',
-            '<g class="labels"/>',
-            '<g class="marker-vertices" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>',
-            '<g class="marker-target" fill="#FFFFFF" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>'
-        ].join(''),
-        source: { id: elm1.id },
-        target: { id: elm2.id }
-    });
+// const createZeroToManyLink = function(elm1, elm2) {
+// console.log('being used');
+//     let myLink = new erd.Line({
+//         markup: [
+//             '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
+//             '<path class="connection-wrap" d="M 0 0 0 0"/>',
+//             '<g class="labels"/>',
+//             '<g class="marker-vertices" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>',
+//             '<g class="marker-target" fill="#FFFFFF" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>'
+//         ].join(''),
+//         source: { id: elm1.id },
+//         target: { id: elm2.id }
+//     });
 
-    myLink.attr({
-        '.marker-source': {
-            d: 'M 10 0 L 10 20 L 10 10 L 0 10 L 14 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0',
-            fill: '#FFFFFF'
-           },
-          '.marker-target': {
-            d: "M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0",
-            fill: '#FFFFFF'
-           }
-    });
+//     myLink.attr({
+//         '.marker-source': {
+//             d: 'M 10 0 L 10 20 L 10 10 L 0 10 L 14 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0',
+//             fill: '#FFFFFF'
+//            },
+//           '.marker-target': {
+//             d: "M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0",
+//             fill: '#FFFFFF'
+//            }
+//     });
 
-    return myLink.addTo(graph);
-};
+//     return myLink.addTo(graph);
+// };
 
 // Unbind orignal highligting handlers.
 this.paper.off('cell:highlight cell:unhighlight');
@@ -254,7 +254,7 @@ for(let rel in this.props.classes[entity].relationships)
             if(this.props.classes[entity].relationships[rel].RelationTypeLocal !== 'ISA')
             {//create the indentifying relation
 
-            relationIdentifiers[this.props.classes[entity].relationships[rel].Entity] =  new erd.Relationship({
+            relationIdentifiers[this.props.classes[entity].name] =  new erd.Relationship({
 
                      position: {x: ent.position.x , y: ent.position.y },
                      attrs: {
@@ -271,6 +271,7 @@ for(let rel in this.props.classes[entity].relationships)
                          }
                      }
                  });
+                 graph.addCell(relationIdentifiers[this.props.classes[entity].name]);
                 }else
                 {
                     if(!relationIdentifiers[this.props.classes[entity].name] && !relationIdentifiers[this.props.classes[entity].relationships[rel].Entity])
@@ -327,7 +328,11 @@ for(let rel in this.props.classes[entity].relationships)
 
             //add the relationship attributes to the graph
             graph.addCell(relationAttributes[relation]);
-            createDashedLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity],relationAttributes[relation]); 
+            
+            console.log('src',relationIdentifiers[this.props.classes[entity].name]);
+            console.log('dest',relationAttributes[relation]);
+
+            createDashedLink(relationIdentifiers[this.props.classes[entity].name],relationAttributes[relation]); 
 
          }
         }
