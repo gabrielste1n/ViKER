@@ -1,134 +1,159 @@
-{
-    "entities": [
-        {
-            "attributes": [
-                {
-                    "AttributeName": "EmployeeID",
-                    "composedOf": [],
-                    "isIdentifier": true,
-                    "isMultiValued": false
-                },
-                {
-                    "AttributeName": "EmployeeName",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                },
-                {
-                    "AttributeName": "EmployeeType",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                }
-            ],
-            "isStrong": true,
-            "name": "Employee",
-            "relationships": [
-                {
-                    "Entity": "HourlyEmployee",
-                    "RelationTypeForeign": "ISA",
-                    "RelationTypeLocal": "ISA",
-                    "relationAttributes": []
-                },
-                {
-                    "Entity": "SalariedEmployee",
-                    "RelationTypeForeign": "ISA",
-                    "RelationTypeLocal": "ISA",
-                    "relationAttributes": []
-                },
-                {
-                    "Entity": "ContractEmployee",
-                    "RelationTypeForeign": "ISA",
-                    "RelationTypeLocal": "ISA",
-                    "relationAttributes": []
-                },
-                {
-                    "Entity": "Skill",
-                    "RelationTypeForeign": "ZeroOrMany",
-                    "RelationTypeLocal": "ExactlyOne",
-                    "relationAttributes": []
-                }
-            ]
-        },
-        {
-            "attributes": [
-                {
-                    "AttributeName": "HourlyRate",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                }
-            ],
-            "isStrong": false,
-            "name": "HourlyEmployee",
-            "relationships": [
-                {
-                    "Entity": "Employee",
-                    "RelationTypeForeign": "ISA",
-                    "RelationTypeLocal": "ISA",
-                    "relationAttributes": []
-                }
-            ]
-        },
-        {
-            "attributes": [
-                {
-                    "AttributeName": "AnnualSalary",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                }
-            ],
-            "isStrong": false,
-            "name": "SalariedEmployee",
-            "relationships": [
-                {
-                    "Entity": "Employee",
-                    "RelationTypeForeign": "ISA",
-                    "RelationTypeLocal": "ISA",
-                    "relationAttributes": []
-                }
-            ]
-        },
-        {
-            "attributes": [
-                {
-                    "AttributeName": "BillingRate",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                }
-            ],
-            "isStrong": false,
-            "name": "ContractEmployee",
-            "relationships": [
-                {
-                    "Entity": "Employee",
-                    "RelationTypeForeign": "ISA",
-                    "RelationTypeLocal": "ISA",
-                    "relationAttributes": []
-                }
-            ]
-        },
-        {
-            "attributes": [
-                {
-                    "AttributeName": "SkillID",
-                    "composedOf": [],
-                    "isIdentifier": true,
-                    "isMultiValued": false
-                }
-            ],
-            "isStrong": false,
-            "name": "Skill",
-            "relationships": [
-                {
-                    "Entity": "Employee",
-                    "RelationTypeForeign": "ExactlyOne",
-                    "RelationTypeLocal": "ZeroOrMany",
-                    "relationAttributes": []
-                }
-            ]
-        }
-    ]
-}
+[
+    {
+        "entities": [
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "EmployeeID",
+                        "composedOf": [],
+                        "isIdentifier": true,
+                        "isMultiValued": false
+                    },
+                    {
+                        "AttributeName": "EmployeeName",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    },
+                    {
+                        "AttributeName": "EmployeeType",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": true,
+                "name": "Employee",
+                "relationships": [
+                    {
+                        "Entity": "HourlyEmployee",
+                        "RelationTypeForeign": "ISA",
+                        "RelationTypeLocal": "ISA",
+                        "relationAttributes": []
+                    },
+                    {
+                        "Entity": "SalariedEmployee",
+                        "RelationTypeForeign": "ISA",
+                        "RelationTypeLocal": "ISA",
+                        "relationAttributes": []
+                    },
+                    {
+                        "Entity": "ContractEmployee",
+                        "RelationTypeForeign": "ISA",
+                        "RelationTypeLocal": "ISA",
+                        "relationAttributes": []
+                    },
+                    {
+                        "Entity": "Skill",
+                        "RelationTypeForeign": "ZeroOrMany",
+                        "RelationTypeLocal": "ExactlyOne",
+                        "relationAttributes": []
+                    }
+                ]
+            },
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "HourlyRate",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": false,
+                "name": "HourlyEmployee",
+                "relationships": [
+                    {
+                        "Entity": "Employee",
+                        "RelationTypeForeign": "ISA",
+                        "RelationTypeLocal": "ISA",
+                        "relationAttributes": []
+                    }
+                ]
+            },
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "AnnualSalary",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": false,
+                "name": "SalariedEmployee",
+                "relationships": [
+                    {
+                        "Entity": "Employee",
+                        "RelationTypeForeign": "ISA",
+                        "RelationTypeLocal": "ISA",
+                        "relationAttributes": []
+                    }
+                ]
+            },
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "BillingRate",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": false,
+                "name": "ContractEmployee",
+                "relationships": [
+                    {
+                        "Entity": "Employee",
+                        "RelationTypeForeign": "ISA",
+                        "RelationTypeLocal": "ISA",
+                        "relationAttributes": []
+                    }
+                ]
+            },
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "SkillID",
+                        "composedOf": [],
+                        "isIdentifier": true,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": false,
+                "name": "Skill",
+                "relationships": [
+                    {
+                        "Entity": "Employee",
+                        "RelationTypeForeign": "ExactlyOne",
+                        "RelationTypeLocal": "ZeroOrMany",
+                        "relationAttributes": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Success": true,
+        "couldNotTransform": [
+            "Employee: lost PK reference to self -> 0x10b66c3c8",
+            "Employee: lost data type Integer for attribute EmployeeID",
+            "Employee: lost data type String for attribute EmployeeName",
+            "Employee: lost data type String for attribute EmployeeType",
+            "Skill: lost PK reference to self -> 0x112ae02e8",
+            "Skill: lost FK reference EmployeeID",
+            "Skill: lost data type String for attribute SkillID",
+            "Employee: lost covering constraint info; covered by ContractEmployee",
+            "Employee: lost covering constraint info; covered by HourlyEmployee",
+            "Employee: lost covering constraint info; covered by SalariedEmployee",
+            "Employee: lost disjointness constraint info; disjoint with Skill",
+            "HourlyEmployee: lost disjointness constraint info; disjoint with Skill",
+            "SalariedEmployee: lost disjointness constraint info; disjoint with Skill",
+            "ContractEmployee: lost disjointness constraint info; disjoint with Skill",
+            "Skill: lost disjointness constraint info; disjoint with Employee",
+            "Skill: lost disjointness constraint info; disjoint with HourlyEmployee",
+            "Skill: lost disjointness constraint info; disjoint with SalariedEmployee",
+            "Skill: lost disjointness constraint info; disjoint with ContractEmployee"
+        ]
+    }
+]

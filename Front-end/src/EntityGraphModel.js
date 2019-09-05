@@ -10,7 +10,7 @@ class EntityGraphModel {
         this.erd = shapes.erd;
         this.parseIntoGraphModel(); 
     }
-
+    // parses the initial object into  an object that can be used to render the entity graph
     parseIntoGraphModel(){
         let horAdj = 0;
         let vertAdj = 0;
@@ -37,7 +37,7 @@ class EntityGraphModel {
                 this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Key(tempObject);
             }
             else if(this.entityClasses[index].attributes[attr].isMultiValued){
-                this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Multivalued({
+                this.classes[this.entityClasses[index].attributes[attr].attributeName] = new this.erd.Multivalued({    // style the mutlivalued attribute
 
                     position: { x: 10 + horAdj, y: 150 + vertAdj},
                     attrs: {

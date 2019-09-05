@@ -1,12 +1,46 @@
+/* Stylesheet for entire project */
 .App{
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .GraphsWrapper{
   display: flex;
   width: 100%;
  flex-direction: row;
+}
+
+.Header {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    background-color: #235886;
+    display: flex;
+    flex-direction: row;
+    color: white;
+}
+
+.InputHeader {
+    padding: 16px;
+    box-sizing: border-box;
+    width: 50%;
+    height: 50px;
+    font-size: 24px;
+    color: white;
+    font-family: 'Lilita One', cursive;
+
+}
+
+.OutputHeader {
+    padding: 16px;
+    box-sizing: border-box;
+    width: 50%;
+    height: 50px;
+    font-size: 24px;
+    color: white;
+    font-family: 'Lilita One', cursive;
 }
 
 .InputDiagram {
@@ -16,6 +50,8 @@
     border-right: 1px solid grey;
     background-color: rgb(224, 219, 219);
     overflow-x: scroll;
+    overflow-y: scroll;
+
   }
 
   .OutputDiagram {
@@ -23,11 +59,13 @@
     height: 550px;
     background-color: rgb(224, 219, 219);
     overflow-x: scroll;
+    overflow-y: scroll;
+
   }
 
   .ErrorLog {
     width: 100%;
-    height: 240px;
+    height: 100%;
     background-color: #222222;
     display: flex;
     flex-direction: column;
@@ -36,12 +74,11 @@
 
 .TextAreaWrap{
     box-sizing: border-box;
-    margin: 16px;
+    margin: 16px 16px 13px 16px;
     height: 100px;
     display: flex;
     justify-content: center;
 }
-
 
 .TextArea{
     white-space: pre-line;
@@ -54,18 +91,22 @@
     outline: none;
     color: #222222;
     height: 100%;
+    resize: none;
+    font-family: 'Roboto', sans-serif;
 }
 
 .ButtonContainer{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 10px;
+    margin-bottom: 13px;
 }
 
 .ButtonContainer button{
     box-sizing: border-box;
-    width: 180px;
+    font-family: 'Lilita One', cursive;
+
+    width: 220px;
     height: 40px;
     line-height: 16px;
     font-size: 16px;
@@ -79,7 +120,6 @@
     cursor: pointer;
     border-radius: 10px;
 }
-
 
 .ButtonContainer button:hover{
     background-color: #286090;

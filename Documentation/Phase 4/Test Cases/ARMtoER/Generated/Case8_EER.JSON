@@ -1,0 +1,145 @@
+[
+    {
+        "entities": [
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "TreatmentDate",
+                        "composedOf": [],
+                        "isIdentifier": true,
+                        "isMultiValued": false
+                    },
+                    {
+                        "AttributeName": "TreatmentTime",
+                        "composedOf": [],
+                        "isIdentifier": true,
+                        "isMultiValued": false
+                    },
+                    {
+                        "AttributeName": "TreatmentResults",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": false,
+                "name": "PatientTreatment",
+                "relationships": [
+                    {
+                        "Entity": "Patient",
+                        "RelationTypeForeign": "ExactlyOne",
+                        "RelationTypeLocal": "ZeroOrMany",
+                        "relationAttributes": []
+                    },
+                    {
+                        "Entity": "Treatment",
+                        "RelationTypeForeign": "ExactlyOne",
+                        "RelationTypeLocal": "ZeroOrMany",
+                        "relationAttributes": []
+                    },
+                    {
+                        "Entity": "Physician",
+                        "RelationTypeForeign": "ExactlyOne",
+                        "RelationTypeLocal": "ZeroOrMany",
+                        "relationAttributes": []
+                    }
+                ]
+            },
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "PatientID",
+                        "composedOf": [],
+                        "isIdentifier": true,
+                        "isMultiValued": false
+                    },
+                    {
+                        "AttributeName": "PatientName",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": true,
+                "name": "Patient",
+                "relationships": [
+                    {
+                        "Entity": "PatientTreatment",
+                        "RelationTypeForeign": "ZeroOrMany",
+                        "RelationTypeLocal": "ExactlyOne",
+                        "relationAttributes": []
+                    }
+                ]
+            },
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "TreatmentCode",
+                        "composedOf": [],
+                        "isIdentifier": true,
+                        "isMultiValued": false
+                    },
+                    {
+                        "AttributeName": "TreatmentDescription",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": true,
+                "name": "Treatment",
+                "relationships": [
+                    {
+                        "Entity": "PatientTreatment",
+                        "RelationTypeForeign": "ZeroOrMany",
+                        "RelationTypeLocal": "ExactlyOne",
+                        "relationAttributes": []
+                    }
+                ]
+            },
+            {
+                "attributes": [
+                    {
+                        "AttributeName": "PhysicianID",
+                        "composedOf": [],
+                        "isIdentifier": true,
+                        "isMultiValued": false
+                    },
+                    {
+                        "AttributeName": "PhysicianName",
+                        "composedOf": [],
+                        "isIdentifier": false,
+                        "isMultiValued": false
+                    }
+                ],
+                "isStrong": true,
+                "name": "Physician",
+                "relationships": [
+                    {
+                        "Entity": "PatientTreatment",
+                        "RelationTypeForeign": "ZeroOrMany",
+                        "RelationTypeLocal": "ExactlyOne",
+                        "relationAttributes": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Success": true,
+        "couldNotTransform": [
+            "PatientTreatment: lost FK reference PatientID",
+            "PatientTreatment: lost FK reference PhysicianID",
+            "PatientTreatment: lost FK reference TreatmentCode",
+            "PatientTreatment: lost data type String for attribute TreatmentDate",
+            "PatientTreatment: lost data type String for attribute TreatmentTime",
+            "PatientTreatment: lost data type String for attribute TreatmentResults",
+            "Patient: lost data type Integer for attribute PatientID",
+            "Patient: lost data type String for attribute PatientName",
+            "Treatment: lost data type Integer for attribute TreatmentCode",
+            "Treatment: lost data type String for attribute TreatmentDescription",
+            "Physician: lost data type Integer for attribute PhysicianID",
+            "Physician: lost data type String for attribute PhysicianName"
+        ]
+    }
+]

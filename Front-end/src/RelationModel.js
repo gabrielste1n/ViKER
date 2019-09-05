@@ -1,3 +1,4 @@
+// object to pardse JSON into object
 class RelationModel {
    
     constructor(name, attributes, inheritsFrom, coveredBy, disjointWith){
