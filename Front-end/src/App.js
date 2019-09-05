@@ -196,11 +196,10 @@ window.alert('No Transformation Has Taken Place Yet!');
     this.setState({ inputJSONfile: JSON.parse(event.target.result) }, () => {
 
       this.state.inputJSONfile.entities ? this.parseEntity('input', this.state.inputJSONfile) : this.parseRelation('input', this.state.inputJSONfile); // parse the JSON into the relevant data model
-      console.log(this.state.relations.length > 0 ? this.state.relations : this.state.entities);
 
     });
   };
-  // console.log('data',this.state.inputJSONfile.log.success);
+  window.alert('PLEASE INTERACT WITH THE MODEL (DRAG ELEMENTS AROUND), THE ELEMENTS MIGHT OVERLAP ONE ANOTHER.');
  }
 
  // where the entire app is rendered
