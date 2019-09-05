@@ -50,6 +50,19 @@ def transform_view():
     file_type = determine_model_type(json_file)
 
     transformed_file = transform(json_file, file_type)
+
+    #transformed_file['log']={}
+    transformed_file['log'] = {
+        "success": True,
+        "couldNotTransform": [
+            {
+                "entity1": "itemDescription1",
+                "entity2": "itemDescription"
+            }
+        ]
+    }
+    
+
     return transformed_file
     #return jsonify(transformed_file)
     
