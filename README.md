@@ -142,6 +142,8 @@ Your browser will then open on [http://localhost:3000/](http://localhost:3000/)
 
 ![enter image description here](https://lh3.googleusercontent.com/TCmIfI6iG9C3pq9dMTaVuW_w-Na1okAKMUbeer1yhuY15ZxrnBXo6PCARsLoWtJCyTmQSwe-7vo)
 
+*Note: All diagrams can be moved around and interacted with!
+
 # Packages used
 ## Front-end
 
