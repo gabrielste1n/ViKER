@@ -550,6 +550,167 @@ Your browser will then open on [http://localhost:3000/](http://localhost:3000/)
 ##### Model
 ![enter image description here](https://lh3.googleusercontent.com/_ga-KDkUm2VLVrD7X9aypOj4kj1hUntYRW-_L31x3UkJlMXzHxUb7JGDZwrUYPSjZu2DfIIQuUo)
 
+## ARM
+##### JSON
+
+    {
+    "relations": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "DepartmentID",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "DepartmentName",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": ["Professor", "Course", "Class"],
+            "inheritsFrom": "none",
+            "name": "Department"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "DepartmentID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "CourseID",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "CourseName",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": ["Professor", "Department", "Class"],
+            "inheritsFrom": "none",
+            "name": "Course"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "DepartmentID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "ProfessorID",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "ProfessorName",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "OfficeNumber",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": ["Course", "Department", "Class"],
+            "inheritsFrom": "none",
+            "name": "Professor"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "CourseID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "ProfessorID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "Selection",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "Term",
+                    "dataType": "String",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": ["Course", "Department", "Professor"],
+            "inheritsFrom": "none",
+            "name": "Class"
+        }
+      ]
+    }
+
+##### Model
+![enter image description here](https://lh3.googleusercontent.com/kT9iRidglqZCnHyl5xiK_I9mISDvmwzIc3HZq1PdPr1zvhBYL1LRKreZDTsYo4fpkB4mOrXfPNA)
 # Packages used
 ## Front-end
 
