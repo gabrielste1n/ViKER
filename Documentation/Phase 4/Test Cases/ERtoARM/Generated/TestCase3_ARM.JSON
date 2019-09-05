@@ -4,7 +4,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66da0 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -25,7 +25,9 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Dependant"
+            ],
             "inheritsFrom": "none",
             "name": "Employee"
         },
@@ -33,7 +35,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "OID",
+                    "dataType": "0x116a66cf8 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -82,7 +84,9 @@
                 }
             ],
             "coveredBy": [],
-            "disjointWith": [],
+            "disjointWith": [
+                "Employee"
+            ],
             "inheritsFrom": "none",
             "name": "Dependant"
         }

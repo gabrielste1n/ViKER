@@ -31,12 +31,13 @@ def ARMToEER(relations):
 
     # Get an array of relation objects belonging to the ARM
     relations = np.array(readARM(relations)) 
-
     entities = [] # array for output entity objects
 
     # Sorting arrays for different catagories of relation objects
     weakRelationTypes = []
     StrongOrRegularRelationTypes = []
+
+    log = {"Success":False, "couldNotTransform": []} # To save information about the transformation
 
     # loop through all relation objects
     for T in relations:
@@ -46,12 +47,12 @@ def ARMToEER(relations):
 
         if(relationType=="strong"):
             # If relationType is "strong" create a strong entity 
-            entities.append(createEntity(T, isStrong=True))
+            entities.append(createEntity(T, log, isStrong=True))
             StrongOrRegularRelationTypes.append(T)
  
         elif(relationType == "regular"):
             # If relationType is "regular" create a weak entity 
-            entities.append(createEntity(T, isStrong=False))
+            entities.append(createEntity(T, log, isStrong=False))
             StrongOrRegularRelationTypes.append(T)
 
         elif(relationType == 'weak'):
@@ -73,10 +74,15 @@ def ARMToEER(relations):
     # transform the relation into a many to many relationship between two associated entities
     for T in weakRelationTypes:
         createManyToManyRelationship(T, entities)
+    
+    # Append lost information about covering and disjointness constraints to log
+    appendLostConstraintInfo(relations, log)
+
+    # Transformation succeeded
+    log["Success"] = True
 
     # Write resultant entities to file
-    return writeEER(list(entities))
-
+    return writeEER(list(entities)), log
 
 def getRelationshipType(T):
     """
@@ -127,7 +133,7 @@ def getRelationshipType(T):
         # type is regular
         return "regular"
 
-def createEntity(T, isStrong):
+def createEntity(T, log, isStrong):
     """
     Create a new strong entity object.
 
@@ -160,6 +166,12 @@ def createEntity(T, isStrong):
             # is not identifier attribute
             else:
                 E.addAttribute(name = ARMattrib.getName(), isIdentifier=False)
+            log["couldNotTransform"].append(T.getName()+": lost data type "+ARMattrib.getDataType()+" for attribute "+ARMattrib.getName())
+        else:
+            if(ARMattrib.getName() == "self"):
+                log["couldNotTransform"].append(T.getName()+": lost PK reference to self -> "+hex(id(T)))
+            else:
+                log["couldNotTransform"].append(T.getName()+": lost FK reference "+ARMattrib.getName())
     
     return E
 
@@ -323,6 +335,13 @@ def createManyToManyRelationship(T, entities):
                                            attributes = regularAttributes
                                            )
 
+def appendLostConstraintInfo(relations, log):
+    for T in relations:
+        for cb in T.getCoveredBy():
+            log["couldNotTransform"].append(T.getName()+": lost covering constraint info; covered by "+str(cb))
+        for dw in T.getDisjointWith():
+            log["couldNotTransform"].append(T.getName()+": lost disjointness constraint info; disjoint with "+str(dw))
+
 #############################################################################################
 # ER -> ARM Functions
 #############################################################################################
@@ -347,13 +366,14 @@ def EERToARM(entities):
     strongEntities = np.array([E for E in entities if E.isStrongEntity()]) 
     weakEntities = np.array([E for E in entities if not E.isStrongEntity()])
     relations = np.array([])
+    log = {"Success":False, "couldNotTransform": {}} # To save information about the transformation
 
     # For each strong entity E, create a Relation TE, include all FK and PK (pathFD) constraints 
-    T = StrongEntityToRelation(strongEntities)
+    T = StrongEntityToRelation(strongEntities, log)
     relations = np.concatenate([relations, T])
 
     # For each weak entity E create a relation TE, include all FK and PK (pathFD) constraints
-    T = WeakEntityToRelation(weakEntities, strongEntities)
+    T = WeakEntityToRelation(weakEntities, strongEntities, log)
     relations = np.concatenate([relations, T])
 
     alreadyProcessed = [] # store foreign entity references which have already been processed
@@ -361,56 +381,62 @@ def EERToARM(entities):
     # Consider all relationships between entities; transform accordingly
     for LE in strongEntities:
         for R in LE.getRelationships():
-
             # local and foreign entity tuple 
-            pair = sorted((LE.getName(), LE.getName())) 
+            pair = sorted((LE.getName(), R.getEntityName())) 
 
             # A one to one relationship between entities
             oneToOne = (R.getLocalRelationship() == RelationTypes.EXACTLY_ONE.value and 
                         R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
 
             # A one to one relationship between entities
-            manToOne = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
+            manyToOne = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
                         R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
 
             # A many to many relationship between entities
             manyToMany = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
-                          R.getForeignRelationship() == RelationTypes.ZERO_OR_MANY.value) 
-
-            if(manToOne or manyToMany):
-                # Get foreign entity
-                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
-                FE = strongEntities[foreignEntityIndex]
+                          R.getForeignRelationship() == RelationTypes.ZERO_OR_MANY.value)
 
             # For each 1:1 relationship between relation S and T, include as an FK in S, 
             # the PK of T as a constraint
             if(oneToOne and not pair in alreadyProcessed):
+                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
+                FE = strongEntities[foreignEntityIndex] 
                 oneToOneTransform(LE, FE, R)
                 alreadyProcessed.append(pair)
                 
             # For each 1:N relationship between S and T respectively, include as an FK in T, 
             # the PK of S as a constraint
-            elif(manToOne):
+            elif(manyToOne):
+                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
+                FE = strongEntities[foreignEntityIndex] 
                 manyToOneTransform(LE, FE, relations)
 
             # For each M:N relationship between S and T create a new relation R and include 
             # as FK attributes the primary keys of S and T, which will together form the 
             # composite primary key for R. Include other regular attributes belonging to the relationship
             elif(manyToMany and not pair in alreadyProcessed):
+                foreignEntityIndex = [x.getName() for x in strongEntities].index(R.getEntityName()) 
+                FE = strongEntities[foreignEntityIndex] 
                 T = manyToManyTransform(LE, FE, R) 
                 relations = np.concatenate([relations, T])
                 alreadyProcessed.append(pair) 
 
     # Store pathFD references in pathFD map
-    PFDMap, nameMap = createPathFDMap(relations)
+    PFDMap = createPathFDMap(relations)
 
-    # Add all covering & disjointness constraints based on pathFD map
-    addDisjointCoveringConstraints(PFDMap, nameMap, relations)
+    # Add all disjointness constraints based on pathFD map
+    addDisjointnessConstraints(PFDMap, relations)
+
+    # Add all covering constraints based on ISA relationships
+    addCoveringConstraints(relations)
+
+    # Transformation succeeded
+    log["Success"] = True
 
     # Write resultant relations to file
-    return writeARM(list(relations))
+    return writeARM(list(relations)), log
 
-def StrongEntityToRelation(strongEntities):
+def StrongEntityToRelation(strongEntities, log):
     """
     For each strong entity, create a new relation. 
     Add to it regular and PK attributes.
@@ -439,7 +465,7 @@ def StrongEntityToRelation(strongEntities):
         T.addAttribute(
                        name="self", 
                        isConcrete=False, 
-                       dataType=DataTypes.OID.value, 
+                       dataType=hex(id(T))+" ("+DataTypes.OID.value+")", 
                        isPFD=False,
                        isFK=False
                        )
@@ -451,6 +477,7 @@ def StrongEntityToRelation(strongEntities):
 
                 # if A is multivalued, append to array to handle below
                 if(A.isMultiValuedAttribute()):
+                    log["couldNotTransform"][T.getName()] = "lost multivalued property of attribute "+A.getName()
                     multivaluedAttributes.append(A)
 
                 # If A is a regular or PK attribute
@@ -463,7 +490,7 @@ def StrongEntityToRelation(strongEntities):
                                    isFK=False
                                    )
             else:
-                print("lost info: composite attribute",A.getName(), "belonging to", E.getName())
+                log["couldNotTransform"][E.getName()] = "lost composite attribute "+A.getName()
 
         toReturn.append(T) # append relation to list to be returned
 
@@ -475,7 +502,7 @@ def StrongEntityToRelation(strongEntities):
     # return list of relations
     return np.array(toReturn) 
 
-def WeakEntityToRelation(weakEntities, strongEntities):
+def WeakEntityToRelation(weakEntities, strongEntities, log):
     """
     For each weak entity, create a new relation. 
     Add to it regular, PK and FK attributes.
@@ -495,9 +522,12 @@ def WeakEntityToRelation(weakEntities, strongEntities):
 
         # Check whether the associated entity is in an inheritence hierachy
         inheritsFrom = "none"
+
         for r in W.getRelationships():
             if(r.getForeignRelationship() == RelationTypes.INHERITS_FROM.value):
                 inheritsFrom = r.getEntityName()
+                superEntityIndex = [E.getName() for E in strongEntities].index(r.getEntityName())
+                superEntity = strongEntities[superEntityIndex]
 
         # Create a new relation for each weak entity
         T = Relation(
@@ -505,13 +535,22 @@ def WeakEntityToRelation(weakEntities, strongEntities):
                     inheritsFrom=inheritsFrom,
                     )
 
+        memAddress = hex(id(T))
+        isFK = False
+
+        # If W inherits from a super entity, it's associated relation has "self" as 
+        # a foreign key, referencing the relation associated with the super entity. 
+        if(inheritsFrom != "none"):
+            isFK = True
+            memAddress = hex(id(superEntity))
+
         # Add the "self" attribute 
         T.addAttribute(
                        name="self", 
                        isConcrete=False, 
-                       dataType=DataTypes.OID.value, 
+                       dataType=memAddress+" ("+DataTypes.OID.value+")", 
                        isPFD=False, 
-                       isFK=False
+                       isFK=isFK
                        )
 
         # Add all simple attributes
@@ -532,7 +571,7 @@ def WeakEntityToRelation(weakEntities, strongEntities):
                                    )
             # Lost info: composite attributes
             else:
-                print("lost info: composite attribute",A.getName(), "belonging to", W.getName())
+                log["couldNotTransform"][W.getName()] = "lost composite attribute "+A.getName()
 
         # For each relationship W has with a strong entity, add an FK attribute to the associated relation
         for R in W.getRelationships():
@@ -582,7 +621,7 @@ def multivaluedToRelation(attribute, FKAttributes):
     T.addAttribute(
                    name="self", 
                    isConcrete=False, 
-                   dataType=DataTypes.OID.value, 
+                   dataType=hex(id(T))+" ("+DataTypes.OID.value+")", 
                    isPFD=False,
                    isFK=False
                    )
@@ -599,12 +638,12 @@ def multivaluedToRelation(attribute, FKAttributes):
     # Add all FK attributes from owner entity
     for FKAttrib in FKAttributes:
         T.addAttribute(
-                   name=FKAttrib.getName(), 
-                   isConcrete=False, 
-                   dataType=DataTypes.OID.value, 
-                   isPFD=True,
-                   isFK=True
-                   )
+                       name=FKAttrib.getName(), 
+                       isConcrete=False, 
+                       dataType=DataTypes.OID.value, 
+                       isPFD=True,
+                       isFK=True
+                      )
 
     # return relation
     return T
@@ -705,7 +744,7 @@ def manyToManyTransform(LE, FE, R):
     T.addAttribute(
                    name="self", 
                    isConcrete=False, 
-                   dataType=DataTypes.OID.value, 
+                   dataType=hex(id(T))+" ("+DataTypes.OID.value+")", 
                    isPFD=False, 
                    isFK=False
                    )
@@ -742,23 +781,67 @@ def manyToManyTransform(LE, FE, R):
     return np.array([T])
 
 def createPathFDMap(relations):
+    """
+    Create a pathFD map such that pathfd(A1,...,An)-> self
+
+    Parameters
+    ----------
+    relations: array of relation objects
+
+    Returns
+    -------
+    PFDMap: pathfd dictionary
+    """
     PFDMap = {}
-    nameAdressMap = {}
 
     for relation in relations: 
         PFDMap[(relation.getName(), hex(id(relation)))] = sorted([a.getName()  for a in relation.getAttributes() if a.isPathFunctionalDependency()])
 
-    return PFDMap, nameAdressMap
+    return PFDMap
 
-def addDisjointCoveringConstraints(PFDMap, nameMap, relations):
+def addDisjointnessConstraints(PFDMap, relations):
+    """
+    Add disjointness constraints to each relation based on the memory
+    location of the object represented by the relation (self)
+
+    Parameters
+    ----------
+    PFDMap: maps pathfd(A1,...,An) -> self
+
+    relations: array of relation objects
+
+    Returns
+    -------
+    None
+    """
     for T in relations:
+        disjointWith = []
+        coveredBy = []
         pfdAttributes = sorted([A.getName() for A in T.getAttributes() if A.isPathFunctionalDependency()])
         for key in PFDMap.keys():
-            if(PFDMap[key] == pfdAttributes):
-                print(key)
-                print(T.getName())
-    
-    return
+            if(PFDMap[key] != pfdAttributes):
+                disjointWith.append(key[0])
+
+        T.setDisjointWith(disjointWith)
+
+def addCoveringConstraints(relations):
+    """
+    Add covering constraints to the relation objects based on inheritence hierachies
+
+    Parameters
+    ----------
+    relations: array of relation objects
+
+    Returns
+    -------
+    None
+    """
+    for TSuper in relations:
+        coveredBy = []
+        for TSub in relations:
+            if(TSuper.getName() == TSub.getInheritsFrom()):
+                coveredBy.append(TSub.getName())
+        TSuper.setCoveredBy(coveredBy)
 
 class DataTypes(Enum):
     '''Specific types of data available'''
