@@ -14,7 +14,7 @@ class OutputGraph extends React.Component {
         this.paper = new dia.Paper({
             el: ReactDOM.findDOMNode(this.refs.placeholder),
             width: 900,
-            height: 500,
+            height: 900,
             model: this.graph,
             gridSize: 1,
             linkPinning: false,
@@ -125,33 +125,19 @@ const createDashedLink = function(elm1, elm2) {
     return myLink.addTo(graph);
 };
 
-const createZeroToManyLink = function(elm1, elm2) {
-console.log('being used');
-    let myLink = new erd.Line({
-        markup: [
-            '<path class="connection" stroke="black" d="M 0 0 0 0"/>',
-            '<path class="connection-wrap" d="M 0 0 0 0"/>',
-            '<g class="labels"/>',
-            '<g class="marker-vertices" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>',
-            '<g class="marker-target" fill="#FFFFFF" d="M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"/>'
-        ].join(''),
-        source: { id: elm1.id },
-        target: { id: elm2.id }
-    });
-
-    myLink.attr({
-        '.marker-source': {
-            d: 'M 10 0 L 10 20 L 10 10 L 0 10 L 14 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0',
-            fill: '#FFFFFF'
-           },
-          '.marker-target': {
-            d: "M 0 0 L 10 10 L 0 10 L 10 10 L 0 20 L 10 10 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0",
-            fill: '#FFFFFF'
-           }
-    });
-
-    return myLink.addTo(graph);
+// create labels for entity to entity multiplicity
+var createLabel = function(txt) {
+    return {
+        labels: [{
+            position: -20,
+            attrs: {
+                text: { dy: -8, text: txt, fill: '#000', fontFamily: 'Roboto' },
+                rect: { fill: 'none' }
+            }
+        }]
+    };
 };
+
 
 // Unbind orignal highligting handlers.
 this.paper.off('cell:highlight cell:unhighlight');
@@ -181,11 +167,12 @@ let composedClasses = graphModel.composedClasses;
 
 let entities = {}; //all entity graphable objects  
 let relationAttributes = {}; //all relationAttributes
-let relationIdentifiers = {}; //all relationAttributes
+let relationIdentifiers = {}; //all relation indentifiers
 
 let xAdj = 0;
 let yAdj = 0;
 
+// parse all entities and render to graph
 for(let entity in this.props.classes){
 
     let name = this.props.classes[entity].name;
@@ -200,7 +187,7 @@ for(let entity in this.props.classes){
                     fill: '#000',
                     text: name,
                     letterSpacing: 0,
-                    style: { textShadow: '1px 0 1px #333333' },
+                    style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto' },
                     fontSize: 10
                 },
                 '.outer': {
@@ -219,7 +206,7 @@ for(let entity in this.props.classes){
                     fill: '#000',
                     text: name,
                     letterSpacing: 0,
-                    style: { textShadow: '1px 0 1px #333333' },
+                    style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto'  },
                     fontSize: 10
                 },
                         '.inner': {
@@ -251,7 +238,7 @@ for(let rel in this.props.classes[entity].relationships)
             if(this.props.classes[entity].relationships[rel].RelationTypeLocal !== 'ISA')
             {//create the indentifying relation
 
-            relationIdentifiers[this.props.classes[entity].relationships[rel].Entity] =  new erd.Relationship({
+            relationIdentifiers[this.props.classes[entity].name] =  new erd.Relationship({
 
                      position: {x: ent.position.x , y: ent.position.y },
                      attrs: {
@@ -259,7 +246,7 @@ for(let rel in this.props.classes[entity].relationships)
                              fill: '#ffffff',
                              text: '',
                              letterSpacing: 0,
-                             style: { textShadow: '1px 0 1px #333333' }
+                             style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto'  }
                          },
                          '.outer': {
                              fill: '#fff',
@@ -268,9 +255,12 @@ for(let rel in this.props.classes[entity].relationships)
                          }
                      }
                  });
+                 graph.addCell(relationIdentifiers[this.props.classes[entity].name]);
                 }else
                 {
-                    relationIdentifiers[this.props.classes[entity].relationships[rel].Entity] =  new erd.ISA({
+                    if(!relationIdentifiers[this.props.classes[entity].name] && !relationIdentifiers[this.props.classes[entity].relationships[rel].Entity])
+                    {
+                        relationIdentifiers[this.props.classes[entity].name] =  new erd.ISA({
 
                         position: {x: ent.position.x , y: ent.position.y },
                         attrs: {
@@ -278,7 +268,7 @@ for(let rel in this.props.classes[entity].relationships)
                                      text: 'ISA',
                                      fill: '#000',
                                      letterSpacing: 0,
-                                     style: { 'text-shadow': '1px 0 1px #333333' }
+                                     style: { 'text-shadow': '1px 0 1px #333333', fontFamily: 'Roboto'  }
                                  },
                                  polygon: {
                                      fill: '#fff',
@@ -287,10 +277,13 @@ for(let rel in this.props.classes[entity].relationships)
                                  }
                              }
                          });
+
+                         graph.addCell(relationIdentifiers[this.props.classes[entity].name]);
+                        }
                  }
 
                  //adds the relation diamond to graoh
-                 graph.addCell(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
+                 
                 
                 }
 
@@ -306,7 +299,7 @@ for(let rel in this.props.classes[entity].relationships)
                         fill: '#000',
                         text: this.props.classes[entity].relationships[rel].relationAttributes[relation],
                         letterSpacing: 0,
-                        style: { textShadow: '1px 0 1px #333333' },
+                        style: { textShadow: '1px 0 1px #333333', fontFamily: 'Roboto'  },
                         fontSize: 10
                     },
                     '.outer': {
@@ -319,7 +312,7 @@ for(let rel in this.props.classes[entity].relationships)
 
             //add the relationship attributes to the graph
             graph.addCell(relationAttributes[relation]);
-            createDashedLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity],relationAttributes[relation]); 
+            createDashedLink(relationIdentifiers[this.props.classes[entity].name],relationAttributes[relation]); 
 
          }
         }
@@ -330,8 +323,9 @@ for(let rel in this.props.classes[entity].relationships)
 
 let tempArray = [];
 
+//dictionary into array
 for(let key in classes){
-    tempArray.push(classes[key]);   //dictionary into array
+    tempArray.push(classes[key]);   
 }
 
 // create a dictionary e.g. customerAddress: [object, object, object]
@@ -349,26 +343,72 @@ for(let key in composedClasses){
     }
 }
 
+//add attributes to graph
 graph.addCells(tempArray);
 
+// create links to relationship types
 for(let entity in this.props.classes){
     if(this.props.classes[entity].relationships){   //look for relation types
         for(let rel in this.props.classes[entity].relationships)
     { 
         if(this.props.classes[entity].relationships[rel].relationAttributes.length > 0 || this.props.classes[entity].relationships[rel].RelationTypeLocal === 'ISA' 
         || relationIdentifiers[this.props.classes[entity].name]){ //if there are relation attributes or ISA
+            
             if(relationIdentifiers[this.props.classes[entity].name]){ //if i exist in the relation array - create link to diamond
-                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].name])
+                let textRel = '';
+                switch(this.props.classes[entity].relationships[rel].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                createLink(relationIdentifiers[this.props.classes[entity].name],entities[this.props.classes[entity].name]).set(createLabel(textRel))
             }
             else{
-                createLink(entities[this.props.classes[entity].name],relationIdentifiers[this.props.classes[entity].relationships[rel].Entity]);
+                let textRel = '';
+                switch(this.props.classes[entity].relationships[rel].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                createLink(relationIdentifiers[this.props.classes[entity].relationships[rel].Entity], entities[this.props.classes[entity].name]).set(createLabel(textRel));
             }
         }else
         {
             for(let relationship in this.props.classes[entity].relationships){
             if(entities[this.props.classes[entity].relationships[relationship].Entity]){
                 if(!relationIdentifiers[this.props.classes[entity].name] && ( !relationIdentifiers[this.props.classes[entity].relationships[relationship].Entity] || !this.props.classes[entity].relationships[relationship].relationAttributes.length >0 )){
-                    createZeroToManyLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
+                    let textRel = '';
+                switch(this.props.classes[entity].relationships[relationship].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                   
+                    createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]).set(createLabel(textRel)); //create all the entity to entity links
                 }
             }
         }
@@ -381,15 +421,28 @@ for(let entity in this.props.classes){
         for(let relationship in this.props.classes[entity].relationships){
         if(entities[this.props.classes[entity].relationships[relationship].Entity]){
             if(!relationIdentifiers[this.props.classes[entity].name]){
-                console.log('4) source dest', this.props.classes[entity].name, this.props.classes[entity].relationships[relationship].Entity);
-                createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]); //create all the entity to entity links
-
+                let textRel = '';
+                switch(this.props.classes[entity].relationships[relationship].RelationTypeLocal){
+                    case 'ExactlyOne':
+                        textRel = '1';
+                        break;
+                    case 'ZeroOrMany':
+                        textRel = '0...N';
+                        break;
+                    case 'ISA':
+                        textRel = '1';
+                        break;
+                    default:
+                        break;
+                }
+                
+                createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]).set(createLabel(textRel)); //create all the entity to entity links
             }
         }
     }
 }
 }
-
+//create links betweeen entities and their attributes
 for(let key in classes){
     for(let entity in this.props.classes){
         for(let attribute in this.props.classes[entity].attributes){
@@ -406,11 +459,11 @@ for(let key in classes){
     }
 }
 
+//create links for composed attributes
 for(let key in composedDictionary){
     for(let comp in classes){
         if(key === comp){
             for(let compA in composedDictionary[key]){
-               
                 createLink(classes[comp],composedDictionary[key][compA]); //create composed links
             }
         }
@@ -418,26 +471,7 @@ for(let key in composedDictionary){
      //create all the links
 }
 
-// Helpers
-
-// var createLabel = function(txt) {
-//     return {
-//         labels: [{
-//             position: -20,
-//             attrs: {
-//                 text: { dy: -8, text: txt, fill: '#ffffff' },
-//                 rect: { fill: 'none' }
-//             }
-//         }]
-//     };
-// };
-
-// createLink(Customer, skills).set(createLabel('1..1'));
-// createLink(salesman, uses).set(createLabel('0..1'));
-// createLink(car, uses).set(createLabel('1..1'));
-// createLink(wage, paid).set(createLabel('N'));
-
-    }
+}
 
     render() {
         return <div ref="placeholder"></div>;

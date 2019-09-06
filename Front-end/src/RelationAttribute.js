@@ -1,3 +1,4 @@
+// object to parse JSON into object
 class RelationAttribute {
    
     constructor(attributeName, isConcrete, dataType, isPathFunctionalDependency, isFK){

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { dia, shapes }  from 'jointjs';
 import RelationGraphModel from './RelationGraphModel';
 
+// the object for rendering the AR model
 class ARModel extends React.Component {
 
     constructor(props) {
@@ -14,13 +15,12 @@ class ARModel extends React.Component {
 
     componentDidMount() {
         let graph = this.graph;
-        // let uml = this.uml;
-        // let erd = this.erd;
 
+        // create the size of the graph
         this.paper = new dia.Paper({
             el: ReactDOM.findDOMNode(this.refs.placeholder),
-            width: 720,
-            height: 500,
+            width: 900,
+            height: 900,
             model: this.graph,
             gridSize: 1
         });
@@ -28,12 +28,9 @@ class ARModel extends React.Component {
         let graphModel = new RelationGraphModel(this.props.classes);
         let classes = graphModel.classes;
        
+        // add to graph
         Object.keys(classes).forEach(function(key) {
             graph.addCell(classes[key]);
-            
-            // console.log('key', key);
-            // console.log('classes[key]', classes[key]);
-
         });
 
         //find which classes have foreign id's and then class that has same attribute but not foreign id
@@ -57,9 +54,8 @@ class ARModel extends React.Component {
                 
             }
         }
-    }
+        }
         
-       
         Object.keys(connections).forEach(function(key) {
             graph.addCell(connections[key]);
         });

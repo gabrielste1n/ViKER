@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "./containers/Header/Header";
 import ARModel from "./ARModel";
 import ERModel from "./ERModel";
 import classes from "./App.module.css";
@@ -14,22 +13,22 @@ import axios from 'axios';
 
 class App extends React.Component {
   state = {
-    inputJSONfile: {},
-    outputJSONfile: {},
-    inputModel: null,
-    outputModel: null,
-    errors: ["SUCCESS: Node 1 created", "SUCCESS: Node 2 created","FAILURE: Nodes cannot be linked" ],
-    relations: [],
-    entities: []
+    inputJSONfile: {}, //file that the user loads
+    outputJSONfile: {}, // file that the server sends back after transform button has been pressed
+    inputModel: null,   // object for the input JSON
+    outputModel: null,  // object for the ouput JSON
+    errors: [],
+    relations: [],     // stores all the relation objects
+    entities: []       // stores all the entity objects
   }
 
   constructor(){
     super();
     this.postInputModel = this.postInputModel.bind(this);
     this.saveOutput = this.saveOutput.bind(this);
-    this.saveErrorLog = this.saveErrorLog.bind(this);
   }
 
+  // parses the JSON data into a javascript object
   parseEntity(type, JSONfile){
     for(let entity in JSONfile.entities){
       let tempEntity = new EntityModel();
@@ -72,6 +71,7 @@ class App extends React.Component {
     this.renderEntityModel(type);
   }
 
+  // parses the JSON data into a javascript object
   parseRelation(type, JSONfile){
     for(let relation in JSONfile.relations){
       let tempRelation = new RelationModel();
@@ -118,13 +118,14 @@ class App extends React.Component {
     }
 
     this.renderRelationModel(type);
-
   }
 
+  // render the relational model
   renderRelationModel(type){
      type === 'input' ? this.setState({inputModel: <ARModel classes={this.state.relations} /> }) : this.setState({outputModel: <ARModel classes={this.state.relations} /> });
   }
   
+  // render the entity model
   renderEntityModel(type){
     type === 'input' ? this.setState({inputModel: <ERModel classes={this.state.entities} /> }) : this.setState({outputModel: <ERModel classes={this.state.entities} /> });
  }
@@ -140,7 +141,7 @@ axios.post( url, this.state.inputJSONfile).then((response) => {
   console.log(response.data);
   this.setState({ outputJSONfile: response.data });
   this.state.outputJSONfile.entities ? this.parseEntity('output',this.state.outputJSONfile) : this.parseRelation('output',this.state.outputJSONfile); // parse the JSON into the relevant data model
-
+  this.parseErrors();
 }).catch((e) => 
 {
   console.error(e);
@@ -151,10 +152,24 @@ axios.post( url, this.state.inputJSONfile).then((response) => {
 
  }
 
- //download output json to pc
+ // parse the errors JSON
+ parseErrors(){
+   let tempError = [];
+   if(this.state.outputJSONfile.log.Success){
+     tempError.push('Transformation Successful.');
+   }else{
+    tempError.push('Transformation Unsuccessful.');
+   }
+   for(let error in this.state.outputJSONfile.log.couldNotTransform){
+    tempError.push(this.state.outputJSONfile.log.couldNotTransform[error]);
+   }
+  this.setState({errors: tempError});
+ }
+
+ //download the trandformation report including json structure of model and error log
  saveOutput(){
    if(this.state.outputModel !== null){
-    let filename = "outputJSON.json";
+    let filename = "transformationReport.json";
     let contentType = "application/json;charset=utf-8;";
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
       var blob = new Blob([decodeURIComponent(encodeURI(this.state.errors.join()))], { type: contentType });
@@ -172,59 +187,41 @@ axios.post( url, this.state.inputJSONfile).then((response) => {
 window.alert('No Transformation Has Taken Place Yet!');
    }}
 
-    //download error log to pc
- saveErrorLog(){
-  if(this.state.outputModel !== null){
-   let filename = "errorLog.txt";
-   let contentType = "text/html;charset=utf-8;";
-   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-     var blob = new Blob([decodeURIComponent(encodeURI(this.state.errors.join('\n')))], { type: contentType });
-     navigator.msSaveOrOpenBlob(blob, filename);
-   } else {
-     var a = document.createElement('a');
-     a.download = filename;
-     a.href = 'data:' + contentType + ',' + encodeURIComponent(this.state.errors.join('\n'));
-     a.target = '_blank';
-     document.body.appendChild(a);
-     a.click();
-     document.body.removeChild(a);
-   }
-  }else{
-window.alert('No Transformation Has Taken Place Yet!');
-  }
-  
- }
-
+ // loads and parses the input JSON file
  loadModel(input){
+
   this.fileReader = new FileReader();
   this.fileReader.readAsText(input);
   this.fileReader.onload = event => {
     this.setState({ inputJSONfile: JSON.parse(event.target.result) }, () => {
 
       this.state.inputJSONfile.entities ? this.parseEntity('input', this.state.inputJSONfile) : this.parseRelation('input', this.state.inputJSONfile); // parse the JSON into the relevant data model
-      console.log(this.state.relations.length > 0 ? this.state.relations : this.state.entities);
 
     });
   };
+  window.alert('PLEASE INTERACT WITH THE MODEL (DRAG ELEMENTS AROUND), THE ELEMENTS MIGHT OVERLAP ONE ANOTHER.');
  }
 
+ // where the entire app is rendered
 render(){
   
   return (
     <div className={classes.App}>
+       <div className={classes.Header}>
+      <div className={classes.InputHeader}>Input</div>
+      <div className={classes.OutputHeader}>Output</div>
+    </div>
       <div className={classes.GraphsWrapper}>
+
         <div className={classes.InputDiagram}>
-          <Header header="Input" />
           {this.state.inputModel === null ? null : this.state.inputModel} {/* while input type is unknown, render null, then when it is known, render something */}
         </div>                                                                                                    
 
         <div className={classes.OutputDiagram}>
-          <Header header="Output" />
           {this.state.outputModel === null ? null : this.state.outputModel } {/* while output type is unknown, render null, then when it is known, render something */}
-          {/* <ERModel /> */}
         </div>
       </div>
-
+      {/* error log */}
       <div className={classes.ErrorLog}>
         <div className={classes.TextAreaWrap}>
           <textarea
@@ -233,29 +230,26 @@ render(){
             readOnly
           ></textarea>
         </div>
+         {/* button container */}
         <div className={classes.ButtonContainer}>
-          <button>
-          <div className={classes.Files}>
-        <Files
-          className="files-dropzone"
-          onChange={(file) => this.loadModel(file[0])}
-          onError={err => console.log(err)}
-          accepts={[".JSON"]}
-          multiple
-          maxFiles={3}
-          maxFileSize={10000000}
-          minFileSize={0}
-          clickable
-        >
-          Load Model
-        </Files>
-      </div></button>
-          {/* button to load model*/}
+          <button> {/* button to load model*/}
+            <div className={classes.Files}>
+          <Files
+            className="files-dropzone"
+            onChange={(file) => this.loadModel(file[0])}
+            onError={err => console.log(err)}
+            accepts={[".JSON"]}
+            multiple
+            maxFileSize={10000000}
+            minFileSize={0}
+            clickable
+          >
+            Load Model
+          </Files>
+        </div>
+      </button>
           <button onClick={this.postInputModel}>Transform Model</button> {/* button to transform model*/}
-          <button onClick={this.saveOutput}>Save Transformation</button>{" "}
-          {/* button to save converted model */}
-          <button onClick={this.saveErrorLog}>Save Error Log</button>{" "}
-          {/* button to save the output of the error log */}
+          <button onClick={this.saveOutput}>Save Transformation Report</button>{/* button to save converted model and error log*/}
         </div>
       </div>
     </div>
