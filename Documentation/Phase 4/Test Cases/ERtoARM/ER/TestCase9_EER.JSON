@@ -3,33 +3,34 @@
         {
             "attributes": [
                 {
-                    "AttributeName": "CustomerID",
+                    "AttributeName": "EmployeeID",
                     "composedOf": [],
                     "isIdentifier": true,
                     "isMultiValued": false
                 },
                 {
-                    "AttributeName": "CustomerName",
+                    "AttributeName": "EmployeeName",
                     "composedOf": [],
                     "isIdentifier": false,
                     "isMultiValued": false
                 },
                 {
-                    "AttributeName": "CustomerAddress",
-                    "composedOf": [],
-                    "isIdentifier": false,
-                    "isMultiValued": false
-                },
-                {
-                    "AttributeName": "CustomerPostalCode",
+                    "AttributeName": "EmployeeDateOfBirth",
                     "composedOf": [],
                     "isIdentifier": false,
                     "isMultiValued": false
                 }
             ],
             "isStrong": true,
-            "name": "Customer",
-            "relationships": []
+            "name": "Employee",
+            "relationships": [
+                {
+                    "Entity": "Employee",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "RelationTypeForeign": "ZeroOrOne",
+                    "relationAttributes": []
+                }
+            ]
         }
     ]
 }

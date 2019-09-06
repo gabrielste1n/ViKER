@@ -39,7 +39,7 @@
                 {
                     "Entity": "Physician",
                     "RelationTypeLocal": "ZeroOrMany",
-                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeForeign": "twoOrMore",
                     "relationAttributes": []
                 }
             ]
@@ -116,7 +116,7 @@
             "relationships": [
                 {
                     "Entity": "PatientTreatment",
-                    "RelationTypeLocal": "ExactlyOne",
+                    "RelationTypeLocal": "twoOrMore",
                     "RelationTypeForeign": "ZeroOrMany",
                     "relationAttributes": []
                 }

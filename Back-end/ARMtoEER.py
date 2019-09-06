@@ -1,10 +1,10 @@
 # ARMtoER file for ViKER Backend
 # Authors: St John Grimbly & Jeremy du Plessis
-# Date Created: 27 August 2019
-# Version: Beta v1.0
+# Date Created: September 2019
+# Version: v1.0
 
 import numpy as np
-from Constants import DataTypes, RelationTypes
+from Constants import DataTypes, RelationshipTypes
 from Table import Relation, Entity
 import json
 
@@ -15,9 +15,7 @@ def transform(relations):
 
     Parameters
     ----------
-    relations: a dictionary containing the ARM schema data 
-
-    filePathWrite: the directory where the JSON file output must be written to
+    relations: an array of relation objects 
 
     Returns
     -------
@@ -28,18 +26,21 @@ def transform(relations):
     """
 
     entities = [] # array for output entity objects
+    log = {"Success":False, "couldNotTransform": []} # To save information about the transformation
+
+    # Check is the AR model is valid
+    if (assertValidARModel(relations, log) == False):
+        return entities, log # If not return failure
 
     # Sorting arrays for different catagories of relation objects
     weakRelationTypes = []
     StrongOrRegularRelationTypes = []
 
-    log = {"Success":False, "couldNotTransform": []} # To save information about the transformation
-
     # loop through all relation objects
     for T in relations:
 
         # A relation type can be strong, regular or weak (see function)
-        relationType = getRelationshipType(T)
+        relationType = getRelationType(T)
 
         if(relationType=="strong"):
             # If relationType is "strong" create a strong entity 
@@ -77,10 +78,10 @@ def transform(relations):
     # Transformation succeeded
     log["Success"] = True
 
-    # Write resultant entities to file
+    # return entity objects and event log
     return entities, log
 
-def getRelationshipType(T):
+def getRelationType(T):
     """
     Takes as argument a relation object and catagorises it as:
 
@@ -99,7 +100,7 @@ def getRelationshipType(T):
 
     Returns
     -------
-    String object ("weak", "regular" or "strong")
+    String object: "weak", "regular" or "strong"
     """
 
     # Select all attributes A1,..., An such that pathfd(A1,...An) -> self
@@ -138,6 +139,8 @@ def createEntity(T, log, isStrong):
     T: Associated relation object from which to construct the entity
 
     isStrong: a boolean value indicating whether or not the entity is strong or not
+
+    log: a dictionary object; an event log
 
     Returns
     -------
@@ -186,6 +189,7 @@ def createISAEntity(T, entities):
     -------
     subEntity: the new (child) entity object
     """
+
     # create new entity object
     subEntity = Entity(name = T.getName(), isStrong = False)
 
@@ -204,15 +208,15 @@ def createISAEntity(T, entities):
     # Add ISA relationship to child entity 
     subEntity.addRelationship(
                               entityName = superEntity.getName(), 
-                              relationshipTypeLocal = RelationTypes.INHERITS_FROM.value, 
-                              relationshipTypeForeign = RelationTypes.INHERITS_FROM.value
+                              relationshipTypeLocal = RelationshipTypes.INHERITS_FROM.value, 
+                              relationshipTypeForeign = RelationshipTypes.INHERITS_FROM.value
                              )
 
     # Add ISA relationship to parent entity
     superEntity.addRelationship(
                                 entityName = subEntity.getName(), 
-                                relationshipTypeLocal = RelationTypes.INHERITS_FROM.value, 
-                                relationshipTypeForeign = RelationTypes.INHERITS_FROM.value, 
+                                relationshipTypeLocal = RelationshipTypes.INHERITS_FROM.value, 
+                                relationshipTypeForeign = RelationshipTypes.INHERITS_FROM.value, 
                                )
 
     # return new child entity
@@ -231,7 +235,7 @@ def createManyToOneRelationship(T, entities):
 
     Returns
     -------
-    NoneType
+    None
     """
 
     # get local entity associated with T 
@@ -267,14 +271,14 @@ def createManyToOneRelationship(T, entities):
         elif((FE.getName() != LE.getName()) and add):
             FE.addRelationship(
                                entityName = LE.getName(), 
-                               relationshipTypeLocal = RelationTypes.EXACTLY_ONE.value, 
-                               relationshipTypeForeign = RelationTypes.ZERO_OR_MANY.value
+                               relationshipTypeLocal = RelationshipTypes.EXACTLY_ONE.value, 
+                               relationshipTypeForeign = RelationshipTypes.ZERO_OR_MANY.value
                                )
 
             LE.addRelationship(
                                entityName = FE.getName(), 
-                               relationshipTypeLocal = RelationTypes.ZERO_OR_MANY.value, 
-                               relationshipTypeForeign = RelationTypes.EXACTLY_ONE.value
+                               relationshipTypeLocal = RelationshipTypes.ZERO_OR_MANY.value, 
+                               relationshipTypeForeign = RelationshipTypes.EXACTLY_ONE.value
                                )
     # end
     return
@@ -294,7 +298,6 @@ def createManyToManyRelationship(T, entities):
     Returns
     -------
     None
-
     """
 
     # Get all regular attributes belonging to the relation
@@ -320,21 +323,62 @@ def createManyToManyRelationship(T, entities):
     if(len(relatedEntities) == 2):
         relatedEntities[0].addRelationship(
                                            entityName = relatedEntities[1].getName(), 
-                                           relationshipTypeLocal = RelationTypes.ZERO_OR_MANY.value, 
-                                           relationshipTypeForeign = RelationTypes.ZERO_OR_MANY.value, 
+                                           relationshipTypeLocal = RelationshipTypes.ZERO_OR_MANY.value, 
+                                           relationshipTypeForeign = RelationshipTypes.ZERO_OR_MANY.value, 
                                            attributes = regularAttributes
                                            )
         relatedEntities[1].addRelationship(
                                            entityName = relatedEntities[0].getName(), 
-                                           relationshipTypeLocal = RelationTypes.ZERO_OR_MANY.value, 
-                                           relationshipTypeForeign = RelationTypes.ZERO_OR_MANY.value, 
+                                           relationshipTypeLocal = RelationshipTypes.ZERO_OR_MANY.value, 
+                                           relationshipTypeForeign = RelationshipTypes.ZERO_OR_MANY.value, 
                                            attributes = regularAttributes
                                            )
 
 def appendLostConstraintInfo(relations, log):
+    """
+    Appends coveredBy information to the event log
+
+    Parameters
+    ----------
+    relations: an array of relation objects
+
+    log: a dictionary object; an event log
+
+    Returns
+    -------
+    None
+    """
     for T in relations:
         for cb in T.getCoveredBy():
             log["couldNotTransform"].append(T.getName()+": lost covering constraint info; covered by "+str(cb))
         for dw in T.getDisjointWith():
             log["couldNotTransform"].append(T.getName()+": lost disjointness constraint info; disjoint with "+str(dw))
+
+def assertValidARModel(relations, log):
+    """
+    Determines whether or not there are elements in the AR model which will cause the transformation
+    to fail.
+
+    Parameters
+    ----------
+    relations: an array of relation objects 
+
+    log: a dictionary object; an event log
+
+    Returns
+    -------
+    canTransform: boolean value; False if the transformation is not possible, True otherwise
+    """
+
+    canTransform = True
+
+    for T in relations:
+        FKnames = [A.getName() for A in T.getAttributes() if A.isForeignKey()]
+        concretePFDs = [A.getName() for A in T.getAttributes() if (A.isConcreteAttribute() and A.isPathFunctionalDependency())]
+        for fk in FKnames:
+            if(fk in concretePFDs):
+                log["couldNotTransform"].append(T.getName()+": cannot transform relation with self-referencing foreign key "+fk)
+                canTransform = False
+
+    return canTransform
 

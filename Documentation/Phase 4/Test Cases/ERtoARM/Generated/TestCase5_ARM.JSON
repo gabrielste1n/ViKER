@@ -1,120 +1,114 @@
-[
-    {
-        "relations": [
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "self",
-                        "dataType": "0x11482e7b8 (OID)",
-                        "isConcrete": false,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "EmployeeID",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "EmployeeName",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "EmployeeBirthDate",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    }
-                ],
-                "coveredBy": [],
-                "disjointWith": [
-                    "Course",
-                    "joinRelation[Employee-Course]"
-                ],
-                "inheritsFrom": "none",
-                "name": "Employee"
-            },
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "self",
-                        "dataType": "0x11482ed30 (OID)",
-                        "isConcrete": false,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "CourseID",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "CourseTitle",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    }
-                ],
-                "coveredBy": [],
-                "disjointWith": [
-                    "Employee",
-                    "joinRelation[Employee-Course]"
-                ],
-                "inheritsFrom": "none",
-                "name": "Course"
-            },
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "self",
-                        "dataType": "0x11482eef0 (OID)",
-                        "isConcrete": false,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "DateCompleted",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "EmployeeID",
-                        "dataType": "OID",
-                        "isConcrete": false,
-                        "isFK": true,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "CourseID",
-                        "dataType": "OID",
-                        "isConcrete": false,
-                        "isFK": true,
-                        "isPathFunctionalDependancy": true
-                    }
-                ],
-                "coveredBy": [],
-                "disjointWith": [
-                    "Employee",
-                    "Course"
-                ],
-                "inheritsFrom": "none",
-                "name": "joinRelation[Employee-Course]"
-            }
-        ]
-    },
-    {
-        "Success": true,
-        "couldNotTransform": {}
-    }
-]
+{
+    "relations": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "0x11385ca20 (OID)",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "EmployeeName",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeBirthDate",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": [
+                "Course",
+                "joinRelation[Employee-Course]"
+            ],
+            "inheritsFrom": "none",
+            "name": "Employee"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "0x11385c278 (OID)",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "CourseID",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "CourseTitle",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": [
+                "Employee",
+                "joinRelation[Employee-Course]"
+            ],
+            "inheritsFrom": "none",
+            "name": "Course"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "0x11385c4a8 (OID)",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "DateCompleted",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "CourseID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": [
+                "Employee",
+                "Course"
+            ],
+            "inheritsFrom": "none",
+            "name": "joinRelation[Employee-Course]"
+        }
+    ]
+}

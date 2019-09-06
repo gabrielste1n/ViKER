@@ -1,61 +1,47 @@
-[
-    {
-        "entities": [
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "CustomerID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerName",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerState",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerCity",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerStreet",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerPostalCode",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Customer",
-                "relationships": []
-            }
-        ]
-    },
-    {
-        "Success": true,
-        "couldNotTransform": [
-            "Customer: lost PK reference to self -> 0x112abe978",
-            "Customer: lost data type Integer for attribute CustomerID",
-            "Customer: lost data type String for attribute CustomerName",
-            "Customer: lost data type String for attribute CustomerState",
-            "Customer: lost data type String for attribute CustomerCity",
-            "Customer: lost data type String for attribute CustomerStreet",
-            "Customer: lost data type Integer for attribute CustomerPostalCode"
-        ]
-    }
-]
+{
+    "entities": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "CustomerID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerState",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerCity",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerStreet",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerPostalCode",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Customer",
+            "relationships": []
+        }
+    ]
+}

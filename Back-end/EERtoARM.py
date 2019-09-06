@@ -1,13 +1,13 @@
-# ERtoARM file for ViKER Backend
+# ERMtoARM for ViKER Backend
 # Authors: St John Grimbly & Jeremy du Plessis
-# Date Created: 27 August 2019
-# Version: Beta v1.0
+# Date Created: September 2019
+# Version: v1.0
 
 import numpy as np
 from ReadWriteEER import readEER, writeEER
 from ReadWriteARM import readARM, writeARM
 from Table import Relation, Entity
-from Constants import DataTypes, RelationTypes
+from Constants import DataTypes, RelationshipTypes
 import json
 
 def transform(entities):
@@ -17,22 +17,26 @@ def transform(entities):
 
     Parameters
     ----------
-    entities: a dictionary containing the ER model data 
-
-    filePathWrite: the directory where the JSON file output must be written to
+    entities: an array of entity objects to be transformed
 
     Returns
     -------
-    entities: an array of entity objects representing the resultanting from
-              the transformation. 
+    relations: an array of relaion objects representing the resultanting from
+               the transformation. 
 
     log: a dictionary object with information regarding the transformation
     """
 
+    log = {"Success":False, "couldNotTransform": []} # To save information about the transformation
+    relations = np.array([]) # array of relation objects to be returned 
+
+    # Check is the ER model is valid
+    if (assertValidERModel(entities, log) == False):
+        return relations, log # If not return failure
+
+    # divide up strong and weak entities
     strongEntities = np.array([E for E in entities if E.isStrongEntity()]) 
     weakEntities = np.array([E for E in entities if not E.isStrongEntity()])
-    relations = np.array([])
-    log = {"Success":False, "couldNotTransform": {}} # To save information about the transformation
 
     # For each strong entity E, create a Relation TE, include all FK and PK (pathFD) constraints 
     T = StrongEntityToRelation(strongEntities, log)
@@ -51,16 +55,16 @@ def transform(entities):
             pair = sorted((LE.getName(), R.getEntityName())) 
 
             # A one to one relationship between entities
-            oneToOne = (R.getLocalRelationship() == RelationTypes.EXACTLY_ONE.value and 
-                        R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
+            oneToOne = (R.getLocalRelationship() == RelationshipTypes.EXACTLY_ONE.value and 
+                        R.getForeignRelationship() == RelationshipTypes.EXACTLY_ONE.value)
 
             # A one to one relationship between entities
-            manyToOne = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
-                        R.getForeignRelationship() == RelationTypes.EXACTLY_ONE.value)
+            manyToOne = (R.getLocalRelationship() == RelationshipTypes.ZERO_OR_MANY.value and 
+                        R.getForeignRelationship() == RelationshipTypes.EXACTLY_ONE.value)
 
             # A many to many relationship between entities
-            manyToMany = (R.getLocalRelationship() == RelationTypes.ZERO_OR_MANY.value and 
-                          R.getForeignRelationship() == RelationTypes.ZERO_OR_MANY.value)
+            manyToMany = (R.getLocalRelationship() == RelationshipTypes.ZERO_OR_MANY.value and 
+                          R.getForeignRelationship() == RelationshipTypes.ZERO_OR_MANY.value)
 
             # For each 1:1 relationship between relation S and T, include as an FK in S, 
             # the PK of T as a constraint
@@ -99,7 +103,7 @@ def transform(entities):
     # Transformation succeeded
     log["Success"] = True
 
-    # Write resultant relations to file
+    # return relations and event log
     return relations, log
 
 def StrongEntityToRelation(strongEntities, log):
@@ -109,10 +113,11 @@ def StrongEntityToRelation(strongEntities, log):
 
     Additionally, create a new relation for each multivalued attribute.
 
-
     Parameters
     ----------
     strongEntities: an array of entity objects
+
+    log: a dictionary object; an event log
 
     Returns
     -------
@@ -144,7 +149,7 @@ def StrongEntityToRelation(strongEntities, log):
 
                 # if A is multivalued, append to array to handle below
                 if(A.isMultiValuedAttribute()):
-                    log["couldNotTransform"][T.getName()] = "lost multivalued property of attribute "+A.getName()
+                    log["couldNotTransform"].append(T.getName()+": lost multivalued property of attribute "+A.getName())
                     multivaluedAttributes.append(A)
 
                 # If A is a regular or PK attribute
@@ -157,7 +162,7 @@ def StrongEntityToRelation(strongEntities, log):
                                    isFK=False
                                    )
             else:
-                log["couldNotTransform"][E.getName()] = "lost composite attribute "+A.getName()
+                log["couldNotTransform"].append(E.getName()+": lost composite attribute "+A.getName())
 
         toReturn.append(T) # append relation to list to be returned
 
@@ -174,14 +179,16 @@ def WeakEntityToRelation(weakEntities, strongEntities, log):
     For each weak entity, create a new relation. 
     Add to it regular, PK and FK attributes.
 
-
     Parameters
     ----------
     weakEntities: an array of entity objects
 
     strongEntities: an array of entity objects
 
-    Returns:
+    log: a dictionary object; an event log
+
+    Returns
+    -------
     toReturn: an array of relation objects
     """
     toReturn = []
@@ -191,7 +198,7 @@ def WeakEntityToRelation(weakEntities, strongEntities, log):
         inheritsFrom = "none"
 
         for r in W.getRelationships():
-            if(r.getForeignRelationship() == RelationTypes.INHERITS_FROM.value):
+            if(r.getForeignRelationship() == RelationshipTypes.INHERITS_FROM.value):
                 inheritsFrom = r.getEntityName()
                 superEntityIndex = [E.getName() for E in strongEntities].index(r.getEntityName())
                 superEntity = strongEntities[superEntityIndex]
@@ -226,7 +233,7 @@ def WeakEntityToRelation(weakEntities, strongEntities, log):
             if(len(A.getComposedOf()) == 0):
                 # If a weak entity has a multivalued attribute, log error
                 if(A.isMultiValuedAttribute()):
-                    print("Can't handle weak entities with multivalued attributes") 
+                    log["couldNotTransform"].append(W.getName()+": cannot transform multivalued attribute "+A.getName()+" belonging to weak entity") 
                 # A is a regular or PK attribute
                 else:
                     T.addAttribute(
@@ -238,7 +245,7 @@ def WeakEntityToRelation(weakEntities, strongEntities, log):
                                    )
             # Lost info: composite attributes
             else:
-                log["couldNotTransform"][W.getName()] = "lost composite attribute "+A.getName()
+                log["couldNotTransform"].append(W.getName()+": lost composite attribute "+A.getName())
 
         # For each relationship W has with a strong entity, add an FK attribute to the associated relation
         for R in W.getRelationships():
@@ -272,7 +279,7 @@ def multivaluedToRelation(attribute, FKAttributes):
     attribute: multivalued attribute
 
     FKAttributes: ID attributes of the foreign entity, to be added as foreign key 
-                  attributes to the kew relaion.
+                  attributes to the kew x.
 
     Returns
     -------
@@ -509,4 +516,47 @@ def addCoveringConstraints(relations):
             if(TSuper.getName() == TSub.getInheritsFrom()):
                 coveredBy.append(TSub.getName())
         TSuper.setCoveredBy(coveredBy)
+
+def assertValidERModel(entities, log):
+    """
+    Determines whether or not there are elements in the ER model which will cause the transformation
+    to fail.
+
+    Parameters
+    ----------
+    entities: an array of entity objects 
+
+    log: a dictionary object; an event log
+
+    Returns
+    -------
+    canTransform: boolean value; False if the transformation is not possible, True otherwise
+    """
+    canTransform = True
+    permissibleRelationshipTypes = [
+                                    RelationshipTypes.EXACTLY_ONE.value, 
+                                    RelationshipTypes.ZERO_OR_MANY.value, 
+                                    RelationshipTypes.INHERITS_FROM.value
+                                    ]
+    for E in entities:
+        for R in E.getRelationships():
+
+            if(R.getLocalRelationship() not in permissibleRelationshipTypes):
+                failError = E.getName()+": local relationship type "+R.getLocalRelationship()+" cannot be transformed"
+                log["couldNotTransform"].append(failError)
+                canTransform = False
+
+            # Ensure there are no recursive ternary relationships between entities
+            if(E.getName() == R.getEntityName()):
+                failError = E.getName()+": Cannot transform unary, recursive relationship in ER model"
+                log["couldNotTransform"].append(failError)
+                canTransform = False
+        
+        # Ensure each strong entity has at least one identifier attribute
+        if(E.isStrongEntity() and len(E.getIDAttribs()) == 0):
+            failError = E.getName()+": Cannot transform strong entity with no identifier attribute."
+            log["couldNotTransform"].append(failError)
+            canTransform = False
+
+    return canTransform
 

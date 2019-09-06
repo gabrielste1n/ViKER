@@ -1,7 +1,7 @@
 # constants file for ViKER Backend
 # Authors: St John Grimbly & Jeremy du Plessis
-# Date Created: 27 August 2019
-# Version: Beta v1.0
+# Date Created: September 2019
+# Version: v1.0
 
 from enum import Enum
 
@@ -13,7 +13,7 @@ class DataTypes(Enum):
     STRING = 'String'
     OID = 'OID'
 
-class RelationTypes(Enum):
+class RelationshipTypes(Enum):
     '''Types of relationships between entities'''
     EXACTLY_ONE = 'ExactlyOne'
     ZERO_OR_MANY = 'ZeroOrMany'
