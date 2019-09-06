@@ -5,8 +5,8 @@
 
 from ReadWriteEER import readEER, writeEER
 from ReadWriteARM import readARM, writeARM
-import ARMtoER
-import ERtoARM
+import ARMtoEER
+import EERtoARM
 import numpy as np
 
 
@@ -26,7 +26,7 @@ def ARMToEER(relations):
     """
     
     relations = np.array(readARM(relations))
-    entities, log = ARMtoER.transform(relations)
+    entities, log = ARMtoEER.transform(relations)
     JSONEntities = writeEER(list(entities))
     return JSONEntities, log
 
@@ -46,7 +46,7 @@ def EERToARM(entities):
     """
 
     entities = np.array(readEER(entities)) # read in array of entities from JSON file
-    relations, log = ERtoARM.transform(entities)
+    relations, log = EERtoARM.transform(entities)
     JSONRelations = writeARM(list(relations))
     return JSONRelations, log
 

@@ -4,7 +4,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "0x113f2d240 (OID)",
+                    "dataType": "0x11385c0b8 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -49,7 +49,7 @@
             "attributes": [
                 {
                     "AttributeName": "self",
-                    "dataType": "0x113f2d748 (OID)",
+                    "dataType": "0x11385c1d0 (OID)",
                     "isConcrete": false,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
