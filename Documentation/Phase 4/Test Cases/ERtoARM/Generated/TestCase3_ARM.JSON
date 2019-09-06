@@ -1,102 +1,94 @@
-[
-    {
-        "relations": [
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "self",
-                        "dataType": "0x11482e780 (OID)",
-                        "isConcrete": false,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "EmployeeID",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "EmployeeName",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    }
-                ],
-                "coveredBy": [],
-                "disjointWith": [
-                    "Dependant"
-                ],
-                "inheritsFrom": "none",
-                "name": "Employee"
-            },
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "self",
-                        "dataType": "0x11482e748 (OID)",
-                        "isConcrete": false,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "FirstName",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "MiddleInitial",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "LastName",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": true
-                    },
-                    {
-                        "AttributeName": "DateOfBirth",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "Gender",
-                        "dataType": "AnyType",
-                        "isConcrete": true,
-                        "isFK": false,
-                        "isPathFunctionalDependancy": false
-                    },
-                    {
-                        "AttributeName": "EmployeeID",
-                        "dataType": "OID",
-                        "isConcrete": false,
-                        "isFK": true,
-                        "isPathFunctionalDependancy": true
-                    }
-                ],
-                "coveredBy": [],
-                "disjointWith": [
-                    "Employee"
-                ],
-                "inheritsFrom": "none",
-                "name": "Dependant"
-            }
-        ]
-    },
-    {
-        "Success": true,
-        "couldNotTransform": {
-            "Dependant": "lost composite attribute DependantName"
+{
+    "relations": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "0x113f2d0b8 (OID)",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "EmployeeName",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": [
+                "Dependant"
+            ],
+            "inheritsFrom": "none",
+            "name": "Employee"
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "0x113f2db38 (OID)",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "FirstName",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "MiddleInitial",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "LastName",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": true
+                },
+                {
+                    "AttributeName": "DateOfBirth",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "Gender",
+                    "dataType": "AnyType",
+                    "isConcrete": true,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeID",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": true
+                }
+            ],
+            "coveredBy": [],
+            "disjointWith": [
+                "Employee"
+            ],
+            "inheritsFrom": "none",
+            "name": "Dependant"
         }
-    }
-]
+    ]
+}

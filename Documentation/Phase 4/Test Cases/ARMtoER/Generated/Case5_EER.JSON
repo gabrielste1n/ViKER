@@ -1,86 +1,66 @@
-[
-    {
-        "entities": [
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "EmployeeID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "EmployeeName",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "EmployeeBirthDate",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Employee",
-                "relationships": [
-                    {
-                        "Entity": "Course",
-                        "RelationTypeForeign": "ZeroOrMany",
-                        "RelationTypeLocal": "ZeroOrMany",
-                        "relationAttributes": [
-                            "DateCompleted"
-                        ]
-                    }
-                ]
-            },
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "CourseID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CourseTitle",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Course",
-                "relationships": [
-                    {
-                        "Entity": "Employee",
-                        "RelationTypeForeign": "ZeroOrMany",
-                        "RelationTypeLocal": "ZeroOrMany",
-                        "relationAttributes": [
-                            "DateCompleted"
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "Success": true,
-        "couldNotTransform": [
-            "Employee: lost PK reference to self -> 0x112abe978",
-            "Employee: lost data type Integer for attribute EmployeeID",
-            "Employee: lost data type String for attribute EmployeeName",
-            "Employee: lost data type String for attribute EmployeeBirthDate",
-            "Course: lost PK reference to self -> 0x112abecc0",
-            "Course: lost data type Integer for attribute CourseID",
-            "Course: lost data type String for attribute CourseTitle",
-            "Employee: lost disjointness constraint info; disjoint with joinTable_1[Employee-Course]",
-            "Employee: lost disjointness constraint info; disjoint with Course",
-            "joinTable_1[Employee-Course]: lost disjointness constraint info; disjoint with Course",
-            "joinTable_1[Employee-Course]: lost disjointness constraint info; disjoint with Employee",
-            "Course: lost disjointness constraint info; disjoint with Employee",
-            "Course: lost disjointness constraint info; disjoint with joinTable_1[Employee-Course]"
-        ]
-    }
-]
+{
+    "entities": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "EmployeeID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "EmployeeName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "EmployeeBirthDate",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Employee",
+            "relationships": [
+                {
+                    "Entity": "Course",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": [
+                        "DateCompleted"
+                    ]
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "CourseID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CourseTitle",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Course",
+            "relationships": [
+                {
+                    "Entity": "Employee",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": [
+                        "DateCompleted"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -4,6 +4,13 @@
             "name": "PatientTreatment",
             "attributes": [
                 {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
                     "AttributeName": "PatientID",
                     "isConcrete": false,
                     "dataType": "OID",
@@ -54,6 +61,13 @@
             "name": "Patient",
             "attributes": [
                 {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
                     "AttributeName": "PatientID",
                     "isConcrete": true,
                     "dataType": "Integer",
@@ -76,6 +90,13 @@
             "name": "Treatment",
             "attributes": [
                 {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
+                {
                     "AttributeName": "TreatmentCode",
                     "isConcrete": true,
                     "dataType": "Integer",
@@ -97,6 +118,13 @@
         {
             "name": "Physician",
             "attributes": [
+                {
+                    "AttributeName": "self",
+                    "dataType": "OID",
+                    "isConcrete": false,
+                    "isFK": false,
+                    "isPathFunctionalDependancy": false
+                },
                 {
                     "AttributeName": "PhysicianID",
                     "isConcrete": true,

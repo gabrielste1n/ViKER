@@ -10,29 +10,29 @@
                     "isPathFunctionalDependancy": false
                 },
                 {
-                    "AttributeName": "CustomerID",
-                    "dataType": "AnyType",
+                    "AttributeName": "EmployeeID",
+                    "dataType": "Integer",
                     "isConcrete": true,
                     "isFK": false,
                     "isPathFunctionalDependancy": true
                 },
                 {
-                    "AttributeName": "CustomerName",
-                    "dataType": "AnyType",
+                    "AttributeName": "EmployeeID",
+                    "dataType": "OID",
+                    "isConcrete": true,
+                    "isFK": true,
+                    "isPathFunctionalDependancy": false
+                },
+                {
+                    "AttributeName": "EmployeeName",
+                    "dataType": "String",
                     "isConcrete": true,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
                 },
                 {
-                    "AttributeName": "CustomerAddress",
-                    "dataType": "AnyType",
-                    "isConcrete": true,
-                    "isFK": false,
-                    "isPathFunctionalDependancy": false
-                },
-                {
-                    "AttributeName": "CustomerPostalCode",
-                    "dataType": "AnyType",
+                    "AttributeName": "EmployeeDateOfBirth",
+                    "dataType": "String",
                     "isConcrete": true,
                     "isFK": false,
                     "isPathFunctionalDependancy": false
@@ -41,7 +41,7 @@
             "coveredBy": [],
             "disjointWith": [],
             "inheritsFrom": "none",
-            "name": "Customer"
+            "name": "Employee"
         }
     ]
 }

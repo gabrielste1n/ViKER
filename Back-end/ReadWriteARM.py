@@ -1,15 +1,24 @@
 # Read in and write ARM JSON objects for transformations
 # Authors: St John Grimbly & Jeremy du Plessis
-# Date Created: 27 August 2019
-# Version: Beta v1.0
+# Date Created: September 2019
+# Version: v1.0
 
 import json
 from Table import Relation
 from Attribute import ARMAttribute
 
 def readARM(relations):
-#def readARM(filename):
-    '''Reads in JSON ARM file and creates relevant objects as needed.'''
+    '''
+    Reads in JSON ARM file and creates relevant objects as needed
+    
+    Parameters
+    ----------
+    relations: a JSON file containing the structure of the relations in the AR model
+
+    Returns
+    -------
+    toReturn: an array of relation objects
+    '''
     toReturn = []
     for relation in relations['relations']:
         attributes = []
@@ -34,10 +43,18 @@ def readARM(relations):
             
     return toReturn
 
-#def writeARM(filename, relations):
 def writeARM(relations):
 
-    '''Writes JSON ARM representation from OOP representation.'''
+    '''
+    Creates JSON ARM representation from array of relation objects
+    
+    Parameters
+    ----------
+    relations: an array of relation objects 
+
+    Returns 
+    json_relations: a JSON file containing the structure of the relations in the AR model
+    '''
 
     json_relations = {}
     json_relations['relations'] = []

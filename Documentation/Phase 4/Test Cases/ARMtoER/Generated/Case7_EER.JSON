@@ -1,143 +1,112 @@
-[
-    {
-        "entities": [
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "DepartmentID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "DepartmentName",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Department",
-                "relationships": [
-                    {
-                        "Entity": "Course",
-                        "RelationTypeForeign": "ZeroOrMany",
-                        "RelationTypeLocal": "ExactlyOne",
-                        "relationAttributes": []
-                    },
-                    {
-                        "Entity": "Professor",
-                        "RelationTypeForeign": "ZeroOrMany",
-                        "RelationTypeLocal": "ExactlyOne",
-                        "relationAttributes": []
-                    }
-                ]
-            },
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "CourseID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CourseName",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Course",
-                "relationships": [
-                    {
-                        "Entity": "Department",
-                        "RelationTypeForeign": "ExactlyOne",
-                        "RelationTypeLocal": "ZeroOrMany",
-                        "relationAttributes": []
-                    },
-                    {
-                        "Entity": "Professor",
-                        "RelationTypeForeign": "ZeroOrMany",
-                        "RelationTypeLocal": "ZeroOrMany",
-                        "relationAttributes": [
-                            "Selection",
-                            "Term"
-                        ]
-                    }
-                ]
-            },
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "ProfessorID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "ProfessorName",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "OfficeNumber",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Professor",
-                "relationships": [
-                    {
-                        "Entity": "Department",
-                        "RelationTypeForeign": "ExactlyOne",
-                        "RelationTypeLocal": "ZeroOrMany",
-                        "relationAttributes": []
-                    },
-                    {
-                        "Entity": "Course",
-                        "RelationTypeForeign": "ZeroOrMany",
-                        "RelationTypeLocal": "ZeroOrMany",
-                        "relationAttributes": [
-                            "Selection",
-                            "Term"
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "Success": true,
-        "couldNotTransform": [
-            "Department: lost PK reference to self -> 0x10b66c400",
-            "Department: lost data type String for attribute DepartmentID",
-            "Department: lost data type String for attribute DepartmentName",
-            "Course: lost PK reference to self -> 0x112abebe0",
-            "Course: lost FK reference DepartmentID",
-            "Course: lost data type String for attribute CourseID",
-            "Course: lost data type String for attribute CourseName",
-            "Professor: lost PK reference to self -> 0x112ae10b8",
-            "Professor: lost FK reference DepartmentID",
-            "Professor: lost data type String for attribute ProfessorID",
-            "Professor: lost data type String for attribute ProfessorName",
-            "Professor: lost data type String for attribute OfficeNumber",
-            "Department: lost disjointness constraint info; disjoint with Professor",
-            "Department: lost disjointness constraint info; disjoint with Course",
-            "Department: lost disjointness constraint info; disjoint with Class",
-            "Course: lost disjointness constraint info; disjoint with Professor",
-            "Course: lost disjointness constraint info; disjoint with Department",
-            "Course: lost disjointness constraint info; disjoint with Class",
-            "Professor: lost disjointness constraint info; disjoint with Course",
-            "Professor: lost disjointness constraint info; disjoint with Department",
-            "Professor: lost disjointness constraint info; disjoint with Class",
-            "Class: lost disjointness constraint info; disjoint with Course",
-            "Class: lost disjointness constraint info; disjoint with Department",
-            "Class: lost disjointness constraint info; disjoint with Professor"
-        ]
-    }
-]
+{
+    "entities": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "DepartmentID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "DepartmentName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Department",
+            "relationships": [
+                {
+                    "Entity": "Course",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "Professor",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "CourseID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CourseName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Course",
+            "relationships": [
+                {
+                    "Entity": "Department",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "Professor",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": [
+                        "Selection",
+                        "Term"
+                    ]
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "ProfessorID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "ProfessorName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "OfficeNumber",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Professor",
+            "relationships": [
+                {
+                    "Entity": "Department",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": []
+                },
+                {
+                    "Entity": "Course",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": [
+                        "Selection",
+                        "Term"
+                    ]
+                }
+            ]
+        }
+    ]
+}

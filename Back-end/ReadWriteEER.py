@@ -1,7 +1,7 @@
 # Read in and write EER JSON objects for transformations
-# Authors: St John Grimbly
-# Date Created: 27 August 2019
-# Version: v2.0
+# Authors: St John Grimbly & Jeremy du Plessis
+# Date Created: September 2019
+# Version: v1.0
 
 import json
 from Relationship import Relationship
@@ -9,10 +9,18 @@ from Table import Entity
 from Attribute import ERAttribute
 
 def readEER(entities):
-#def readEER(json_string):
-    '''Reads in JSON EER file and creates relevant objects as needed.'''
-    #with open(filename, 'r') as json_file:
-    #entities = json.load(json_file)
+    '''
+    Reads in JSON EER file and creates relevant objects as needed
+    
+    Parameters
+    ----------
+    entities: a JSON file containing the structure of the entities in the ER model
+
+    Returns
+    -------
+    toReturn: an array of entity objects
+    '''
+
     toReturn = []
     for entity in entities['entities']:
         attributes = []
@@ -46,7 +54,16 @@ def readEER(entities):
     return toReturn
 
 def writeEER(entities):
-    '''Writes JSON EER representation from OOP representation.'''
+    '''
+    Creates JSON EER representation from array of relation objects
+    
+    Parameters
+    ----------
+    entities: an array of relation objects 
+
+    Returns 
+    json_entities: a JSON file containing the structure of the entities in the EER model
+    '''
 
     json_entities = {}
     json_entities['entities'] = []

@@ -1,86 +1,68 @@
-[
-    {
-        "entities": [
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "CustomerID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerName",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerAddress",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "CustomerPostalCode",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Customer",
-                "relationships": [
-                    {
-                        "Entity": "Order",
-                        "RelationTypeForeign": "ZeroOrMany",
-                        "RelationTypeLocal": "ExactlyOne",
-                        "relationAttributes": []
-                    }
-                ]
-            },
-            {
-                "attributes": [
-                    {
-                        "AttributeName": "OrderID",
-                        "composedOf": [],
-                        "isIdentifier": true,
-                        "isMultiValued": false
-                    },
-                    {
-                        "AttributeName": "OrderDate",
-                        "composedOf": [],
-                        "isIdentifier": false,
-                        "isMultiValued": false
-                    }
-                ],
-                "isStrong": true,
-                "name": "Order",
-                "relationships": [
-                    {
-                        "Entity": "Customer",
-                        "RelationTypeForeign": "ExactlyOne",
-                        "RelationTypeLocal": "ZeroOrMany",
-                        "relationAttributes": []
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "Success": true,
-        "couldNotTransform": [
-            "Customer: lost PK reference to self -> 0x10b66c3c8",
-            "Customer: lost data type Integer for attribute CustomerID",
-            "Customer: lost data type String for attribute CustomerName",
-            "Customer: lost data type String for attribute CustomerAddress",
-            "Customer: lost data type Integer for attribute CustomerPostalCode",
-            "Order: lost PK reference to self -> 0x112abe9e8",
-            "Order: lost data type Integer for attribute OrderID",
-            "Order: lost data type String for attribute OrderDate",
-            "Order: lost FK reference CustomerID",
-            "Customer: lost disjointness constraint info; disjoint with Order",
-            "Order: lost disjointness constraint info; disjoint with Customer"
-        ]
-    }
-]
+{
+    "entities": [
+        {
+            "attributes": [
+                {
+                    "AttributeName": "CustomerID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerName",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerAddress",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "CustomerPostalCode",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Customer",
+            "relationships": [
+                {
+                    "Entity": "Order",
+                    "RelationTypeForeign": "ZeroOrMany",
+                    "RelationTypeLocal": "ExactlyOne",
+                    "relationAttributes": []
+                }
+            ]
+        },
+        {
+            "attributes": [
+                {
+                    "AttributeName": "OrderID",
+                    "composedOf": [],
+                    "isIdentifier": true,
+                    "isMultiValued": false
+                },
+                {
+                    "AttributeName": "OrderDate",
+                    "composedOf": [],
+                    "isIdentifier": false,
+                    "isMultiValued": false
+                }
+            ],
+            "isStrong": true,
+            "name": "Order",
+            "relationships": [
+                {
+                    "Entity": "Customer",
+                    "RelationTypeForeign": "ExactlyOne",
+                    "RelationTypeLocal": "ZeroOrMany",
+                    "relationAttributes": []
+                }
+            ]
+        }
+    ]
+}
