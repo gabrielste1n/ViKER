@@ -29,6 +29,7 @@ def transform(json_file, file_type):
     """
 
     print ("At transform method")
+    fileType = determine_model_type(json_file)
     if (fileType == "ARM"):
         return ARMToEER(json_file)
     return EERToARM(json_file)
