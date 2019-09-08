@@ -36,14 +36,14 @@ class ARModel extends React.Component {
         //find which classes have foreign id's and then class that has same attribute but not foreign id
         let connections = [];
 
-        for(let relation in this.props.classes){
-            for(let attr in this.props.classes[relation].attributes){
-                if(this.props.classes[relation].attributes[attr].isFK){
-                    let foreignKey = this.props.classes[relation].attributes[attr].attributeName;
-                    let foreignObject = this.props.classes[relation].name;
-                    for(let relatedRel in this.props.classes){
-                        for(let relatedAttr in this.props.classes[relatedRel].attributes){
-                            if(this.props.classes[relatedRel].attributes[relatedAttr].attributeName === foreignKey && this.props.classes[relatedRel].attributes[relatedAttr].isFK === false){
+        for(let relation in this.props.classes){ // for each relation object
+            for(let attr in this.props.classes[relation].attributes){ // for each of its attributes
+                if(this.props.classes[relation].attributes[attr].isFK && this.props.classes[relation].attributes[attr].attributeName !== 'self'){ // if the attribute is a foreignkey
+                    let foreignKey = this.props.classes[relation].attributes[attr].attributeName; // get the name of the foreign key e.g. EmployeeID
+                    let foreignObject = this.props.classes[relation].name; // get the name of the realtion object e.g. HourlyEmployee
+                    for(let relatedRel in this.props.classes){  // now go through the class again to find where the foreign key lnks
+                        for(let relatedAttr in this.props.classes[relatedRel].attributes){ // go through the reation attributes
+                            if(this.props.classes[relatedRel].attributes[relatedAttr].attributeName === foreignKey && (!this.props.classes[relatedRel].attributes[relatedAttr].isFK)){
                                 let primaryObject = this.props.classes[relatedRel].name;
                                 let link = new shapes.standard.Link({ source: { id: classes[foreignObject].id }, target: { id: classes[primaryObject].id }});
                                 link.attr('root/title', 'joint.shapes.standard.Link');
