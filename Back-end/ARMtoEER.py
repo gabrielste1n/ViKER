@@ -70,6 +70,7 @@ def transform(relations):
     # for each entity object created from a relation object catagorised as having a "weak" type, 
     # transform the relation into a many to many relationship between two associated entities
     for T in weakRelationTypes:
+        log["couldNotTransform"].append(T.getName()+": lost weak relation "+T.getName()+" (transformed into many-many relationship)")
         createManyToManyRelationship(T, entities)
     
     # Append lost information about covering and disjointness constraints to log
