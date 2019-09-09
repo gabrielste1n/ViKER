@@ -46,6 +46,7 @@ def determine_model_type(json_file):
     -------
     String 'EER' or 'ARM'
     """
+    
     if 'entities' in json_file: 
         return 'EER'
     return 'ARM'

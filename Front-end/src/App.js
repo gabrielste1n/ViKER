@@ -155,6 +155,7 @@ axios.post( url, this.state.inputJSONfile).then((response) => {
  // parse the errors JSON
  parseErrors(){
    let tempError = [];
+   tempError.push('########### TRANSFORMATION REPORT ###########');
    if(this.state.outputJSONfile.log.Success){
      tempError.push('Transformation Successful.');
    }else{
@@ -177,7 +178,7 @@ axios.post( url, this.state.inputJSONfile).then((response) => {
     } else {
       var a = document.createElement('a');
       a.download = filename;
-      a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(this.state.outputJSONfile));
+      a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(this.state.outputJSONfile,null,4));
       a.target = '_blank';
       document.body.appendChild(a);
       a.click();

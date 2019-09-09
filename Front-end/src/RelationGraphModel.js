@@ -49,7 +49,7 @@ class RelationGraphModel {
                 position: { x: widthAdjust  , y: heightAdjust }, // adjust height
                 size: { width: (pathAttrs.length * 80) + 150, height: (attributeArray.length * 25) + 25 },           // standard width and height variabled by number of attributes
                 name: this.relationClasses[index].name,
-                attributes: [(pathFD + pathAttrs.join(',')+ ') -> self')],                      // we want to structure arm so that self appears in the standard attributes section of an uml
+                attributes: [(pathFD + pathAttrs.join(',')+ ') -> self*')],                      // we want to structure arm so that self appears in the standard attributes section of an uml
                 methods: attributeArray,
                 attrs: {
                     '.uml-class-name-rect': {
