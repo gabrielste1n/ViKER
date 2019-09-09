@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module EERtoARM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>EERtoARM</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/jeremyduplessis/Google%20Drive/UCT%202019/Capstone%20Project%20CS3/ViKER/Back-end/EERtoARM.py">/Users/jeremyduplessis/Google Drive/UCT 2019/Capstone Project CS3/ViKER/Back-end/EERtoARM.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;ERMtoARM&nbsp;for&nbsp;ViKER&nbsp;Backend<br>
+#&nbsp;Authors:&nbsp;St&nbsp;John&nbsp;Grimbly&nbsp;&amp;&nbsp;Jeremy&nbsp;du&nbsp;Plessis<br>
+#&nbsp;Date&nbsp;Created:&nbsp;September&nbsp;2019<br>
+#&nbsp;Version:&nbsp;v1.0</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-StrongEntityToRelation"><strong>StrongEntityToRelation</strong></a>(strongEntities, log)</dt><dd><tt>For&nbsp;each&nbsp;strong&nbsp;entity,&nbsp;create&nbsp;a&nbsp;new&nbsp;relation.&nbsp;<br>
+Add&nbsp;to&nbsp;it&nbsp;regular&nbsp;and&nbsp;PK&nbsp;attributes.<br>
+&nbsp;<br>
+Additionally,&nbsp;create&nbsp;a&nbsp;new&nbsp;relation&nbsp;for&nbsp;each&nbsp;multivalued&nbsp;attribute.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+strongEntities:&nbsp;an&nbsp;array&nbsp;of&nbsp;entity&nbsp;objects<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object;&nbsp;an&nbsp;event&nbsp;log<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+toReturn:&nbsp;an&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects</tt></dd></dl>
+ <dl><dt><a name="-WeakEntityToRelation"><strong>WeakEntityToRelation</strong></a>(weakEntities, strongEntities, log)</dt><dd><tt>For&nbsp;each&nbsp;weak&nbsp;entity,&nbsp;create&nbsp;a&nbsp;new&nbsp;relation.&nbsp;<br>
+Add&nbsp;to&nbsp;it&nbsp;regular,&nbsp;PK&nbsp;and&nbsp;FK&nbsp;attributes.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+weakEntities:&nbsp;an&nbsp;array&nbsp;of&nbsp;entity&nbsp;objects<br>
+&nbsp;<br>
+strongEntities:&nbsp;an&nbsp;array&nbsp;of&nbsp;entity&nbsp;objects<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object;&nbsp;an&nbsp;event&nbsp;log<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+toReturn:&nbsp;an&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects</tt></dd></dl>
+ <dl><dt><a name="-addCoveringConstraints"><strong>addCoveringConstraints</strong></a>(relations)</dt><dd><tt>Add&nbsp;covering&nbsp;constraints&nbsp;to&nbsp;the&nbsp;relation&nbsp;objects&nbsp;based&nbsp;on&nbsp;inheritence&nbsp;hierachies<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+relations:&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+None</tt></dd></dl>
+ <dl><dt><a name="-addDisjointnessConstraints"><strong>addDisjointnessConstraints</strong></a>(PFDMap, relations)</dt><dd><tt>Add&nbsp;disjointness&nbsp;constraints&nbsp;to&nbsp;each&nbsp;relation&nbsp;based&nbsp;on&nbsp;the&nbsp;memory<br>
+location&nbsp;of&nbsp;the&nbsp;object&nbsp;represented&nbsp;by&nbsp;the&nbsp;relation&nbsp;(self)<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+PFDMap:&nbsp;maps&nbsp;pathfd(A1,...,An)&nbsp;-&gt;&nbsp;self<br>
+&nbsp;<br>
+relations:&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+None</tt></dd></dl>
+ <dl><dt><a name="-assertValidERModel"><strong>assertValidERModel</strong></a>(entities, log)</dt><dd><tt>Determines&nbsp;whether&nbsp;or&nbsp;not&nbsp;there&nbsp;are&nbsp;elements&nbsp;in&nbsp;the&nbsp;ER&nbsp;model&nbsp;which&nbsp;will&nbsp;cause&nbsp;the&nbsp;transformation<br>
+to&nbsp;fail.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+entities:&nbsp;an&nbsp;array&nbsp;of&nbsp;entity&nbsp;objects&nbsp;<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object;&nbsp;an&nbsp;event&nbsp;log<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+canTransform:&nbsp;boolean&nbsp;value;&nbsp;False&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;not&nbsp;possible,&nbsp;True&nbsp;otherwise</tt></dd></dl>
+ <dl><dt><a name="-createPathFDMap"><strong>createPathFDMap</strong></a>(relations)</dt><dd><tt>Create&nbsp;a&nbsp;pathFD&nbsp;map&nbsp;such&nbsp;that&nbsp;pathfd(A1,...,An)-&gt;&nbsp;self<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+relations:&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+PFDMap:&nbsp;pathfd&nbsp;dictionary</tt></dd></dl>
+ <dl><dt><a name="-manyToManyTransform"><strong>manyToManyTransform</strong></a>(LE, FE, R)</dt><dd><tt>Given&nbsp;a&nbsp;local&nbsp;and&nbsp;foreign&nbsp;entity&nbsp;with&nbsp;a&nbsp;many-many&nbsp;relationship&nbsp;between&nbsp;them<br>
+create&nbsp;a&nbsp;new&nbsp;relation&nbsp;and&nbsp;add&nbsp;to&nbsp;it,&nbsp;as&nbsp;foreign&nbsp;key&nbsp;attributes,&nbsp;the&nbsp;primary<br>
+key&nbsp;attributes&nbsp;of&nbsp;the&nbsp;associated&nbsp;relations.&nbsp;Also&nbsp;add&nbsp;any&nbsp;regular&nbsp;attributes&nbsp;<br>
+belonging&nbsp;to&nbsp;the&nbsp;relation.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+LE:&nbsp;local&nbsp;entity&nbsp;object<br>
+&nbsp;<br>
+FE:&nbsp;foreign&nbsp;entity&nbsp;object<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+R:&nbsp;relationship&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-manyToOneTransform"><strong>manyToOneTransform</strong></a>(LE, FE, relations)</dt><dd><tt>Given&nbsp;a&nbsp;foreign&nbsp;and&nbsp;a&nbsp;local&nbsp;entity&nbsp;object&nbsp;with&nbsp;a&nbsp;many-one&nbsp;relationship&nbsp;between&nbsp;them,<br>
+add&nbsp;to&nbsp;the&nbsp;associated&nbsp;local&nbsp;relation,&nbsp;as&nbsp;foreign&nbsp;key&nbsp;attributes,&nbsp;the&nbsp;ID&nbsp;attributes&nbsp;of<br>
+the&nbsp;foreign&nbsp;entity.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+LE:&nbsp;local&nbsp;entity&nbsp;object<br>
+&nbsp;<br>
+FE:&nbsp;foreign&nbsp;entity&nbsp;object<br>
+&nbsp;<br>
+relations:&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+None</tt></dd></dl>
+ <dl><dt><a name="-multivaluedToRelation"><strong>multivaluedToRelation</strong></a>(attribute, FKAttributes)</dt><dd><tt>Given&nbsp;a&nbsp;multivalued&nbsp;attribute,&nbsp;create&nbsp;a&nbsp;new&nbsp;relation&nbsp;with&nbsp;PFD&nbsp;attributes&nbsp;<br>
+made&nbsp;up&nbsp;partially&nbsp;of&nbsp;the&nbsp;PK&nbsp;attributes&nbsp;of&nbsp;the&nbsp;owner&nbsp;relation.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+attribute:&nbsp;multivalued&nbsp;attribute<br>
+&nbsp;<br>
+FKAttributes:&nbsp;ID&nbsp;attributes&nbsp;of&nbsp;the&nbsp;foreign&nbsp;entity,&nbsp;to&nbsp;be&nbsp;added&nbsp;as&nbsp;foreign&nbsp;key&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attributes&nbsp;to&nbsp;the&nbsp;kew&nbsp;x.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+T:&nbsp;relation&nbsp;corresponding&nbsp;to&nbsp;the&nbsp;multivalued&nbsp;attribute</tt></dd></dl>
+ <dl><dt><a name="-oneToOneTransform"><strong>oneToOneTransform</strong></a>(LE, FE, relations)</dt><dd><tt>Given&nbsp;a&nbsp;local&nbsp;and&nbsp;foreign&nbsp;entity&nbsp;with&nbsp;a&nbsp;one-one&nbsp;relationship&nbsp;between&nbsp;them<br>
+add&nbsp;as&nbsp;a&nbsp;foreign&nbsp;key&nbsp;to&nbsp;the&nbsp;associated&nbsp;foreign&nbsp;relation,&nbsp;the&nbsp;primary&nbsp;key<br>
+of&nbsp;the&nbsp;associated&nbsp;local&nbsp;relation.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+LE:&nbsp;local&nbsp;entity&nbsp;object<br>
+&nbsp;<br>
+FE:&nbsp;foreign&nbsp;entity&nbsp;object<br>
+&nbsp;<br>
+relations:&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+None</tt></dd></dl>
+ <dl><dt><a name="-transform"><strong>transform</strong></a>(entities)</dt><dd><tt>Given&nbsp;a&nbsp;JSON&nbsp;representation&nbsp;of&nbsp;an&nbsp;ER&nbsp;conceptual&nbsp;model,&nbsp;transform&nbsp;and&nbsp;produce&nbsp;a&nbsp;JSON&nbsp;<br>
+representation&nbsp;of&nbsp;the&nbsp;schema&nbsp;as&nbsp;an&nbsp;ARM.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+entities:&nbsp;an&nbsp;array&nbsp;of&nbsp;entity&nbsp;objects&nbsp;to&nbsp;be&nbsp;transformed<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+relations:&nbsp;an&nbsp;array&nbsp;of&nbsp;relaion&nbsp;objects&nbsp;representing&nbsp;the&nbsp;resultanting&nbsp;from<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;transformation.&nbsp;<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object&nbsp;with&nbsp;information&nbsp;regarding&nbsp;the&nbsp;transformation</tt></dd></dl>
+</td></tr></table>
+</body></html>

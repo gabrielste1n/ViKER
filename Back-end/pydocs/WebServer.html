@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module WebServer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>WebServer</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/jeremyduplessis/Google%20Drive/UCT%202019/Capstone%20Project%20CS3/ViKER/Back-end/WebServer.py">/Users/jeremyduplessis/Google Drive/UCT 2019/Capstone Project CS3/ViKER/Back-end/WebServer.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;Read&nbsp;in&nbsp;and&nbsp;write&nbsp;EER&nbsp;JSON&nbsp;objects&nbsp;for&nbsp;transformations<br>
+#&nbsp;Authors:&nbsp;St&nbsp;John&nbsp;Grimbly<br>
+#&nbsp;Date&nbsp;Created:&nbsp;30&nbsp;August&nbsp;2019<br>
+#&nbsp;Version:&nbsp;Alpha&nbsp;v1.0</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ARMtoEER.html">ARMtoEER</a><br>
+</td><td width="25%" valign=top><a href="EERtoARM.html">EERtoARM</a><br>
+</td><td width="25%" valign=top><a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-determine_model_type"><strong>determine_model_type</strong></a>(json_file)</dt><dd><tt>Given&nbsp;a&nbsp;json_file,&nbsp;determine&nbsp;the&nbsp;type&nbsp;of&nbsp;the&nbsp;JSON&nbsp;file&nbsp;representation.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+json_file:&nbsp;The&nbsp;JSON&nbsp;ARM/EER&nbsp;file<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+String&nbsp;'EER'&nbsp;or&nbsp;'ARM'</tt></dd></dl>
+ <dl><dt><a name="-index"><strong>index</strong></a>()</dt><dd><tt>Index&nbsp;page&nbsp;for&nbsp;the&nbsp;server&nbsp;root&nbsp;directory.</tt></dd></dl>
+ <dl><dt><a name="-transform"><strong>transform</strong></a>(json_file, file_type)</dt><dd><tt>Given&nbsp;a&nbsp;json_file&nbsp;and&nbsp;the&nbsp;type&nbsp;of&nbsp;file&nbsp;(ARM/EER),&nbsp;contact&nbsp;the&nbsp;back-end&nbsp;classes&nbsp;and&nbsp;transform&nbsp;the&nbsp;file.<br>
+Return&nbsp;the&nbsp;transformed&nbsp;file<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+json_file:&nbsp;The&nbsp;JSON&nbsp;ARM/EER&nbsp;file<br>
+&nbsp;<br>
+file_type:&nbsp;The&nbsp;type&nbsp;of&nbsp;the&nbsp;JSON&nbsp;file.&nbsp;i.e.&nbsp;ARM&nbsp;or&nbsp;EER<br>
+Returns<br>
+-------<br>
+ARMToEER(json_file)&nbsp;or&nbsp;EERToARM(json_file):&nbsp;Transformed&nbsp;file</tt></dd></dl>
+ <dl><dt><a name="-transform_view"><strong>transform_view</strong></a>()</dt><dd><tt>API&nbsp;endpoint&nbsp;for&nbsp;the&nbsp;transform&nbsp;method&nbsp;used&nbsp;in&nbsp;the&nbsp;JavaScript&nbsp;front-end.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>WebServer</strong> = &lt;Flask 'WebServer'&gt;<br>
+<strong>cors</strong> = &lt;flask_cors.extension.CORS object&gt;<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>

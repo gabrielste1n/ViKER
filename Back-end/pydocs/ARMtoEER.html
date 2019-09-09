@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module ARMtoEER</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ARMtoEER</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/jeremyduplessis/Google%20Drive/UCT%202019/Capstone%20Project%20CS3/ViKER/Back-end/ARMtoEER.py">/Users/jeremyduplessis/Google Drive/UCT 2019/Capstone Project CS3/ViKER/Back-end/ARMtoEER.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;ARMtoER&nbsp;file&nbsp;for&nbsp;ViKER&nbsp;Backend<br>
+#&nbsp;Authors:&nbsp;St&nbsp;John&nbsp;Grimbly&nbsp;&amp;&nbsp;Jeremy&nbsp;du&nbsp;Plessis<br>
+#&nbsp;Date&nbsp;Created:&nbsp;September&nbsp;2019<br>
+#&nbsp;Version:&nbsp;v1.0</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-appendLostConstraintInfo"><strong>appendLostConstraintInfo</strong></a>(relations, log)</dt><dd><tt>Appends&nbsp;coveredBy&nbsp;information&nbsp;to&nbsp;the&nbsp;event&nbsp;log<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+relations:&nbsp;an&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object;&nbsp;an&nbsp;event&nbsp;log<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+None</tt></dd></dl>
+ <dl><dt><a name="-assertValidARModel"><strong>assertValidARModel</strong></a>(relations, log)</dt><dd><tt>Determines&nbsp;whether&nbsp;or&nbsp;not&nbsp;there&nbsp;are&nbsp;elements&nbsp;in&nbsp;the&nbsp;AR&nbsp;model&nbsp;which&nbsp;will&nbsp;cause&nbsp;the&nbsp;transformation<br>
+to&nbsp;fail.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+relations:&nbsp;an&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects&nbsp;<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object;&nbsp;an&nbsp;event&nbsp;log<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+canTransform:&nbsp;boolean&nbsp;value;&nbsp;False&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;not&nbsp;possible,&nbsp;True&nbsp;otherwise</tt></dd></dl>
+ <dl><dt><a name="-createEntity"><strong>createEntity</strong></a>(T, log, isStrong)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;strong&nbsp;entity&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+T:&nbsp;Associated&nbsp;relation&nbsp;object&nbsp;from&nbsp;which&nbsp;to&nbsp;construct&nbsp;the&nbsp;entity<br>
+&nbsp;<br>
+isStrong:&nbsp;a&nbsp;boolean&nbsp;value&nbsp;indicating&nbsp;whether&nbsp;or&nbsp;not&nbsp;the&nbsp;entity&nbsp;is&nbsp;strong&nbsp;or&nbsp;not<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object;&nbsp;an&nbsp;event&nbsp;log<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+E:&nbsp;Entity&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-createISAEntity"><strong>createISAEntity</strong></a>(T, entities)</dt><dd><tt>Given&nbsp;a&nbsp;relation&nbsp;object,&nbsp;create&nbsp;the&nbsp;corresponding&nbsp;entity&nbsp;object&nbsp;<br>
+which&nbsp;has&nbsp;a&nbsp;subsumption&nbsp;relatioship&nbsp;to&nbsp;a&nbsp;parent&nbsp;entity.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+T:&nbsp;relation&nbsp;object<br>
+&nbsp;<br>
+entities:&nbsp;array&nbsp;of&nbsp;existing&nbsp;entity&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+subEntity:&nbsp;the&nbsp;new&nbsp;(child)&nbsp;entity&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-createManyToManyRelationship"><strong>createManyToManyRelationship</strong></a>(T, entities)</dt><dd><tt>Given&nbsp;a&nbsp;relation&nbsp;object&nbsp;representing&nbsp;a&nbsp;"weak"&nbsp;relation&nbsp;type,&nbsp;transform&nbsp;the&nbsp;relation<br>
+into&nbsp;a&nbsp;relationship&nbsp;between&nbsp;two&nbsp;existing&nbsp;entities,&nbsp;with&nbsp;the&nbsp;regular&nbsp;attributes&nbsp;of&nbsp;<br>
+the&nbsp;relation&nbsp;belonging&nbsp;to&nbsp;the&nbsp;relationship.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+T:&nbsp;a&nbsp;relation&nbsp;object&nbsp;representing&nbsp;a&nbsp;"weak"&nbsp;type&nbsp;relation<br>
+&nbsp;<br>
+entities:&nbsp;array&nbsp;of&nbsp;existing&nbsp;entity&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+None</tt></dd></dl>
+ <dl><dt><a name="-createManyToOneRelationship"><strong>createManyToOneRelationship</strong></a>(T, entities)</dt><dd><tt>Given&nbsp;a&nbsp;relation&nbsp;object,&nbsp;add&nbsp;the&nbsp;1:N&nbsp;relationships&nbsp;based&nbsp;on&nbsp;the&nbsp;<br>
+foreign&nbsp;keys&nbsp;to&nbsp;the&nbsp;associated&nbsp;local&nbsp;and&nbsp;foreign&nbsp;entities.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+T:&nbsp;relation&nbsp;object<br>
+&nbsp;<br>
+entities:&nbsp;array&nbsp;of&nbsp;existing&nbsp;entity&nbsp;objects<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+None</tt></dd></dl>
+ <dl><dt><a name="-getRelationType"><strong>getRelationType</strong></a>(T)</dt><dd><tt>Takes&nbsp;as&nbsp;argument&nbsp;a&nbsp;relation&nbsp;object&nbsp;and&nbsp;catagorises&nbsp;it&nbsp;as:<br>
+&nbsp;<br>
+Strong:&nbsp;&nbsp;None&nbsp;of&nbsp;the&nbsp;attributes&nbsp;A1,...,An&nbsp;such&nbsp;that&nbsp;pathfd(A1,...,An)&nbsp;-&gt;&nbsp;self<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;foreign&nbsp;keys<br>
+&nbsp;<br>
+Regular:&nbsp;Some&nbsp;of&nbsp;the&nbsp;attributes&nbsp;A1,...,Ak&nbsp;such&nbsp;that&nbsp;pathfd(A1,...Ak,Ak+1,...,An)-&gt;self<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;foreign&nbsp;keys<br>
+&nbsp;<br>
+Weak:&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;of&nbsp;the&nbsp;attributes&nbsp;A1,...,An&nbsp;such&nbsp;that&nbsp;pathfd(A1,...,An)&nbsp;-&gt;&nbsp;self<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;foreign&nbsp;keys<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+T:&nbsp;a&nbsp;relation&nbsp;object<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+String&nbsp;object:&nbsp;"weak",&nbsp;"regular"&nbsp;or&nbsp;"strong"</tt></dd></dl>
+ <dl><dt><a name="-transform"><strong>transform</strong></a>(relations)</dt><dd><tt>Given&nbsp;a&nbsp;JSON&nbsp;representation&nbsp;of&nbsp;an&nbsp;ARM&nbsp;schema,&nbsp;transform&nbsp;and&nbsp;produce&nbsp;a&nbsp;JSON&nbsp;<br>
+representation&nbsp;of&nbsp;the&nbsp;schema&nbsp;as&nbsp;an&nbsp;EER&nbsp;model.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+relations:&nbsp;an&nbsp;array&nbsp;of&nbsp;relation&nbsp;objects&nbsp;<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+entities:&nbsp;an&nbsp;array&nbsp;of&nbsp;entity&nbsp;objects&nbsp;representing&nbsp;the&nbsp;resultanting&nbsp;from<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;transformation<br>
+&nbsp;<br>
+log:&nbsp;a&nbsp;dictionary&nbsp;object&nbsp;with&nbsp;information&nbsp;regarding&nbsp;the&nbsp;transformation</tt></dd></dl>
+</td></tr></table>
+</body></html>
