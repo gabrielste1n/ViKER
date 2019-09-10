@@ -408,7 +408,7 @@ for(let entity in this.props.classes){
                         break;
                 }
                    
-                    createLink(entities[this.props.classes[entity].name],entities[this.props.classes[entity].relationships[relationship].Entity]).set(createLabel(textRel)); //create all the entity to entity links
+                    createLink(entities[this.props.classes[entity].relationships[relationship].Entity], entities[this.props.classes[entity].name]).set(createLabel(textRel)); //create all the entity to entity links
                 }
             }
         }
